@@ -1,4 +1,3 @@
-// src/app/navbar/navbar.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
@@ -22,7 +21,9 @@ export class NavbarComponent implements OnInit {
     const currentUser = this.authService.getCurrentUser();
     if (currentUser) {
       this.username = currentUser.username;
-      this.isAdmin = currentUser.type === 'ADMIN'; // Controlla se l'utente è un admin
+      if(currentUser.type === 'ADMIN'){
+        this.isAdmin = true;
+      }
     }
   }
 

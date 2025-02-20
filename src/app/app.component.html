@@ -1,8 +1,6 @@
 
 <nav>
-    <a routerLink="/login">Login</a>
+    <a routerLink="/login" *ngIf="this.path === '/login'">Login</a>
 </nav>
 <router-outlet></router-outlet>
 
-<!--<nav>
-<app-login></app-login>-->

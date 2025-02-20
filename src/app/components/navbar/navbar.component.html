@@ -1,0 +1,13 @@
+<nav class="navbar">
+    <div class="navbar-brand">Gestione Auto</div>
+    <div class="navbar-links">
+      <a routerLink="/home">Home</a>
+      <a routerLink="/manage-requests">Gestisci Richieste</a>
+
+      <button *ngIf="isAdmin" routerLink="/add-car">Aggiungi auto</button>
+    </div>
+    <div class="navbar-user">
+      <span>Benvenuto, {{ username }}</span>
+      <button (click)="logout()">Logout</button>
+    </div>
+  </nav>

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { MOCK_REQUEST } from '../../mock-data/mock-requests';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-manage-requests',
+  imports: [NgFor],
   templateUrl: './manage-requests.component.html',
   styleUrls: ['./manage-requests.component.css']
 })

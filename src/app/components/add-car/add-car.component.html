@@ -1,0 +1,27 @@
+<!-- src/app/add-car/add-car.component.html -->
+<div class="add-car-container">
+  <h2>Aggiungi una nuova auto</h2>
+  <form (ngSubmit)="onSubmit()" #carForm="ngForm">
+    <div class="form-group">
+      <label for="brand">Marca</label>
+      <input type="text" id="brand" name="brand" [(ngModel)]="car.brand" required>
+    </div>
+    <div class="form-group">
+      <label for="model">Modello</label>
+      <input type="text" id="model" name="model" [(ngModel)]="car.model" required>
+    </div>
+    <div class="form-group">
+      <label for="license_plate">Targa</label>
+      <input type="text" id="license_plate" name="license_plate" [(ngModel)]="car.license_plate" required>
+    </div>
+    <div class="form-group">
+      <label for="status">Stato</label>
+      <select id="status" name="status" [(ngModel)]="car.status" required>
+        <option value="Disponibile">Disponibile</option>
+        <option value="In uso">In uso</option>
+        <option value="Manutenzione">Manutenzione</option>
+      </select>
+    </div>
+    <button type="submit" [disabled]="!carForm.form.valid">Aggiungi auto</button>
+  </form>
+</div>

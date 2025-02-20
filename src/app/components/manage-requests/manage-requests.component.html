@@ -1,0 +1,27 @@
+<!-- src/app/manage-requests/manage-requests.component.html -->
+<div class="manage-requests-container">
+    <h2>Gestione richieste</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Cliente</th>
+          <th>Auto richiesta</th>
+          <th>Stato</th>
+          <th>Azioni</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let request of requests">
+          <td>{{ request.id }}</td>
+          <td>{{ request.customer }}</td>
+          <td>{{ request.car }}</td>
+          <td>{{ request.status }}</td>
+          <td>
+            <button (click)="approveRequest(request.id)">Approva</button>
+            <button (click)="rejectRequest(request.id)">Rifiuta</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

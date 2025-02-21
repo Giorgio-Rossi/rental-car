@@ -4,6 +4,8 @@ import { MOCK_USERS } from './mock-data/mock-users';
 import { NgIf } from '@angular/common';
 import { MOCK_REQUEST } from './mock-data/mock-requests';
 import { MOCK_CARS } from './mock-data/mock-cars';
+import { TableComponent } from "./components/table/table.component";
+import { TableConfig } from './components/table/table-config.interface';
 
 @Component({
   selector: 'app-root',
@@ -15,9 +17,8 @@ export class AppComponent implements OnInit{
   title = 'rental-car';
   
   users = MOCK_USERS;
-  requests = MOCK_REQUEST;
   cars = MOCK_CARS;
-
+  requests = MOCK_REQUEST;
   path?: string;
 
   constructor(private router: Router){}
@@ -25,4 +26,5 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     this.path = this.router.url;
   }
+
 }

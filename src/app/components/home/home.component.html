@@ -6,4 +6,9 @@
     <h2>Welcome user</h2>
 </div>
 
+
+<div *ngIf="isLogged">
+    <app-table [config]="userType === 'CUSTOMER' ? tableCustomerConfig : tableAdminConfig" [data]="requests"></app-table>
+</div>
+
 <button class="login-container" (click)="authService.logout()">Logout</button>

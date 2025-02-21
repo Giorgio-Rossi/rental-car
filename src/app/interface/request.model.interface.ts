@@ -1,6 +1,10 @@
-export interface Request {
+export interface Reservation {
     id: number;
-    customer: string;
-    car: string[];
+    user_id: number;
+    car_id: number[];
     status: string;
+    start_reservation: Date;
+    end_reservation: Date;
+    created_at: Date;
+    updated_at: Date;
 }

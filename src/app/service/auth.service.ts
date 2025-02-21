@@ -35,4 +35,9 @@ export class AuthService {
   getCurrentUser(): any {
     return JSON.parse(localStorage.getItem('currentUser') || '{}');
   }
+  
+  checkLogin(): boolean {
+    const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    return user && user.type ? true : false;
+  }
 }

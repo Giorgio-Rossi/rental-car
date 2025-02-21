@@ -14,8 +14,8 @@
       <tbody>
         <tr *ngFor="let request of requests">
           <td>{{ request.id }}</td>
-          <td>{{ request.customer }}</td>
-          <td>{{ request.car }}</td>
+          <td>{{ request.user_id }}</td>
+          <td>{{ request.car_id}}</td>
           <td>{{ request.status }}</td>
           <td>
             <button (click)="approveRequest(request.id)">Approva</button>

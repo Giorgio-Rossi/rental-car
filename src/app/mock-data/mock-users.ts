@@ -1,4 +1,3 @@
-import { User } from "../interface/user.model.interface";
 
 export const MOCK_USERS = [
     {

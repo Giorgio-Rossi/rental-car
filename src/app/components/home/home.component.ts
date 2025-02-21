@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { NgIf } from '@angular/common';
-import { Router } from '@angular/router';
 import { TableConfig } from '../table/table-config.interface';
 import { MOCK_REQUEST } from '../../mock-data/mock-requests';
 import { TableComponent } from "../table/table.component";
 import { MOCK_USERS } from '../../mock-data/mock-users';
+import { NavbarComponent } from "../navbar/navbar.component";
 
 @Component({
   selector: 'app-home',
-  imports: [NgIf, TableComponent],
+  imports: [NgIf, TableComponent, NavbarComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

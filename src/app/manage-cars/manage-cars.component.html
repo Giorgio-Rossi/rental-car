@@ -1,0 +1,27 @@
+<form [formGroup]="carForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="brand">Marca:</label>
+      <input id="brand" formControlName="brand" type="text" />
+    </div>
+  
+    <div>
+      <label for="model">Modello:</label>
+      <input id="model" formControlName="model" type="text" />
+    </div>
+  
+    <div>
+      <label for="license_plate">Targa:</label>
+      <input id="license_plate" formControlName="license_plate" type="text" />
+    </div>
+  
+    <div>
+      <label for="status">Stato:</label>
+      <select id="status" formControlName="status">
+        <option value="Disponibile">Disponibile</option>
+        <option value="In manutenzione">In manutenzione</option>
+      </select>
+    </div>
+  
+    <button type="submit" [disabled]="carForm.invalid">Salva</button>
+  </form>
+  

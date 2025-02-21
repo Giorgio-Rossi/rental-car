@@ -77,4 +77,7 @@ export class HomeComponent implements OnInit{
     pagination:{itemsPerPage: 10, currentPage: 1},
     actions: { actions: ['EDIT', 'DELETE'] }
   };
+  
+
+  
 }

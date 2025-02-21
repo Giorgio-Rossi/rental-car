@@ -21,6 +21,7 @@ export class NavbarComponent implements OnInit {
     { label: 'Home', action: () => this.router.navigate(['/home']) },
     //{ label: 'Logout', action: () => this.logout() },
     { label: 'Gestisci richieste', action: () => this.router.navigate(['/manage-requests']) },
+    { label: 'Gestisci auto', action: () => this.router.navigate(['/manage-requests']) },
     { label: 'Aggiungi auto', action: () => this.router.navigate(['/add-car']) }
   ];
 

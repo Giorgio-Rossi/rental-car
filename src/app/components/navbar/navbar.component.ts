@@ -18,7 +18,8 @@ export class NavbarComponent implements OnInit {
 
   buttonConfigs = [
     { label: 'Home', action: () => this.router.navigate(['/home']) },
-    { label: 'Logout', action: () => this.logout() },
+    //{ label: 'Logout', action: () => this.logout() },
+    { label: 'Gestisci richieste', action: () => this.router.navigate(['/manage-requests']) },
     { label: 'Aggiungi auto', action: () => this.router.navigate(['/add-car']) }
   ];
 

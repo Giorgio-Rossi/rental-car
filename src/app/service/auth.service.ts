@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { MOCK_USERS } from '../mock-data/mock-users';
 
 @Injectable({
@@ -6,7 +7,7 @@ import { MOCK_USERS } from '../mock-data/mock-users';
 })
 export class AuthService {
 
-  constructor() { }
+  constructor(private router : Router) { }
 
   login(username: string, password: string): boolean{
     const user = MOCK_USERS.find(u => u.username === username && u.password === password);
@@ -19,6 +20,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('currentUser');
+    this.router.navigate(['/login'])
   }
 
   isLoggedIn(): boolean {

@@ -13,6 +13,16 @@
           </option>
         </select>
       </div>
+
+      <div *ngIf="currentUserRole === 'ADMIN'">
+        <h3>Modifica Auto</h3>
+        <div *ngFor="let car of availableCars">
+          <div>
+            <label for="car-{{ car.id }}">Auto: {{ car.brand }} - {{ car.model }}</label>
+            <input id="car-{{ car.id }}" formControlName="car.model" />
+          </div>
+        </div>
+      </div>
       
     <div>
       <label for="start_reservation">Data inizio prenotazione:</label>

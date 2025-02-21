@@ -1,21 +1,29 @@
-
 export const MOCK_USERS = [
     {
         id: 1,
         username: 'admin',
+        email: 'admin@example.com',
+        role: 'ADMIN',
         password: 'admin123',
-        type: 'ADMIN'
+        firstName: 'John',
+        lastName: 'Doe'
     },
     {
         id: 2,
         username: 'customer1',
+        email: 'customer1@example.com',
+        role: 'CUSTOMER',
         password: 'customer123',
-        type: 'CUSTOMER'
+        firstName: 'Alice',
+        lastName: 'Smith'
     },
     {
         id: 3,
         username: 'customer2',
+        email: 'customer2@example.com',
+        role: 'CUSTOMER',
         password: 'customer123',
-        type: 'CUSTOMER'
+        firstName: 'Bob',
+        lastName: 'Johnson'
     }
 ];

@@ -10,7 +10,7 @@ export class AuthService {
   constructor(private router : Router) { }
 
   login(username: string, password: string): boolean{
-    const user = MOCK_USERS.find(u => u.username === username && u.password === password);
+    const user = MOCK_USERS.find(u => u.username === username || u.email === username && u.password === password);
     if(user) {
       localStorage.setItem('currentUser', JSON.stringify(user))
       return true;

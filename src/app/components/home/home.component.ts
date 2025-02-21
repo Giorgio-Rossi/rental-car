@@ -20,14 +20,15 @@ export class HomeComponent implements OnInit{
   requests = MOCK_REQUEST;
   
 
-  constructor(public  authService: AuthService){
-  }
+  constructor(public  authService: AuthService){}
 
   ngOnInit(): void {
     this.isLogged = this.authService.checkLogin();
+    console.log('Is logged:', this.isLogged);  // Debug
 
     if(this.isLogged){
       this.userType = this.authService.getUserType(); 
+      console.log('User type:', this.userType);  // Debug
     }
   }
 
@@ -44,7 +45,7 @@ export class HomeComponent implements OnInit{
       { key: 'car_id', columnName: 'Macchina', type: 'Number', ordinable: true,  filtrable: true},
       { key: 'status', columnName: 'Stato prenotazione', type: 'Date', ordinable: false,  filtrable: true}
     ],
-    currentByDefault: {key: 'id', orderby: 'asc'}, // setto l'ordinamento di default
+    currentByDefault: {key: 'id', orderby: 'asc'}, 
     pagination:{itemsPerPage: 10, currentPage: 1},
     actions: { actions: ['EDIT', 'DELETE'] }
   };
@@ -57,7 +58,7 @@ export class HomeComponent implements OnInit{
       { key: 'end_reservation', columnName: 'Data fine prenotazione', type: 'Date', ordinable: false,  filtrable: true},
       { key: 'car_id', columnName: 'Macchina', type:'Number', ordinable: false,  filtrable: true}
     ],
-    currentByDefault: {key: 'id', orderby: 'asc'}, // setto l'ordinamento di default
+    currentByDefault: {key: 'id', orderby: 'asc'}, 
     pagination:{itemsPerPage: 10, currentPage: 1},
     actions: { actions: ['EDIT', 'DELETE'] }
   };

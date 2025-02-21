@@ -9,8 +9,8 @@ import { AuthService } from '../../service/auth.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
+
 export class LoginComponent {
-[x: string]: any;
   username: string = '';
   password: string = '';
   passwordVisibile: boolean = false;
@@ -27,6 +27,7 @@ export class LoginComponent {
       console.log('Password:', this.password);
 
       if (this.authService.login(this.username, this.password)) {
+        console.log('Navigating to /home');
         this.router.navigate(['/home']);
       } else {
         alert('Credenziali non valide');

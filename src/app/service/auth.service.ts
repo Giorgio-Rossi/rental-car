@@ -10,8 +10,11 @@ export class AuthService {
   constructor(private router : Router) { }
 
   login(username: string, password: string): boolean{
-    const user = MOCK_USERS.find(u => u.username === username || u.email === username && u.password === password);
+    console.log('username:', username)
+    console.log('password:',password)
+    const user = MOCK_USERS.find(u => (u.username === username || u.email === username) && u.password === password);
     if(user) {
+      console.log()
       localStorage.setItem('currentUser', JSON.stringify(user))
       return true;
     }
@@ -29,15 +32,16 @@ export class AuthService {
 
   getUserType(): string {
     const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    return user.type;
+    console.log('User from localStorage:', user); // Controlla cosa c'è in localStorage
+    return user.role;
   }
-
+  
   getCurrentUser(): any {
     return JSON.parse(localStorage.getItem('currentUser') || '{}');
   }
   
   checkLogin(): boolean {
     const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    return user && user.type ? true : false;
+    return user && user.username && user.password ? true : false;
   }
 }

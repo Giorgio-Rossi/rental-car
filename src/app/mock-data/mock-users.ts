@@ -1,12 +1,13 @@
-export const MOCK_USERS = [
+import { User } from "../interface/user.model.interface";
+
+export const MOCK_USERS: User[] = [
     {
         id: 1,
         username: 'admin',
         email: 'admin@example.com',
         role: 'ADMIN',
         password: 'admin123',
-        firstName: 'John',
-        lastName: 'Doe'
+        fullName: 'John Doe',
     },
     {
         id: 2,
@@ -14,8 +15,7 @@ export const MOCK_USERS = [
         email: 'customer1@example.com',
         role: 'CUSTOMER',
         password: 'customer123',
-        firstName: 'Alice',
-        lastName: 'Smith'
+        fullName: 'Alice Smith',
     },
     {
         id: 3,
@@ -23,7 +23,6 @@ export const MOCK_USERS = [
         email: 'customer2@example.com',
         role: 'CUSTOMER',
         password: 'customer123',
-        firstName: 'Bob',
-        lastName: 'Johnson'
+        fullName: 'Bob Johnson',
     }
 ];

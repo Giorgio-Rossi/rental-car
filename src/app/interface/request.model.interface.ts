@@ -1,4 +1,4 @@
-export interface Reservation {
+export interface Request {
     id: number;
     user_id: number;
     car_id: number[];

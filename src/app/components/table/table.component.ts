@@ -82,45 +82,38 @@ export class TableComponent implements OnInit{
       this.orderData(); // Effettuo l'ordinamento al click
     }
 
-    // funzione che ordina i dati in base alla colonna e al verso selezionata
     orderData(): void{
       if (!this.currentOrderby) return;
 
       const { key, orderby } = this.currentOrderby;
   
-      // Confronta i valori delle chiavi
       this.data.sort((a, b) => {
-        if (a[key] < b[key]) return orderby === 'asc' ? -1 : 1; // Se è asc metto -1 (prima a poi b) altrimenti 1
-        if (a[key] > b[key]) return orderby === 'asc' ? 1 : -1; // 
-        return 0; // Se sono uguali, non cambio l'ordinamento
+        if (a[key] < b[key]) return orderby === 'asc' ? -1 : 1; 
+        if (a[key] > b[key]) return orderby === 'asc' ? 1 : -1; 
+        return 0;
       });
     }
     
-    // Icone degli ordinamenti
     faSort = faSort;
     faSortUp = faSortUp;
     faSortDown = faSortDown;
-    // Restituisce l'icona di ordinamento per una colonna
     getIconOrderedBy(column: string): any{
       if(this.currentOrderby?.key === column){
         return this.currentOrderby.orderby === 'asc' ? this.faSortUp : this.faSortDown;
       }
-      return this.faSort //Icona di default
+      return this.faSort 
     }
 
-    //Cambio pagina
     changePage(page: number): void{
       if(page < 1 || page > this.getNumberPage()) return;
       this.currentPage = page;    
     }
   
-    // Numero totale della pagine
     getNumberPage(){
     if(!this.currentPagination?.itemsPerPage) return 1;
       return Math.ceil(this.data.length / this.currentPagination.itemsPerPage);
     }
     
-    // Numero di pagine necessarie per la paginazione
     getPage(): number[]{
       const numberPage = this.getNumberPage();
       return Array.from({length: numberPage}, (_, i) => i + 1);

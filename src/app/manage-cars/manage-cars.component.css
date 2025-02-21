@@ -1,0 +1,55 @@
+.car-form {
+    display: grid;
+    gap: 1.5rem;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .form-input {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-top: 0.25rem;
+  }
+  
+  .form-input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .submit-button {
+    padding: 0.75rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .submit-button:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+  }
+  
+  .submit-button:hover {
+    background-color: #0056b3;
+  }
+  

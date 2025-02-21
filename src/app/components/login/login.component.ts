@@ -10,10 +10,17 @@ import { AuthService } from '../../service/auth.service';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+[x: string]: any;
   username: string = '';
   password: string = '';
+  passwordVisibile: boolean = false;
+
   constructor(private authService: AuthService, private router: Router){}
 
+  togglePasswordVisibility(): void {
+    this.passwordVisibile = !this.passwordVisibile; 
+  }
+  
   onSubmit(form: NgForm){
     if(form.valid) {
       console.log('Username:', this.username);
@@ -25,7 +32,7 @@ export class LoginComponent {
         alert('Credenziali non valide');
       }
     }
-
-
   }
 }
+
+

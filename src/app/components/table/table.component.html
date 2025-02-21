@@ -1,0 +1,45 @@
+<table>
+    <thead>
+      <tr>
+        <th *ngFor="let column of config?.headers" (click)="onOrder(column.key)">
+          {{ column.columnName }}
+          <fa-icon *ngIf="column.ordinable"
+          [icon]="getIconOrderedBy(column.key)"
+          class="sort-icon"></fa-icon>
+            
+          <input
+            *ngIf="column.filtrable"
+            type="text"
+            [(ngModel)]="filter[column.key]"
+            (input)="onFilterChange(column.key, $event)"
+            (click)="$event.stopPropagation()"
+            placeholder="Filtra {{ column.columnName }}"
+          />
+        </th>
+        <th *ngIf="config?.actions?.actions?.length">Azioni</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let riga of doFilter() | pagination: currentPage : (currentPagination ? currentPagination.itemsPerPage: 10)"> <!-- setto l'attributo a 10 elementi se è null-->
+        <td *ngFor="let column of config?.headers">
+          {{ riga[column.key] }}
+        </td>
+        <td *ngIf="config?.actions?.actions?.length">
+          <button *ngFor="let action of config?.actions?.actions" (click)="handleActionClick(action, riga)">
+            {{ action }}
+          </button>
+    </tbody>
+</table>
+
+
+  <!--- Sezione paginazione -->
+  <div class="pagination">
+    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Precendente</button>
+    <span *ngFor="let page of getPage()" (click)="changePage(page)" [class.active]="page === currentPage">
+      {{ page }}
+    </span>
+    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === getNumberPage()">Successivo</button>
+  </div>
+  
+

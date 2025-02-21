@@ -9,7 +9,7 @@ export const MOCK_USERS = [
     },
     {
         id: 2,
-        username: '+',
+        username: 'customer1',
         password: 'customer123',
         type: 'CUSTOMER'
     },

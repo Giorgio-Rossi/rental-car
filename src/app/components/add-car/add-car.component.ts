@@ -17,7 +17,6 @@ export class AddCarComponent {
 
   onSubmit() {
     console.log('Auto aggiunta:', this.car);
-
     this.resetForm();
   }
 

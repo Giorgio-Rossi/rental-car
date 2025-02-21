@@ -13,6 +13,7 @@ export class ManageRequestsComponent {
   requests = MOCK_REQUEST;
 
   approveRequest(id: number) {
+    console.log('id request: ', id)
     const request = this.requests.find(r => r.id === id);
     if (request) {
       request.status = 'Approvata';
@@ -21,6 +22,7 @@ export class ManageRequestsComponent {
   }
 
   rejectRequest(id: number) {
+    console.log('id request: ', id)
     const request = this.requests.find(r => r.id === id);
     if (request) {
       request.status = 'Rifiutata';

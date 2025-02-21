@@ -6,11 +6,12 @@ import { ReactiveFormsModule } from '@angular/forms'; // Importa ReactiveFormsMo
 import { RequestService } from '../../service/request.service';
 import { AuthService } from '../../service/auth.service';
 import { MOCK_CARS } from '../../mock-data/mock-cars';
+import { NgFor } from '@angular/common';
 
 
 @Component({
   selector: 'app-add-request-user',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgFor],
   templateUrl: './add-request-user.component.html',
   styleUrl: './add-request-user.component.css'
 })
@@ -18,7 +19,7 @@ export class AddRequestUserComponent implements OnInit {
   addRequestForm!: FormGroup;
   loggedInUser: string = '';  
   availableCars = MOCK_CARS;
-  
+  currentUserID: string ='';
 
   constructor(
     private authService: AuthService,
@@ -33,7 +34,10 @@ export class AddRequestUserComponent implements OnInit {
     const currentUser = this.authService.getCurrentUser();
     if (currentUser) {
       this.loggedInUser = currentUser.user;  
-      console.log(currentUser)
+      console.log(currentUser);
+      this.currentUserID = currentUser.id;
+      console.log('Current user id:', currentUser.id);
+
     }
   
   this.availableCars = MOCK_CARS.filter(car => car.status === 'Disponibile');

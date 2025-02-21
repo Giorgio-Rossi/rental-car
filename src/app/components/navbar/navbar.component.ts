@@ -15,19 +15,29 @@ import { NgFor } from '@angular/common';
 export class NavbarComponent implements OnInit {
   isAdmin: boolean = false;
   username: string = '';
+  currentUserRole: string = '';
 
-  buttonConfigs = [
+  buttonConfigsAdmin = [
     { label: 'Home', action: () => this.router.navigate(['/home']) },
     //{ label: 'Logout', action: () => this.logout() },
     { label: 'Gestisci richieste', action: () => this.router.navigate(['/manage-requests']) },
     { label: 'Aggiungi auto', action: () => this.router.navigate(['/add-car']) }
   ];
 
+  
+  buttonConfigsUser = [
+    { label: 'Home', action: () => this.router.navigate(['/home']) },
+    //{ label: 'Logout', action: () => this.logout() },
+    { label: 'Aggiungi richieste di prenotazione', action: () => this.router.navigate(['/new-request']) },
+  ];
+
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     const currentUser = this.authService.getCurrentUser();
+
     if (currentUser) {
+      this.currentUserRole = currentUser.role;
       this.username = currentUser.username;
       if(currentUser.type === 'ADMIN'){
         this.isAdmin = true;

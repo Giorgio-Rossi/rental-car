@@ -1,0 +1,28 @@
+<form [formGroup]="addRequestForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="user_id">User ID:</label>
+      <input id="user_id" formControlName="user_id" type="text" readonly>
+    </div>
+
+    <div>
+        <label for="car_id">Seleziona un'auto:</label>
+        <select id="car_id" formControlName="car_id">
+          <option value="" disabled selected>Seleziona un'auto</option>
+          <option *ngFor="let car of availableCars" [value]="car.id">
+            {{ car.brand }} - {{ car.model }} - {{ car.license_plate }}
+          </option>
+        </select>
+      </div>
+      
+    <div>
+      <label for="start_reservation">Data inizio prenotazione:</label>
+      <input id="start_reservation" formControlName="start_reservation" type="datetime-local">
+    </div>
+
+    <div>
+      <label for="end_reservation">Data fine prenotazione:</label>
+      <input id="end_reservation" formControlName="end_reservation" type="datetime-local">
+    </div>
+
+    <button type="submit" [disabled]="addRequestForm.invalid">Submit</button>
+</form>

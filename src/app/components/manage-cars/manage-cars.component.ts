@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MOCK_CARS } from '../../mock-data/mock-cars';
 import { TableConfig } from '../../components/table/table-config.interface';
 import { TableComponent } from "../../components/table/table.component";
+import { ManageCarsService } from '../../service/manage-cars.service';
+import { Car } from '../../interface/car.model.interface';
 
 @Component({
   selector: 'app-manage-cars',
@@ -13,7 +14,7 @@ import { TableComponent } from "../../components/table/table.component";
 })
 
 export class ManageCarsComponent implements OnInit {
-  cars = MOCK_CARS;
+  cars: Car[] = [];
 
   tableManageCars: TableConfig = {
     headers: [
@@ -30,11 +31,18 @@ export class ManageCarsComponent implements OnInit {
     actions: {actions: [ 'Modifica', 'Elimina' ]}
   };
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private requestService: ManageCarsService){}
 
   ngOnInit(): void {
-  
+    this.loadCars();  
   }
+
+  loadCars(): void {
+    this.requestService.getAvailableCars().subscribe(cars => {
+      this.cars = cars;  
+    });
+  }
+
 
   handleActionClick(action: string, data: any): void{
     if (action === 'Modifica') {

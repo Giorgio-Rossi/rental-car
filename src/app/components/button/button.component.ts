@@ -1,13 +1,18 @@
+import { CommonModule, NgIf } from '@angular/common';
 import { Component, Input, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.css']
+  styleUrls: ['./button.component.css'],
+  imports: [NgIf, CommonModule]
 })
 export class ButtonComponent {
   @Input() config?: any; 
+  @Input() icon?: string;
+  @Input() customCssClass?: string;
+
 
   @Output() onClick=new EventEmitter<any>();
 

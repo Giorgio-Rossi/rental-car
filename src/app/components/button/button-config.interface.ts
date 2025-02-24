@@ -7,4 +7,5 @@ export interface ButtonConfig {
       backgroundColor?: string; 
       border?: string;
     };
+    action?: (id: number) => void;
   }

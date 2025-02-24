@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Request } from '../../interface/request.model.interface';
+import { Request } from '../../interface/CarRequest.model.interface';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgModel, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'; 
-import { RequestService } from '../../service/request.service';
+import { RequestService } from '../../service/CarRequest.service';
 import { AuthService } from '../../service/auth.service';
 import { MOCK_CARS } from '../../mock-data/mock-cars';
 import { NgFor, NgIf } from '@angular/common';

@@ -1,6 +1,6 @@
-import { Request } from "../interface/request.model.interface";
+import { CarRequest } from "../interface/CarRequest.model.interface";
 
-export const MOCK_REQUEST: Request[] = [
+export const MOCK_REQUEST: CarRequest[] = [
     {
         id: 1,
         user_id: 1,

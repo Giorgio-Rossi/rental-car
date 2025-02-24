@@ -25,4 +25,10 @@ export class ManageCarsService {
     }
     return of(MOCK_CARS[carIndex]);
   }
+
+    getAvailableCars(): Observable<Car[]> { 
+      return of(MOCK_CARS.filter(car => car.status === 'Disponibile'));
+    }
+    
+  
 }

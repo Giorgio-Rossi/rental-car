@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { MOCK_REQUEST } from '../../mock-data/mock-requests';
 import { NgFor } from '@angular/common';
 import { ButtonComponent } from "../button/button.component";
+import { ButtonConfig } from '../button/button-config.interface';
+import { CarRequestService } from '../../service/CarRequest.service';
+import { CarRequest } from '../../interface/CarRequest.model.interface'; 
 
 @Component({
   selector: 'app-manage-requests',
@@ -11,27 +13,60 @@ import { ButtonComponent } from "../button/button.component";
 })
 
 export class ManageRequestsComponent {
-  requests = MOCK_REQUEST;
+  requestsCar: CarRequest[] = [];  
+ 
+  constructor(private requestService: CarRequestService){}
 
-  buttonConfigs = [
-    {label: 'Approva', action: (id: number) => this.approveRequest(id)},
-    {label: 'Rifiuta', action: (id: number) => this.rejectRequest(id)}
-  ]
-  approveRequest(id: number) {
-    console.log('id request: ', id)
-    const request = this.requests.find(r => r.id === id);
+  ngOnInit(): void {
+    this.requestService.getRequests().subscribe(requests => {
+      this.requestsCar
+    });
+  }
+
+
+  buttonConfigs: ButtonConfig[] = [
+    { 
+      label: 'Approva', 
+      action: (id: number) => this.approveRequest(id), 
+      type: 'button', 
+      style: {
+        color: 'white',
+        backgroundColor: 'green',
+        border: '1px solid green'
+      }
+    },
+    { 
+      label: 'Rifiuta', 
+      action: (id: number) => this.rejectRequest(id), 
+      type: 'button', 
+      disabled: false, 
+      style: {
+        color: 'white',
+        backgroundColor: 'red',
+        border: '1px solid red'
+      }
+    }
+  ];
+  
+  approveRequest(id: number): void {
+    console.log('id request: ', id);
+    const request = this.requestsCar.find(r => r.id === id);
     if (request) {
-      request.status = 'Approvata';
-      alert(`Richiesta ${id} approvata!`);
+      this.requestService.updateRequestStatus(id, 'Approvata').subscribe(updatedRequest => {
+        request.status = updatedRequest!.status;  
+        alert(`Richiesta ${id} approvata!`);
+      });
     }
   }
 
-  rejectRequest(id: number) {
-    console.log('id request: ', id)
-    const request = this.requests.find(r => r.id === id);
+  rejectRequest(id: number): void {
+    console.log('id request: ', id);
+    const request = this.requestsCar.find(r => r.id === id);
     if (request) {
-      request.status = 'Rifiutata';
-      alert(`Richiesta ${id} rifiutata!`);
+      this.requestService.updateRequestStatus(id, 'Rifiutata').subscribe(updatedRequest => {
+        request.status = updatedRequest!.status;  
+        alert(`Richiesta ${id} rifiutata!`);
+      });
     }
   }
 }

@@ -27,7 +27,7 @@ export class ManageCarsComponent implements OnInit {
     ],
     currentByDefault: {key: 'id', orderby: 'asc'},
     pagination: {itemsPerPage: 10, currentPage:1},
-    actions: {actions: [ 'Modifica' ]}
+    actions: {actions: [ 'Modifica', 'Elimina' ]}
   };
 
   constructor(private router: Router){}
@@ -39,6 +39,9 @@ export class ManageCarsComponent implements OnInit {
   handleActionClick(action: string, data: any): void{
     if (action === 'Modifica') {
       this.router.navigate(['/edit-cars', data.id],  {state: {carData: data } });
+    }
+    if (action === 'Elimina') {
+      console.log('Azione di elimina inviata')
     }
   }
 }

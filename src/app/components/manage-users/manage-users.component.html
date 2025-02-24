@@ -1,0 +1,5 @@
+<div class="title">Gestisci utenti</div>
+<div>
+    <app-table [config]="tableMangeUser" [data]="users" 
+    (clickAction)="handleActionClick($event.action, $event.data)"></app-table>
+  </div>

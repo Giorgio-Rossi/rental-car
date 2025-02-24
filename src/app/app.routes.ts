@@ -6,6 +6,8 @@ import { AddCarComponent } from './components/add-car/add-car.component';
 import { AddRequestUserComponent } from './components/add-request-user/add-request-user.component';
 import { ManageCarsComponent } from './components/manage-cars/manage-cars.component';
 import { FormViewEditCarComponent } from './components/form-view-edit-car/form-view-edit-car.component';
+import { ManageUsersComponent } from './components/manage-users/manage-users.component';
+import { AddUserComponent } from './components/add-user/add-user.component';
 
 export const  routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -15,6 +17,9 @@ export const  routes: Routes = [
   { path: 'add-car', component: AddCarComponent },
   { path: 'new-request', component: AddRequestUserComponent },
   { path: 'manage-cars', component: ManageCarsComponent },
-  { path: 'edit-cars/:id', component: FormViewEditCarComponent }
+  { path: 'edit-cars/:id', component: FormViewEditCarComponent },
+  { path: 'add-use', component: AddUserComponent },  
+  { path: 'manage-user', component: ManageUsersComponent }
+
 
 ];

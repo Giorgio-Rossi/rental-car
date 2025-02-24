@@ -22,7 +22,9 @@ export class NavbarComponent implements OnInit {
     //{ label: 'Logout', action: () => this.logout() },
     { label: 'Gestisci richieste', action: () => this.router.navigate(['/manage-requests']) },
     { label: 'Gestisci auto', action: () => this.router.navigate(['/manage-cars']) },
-    { label: 'Aggiungi auto', action: () => this.router.navigate(['/add-car']) }
+    { label: 'Aggiungi auto', action: () => this.router.navigate(['/add-car']) },
+    { label: 'Gestici utente', action: () => this.router.navigate(['/manage-users']) },
+    { label: 'Aggiungi utente', action: () => this.router.navigate(['/add-user']) }
   ];
 
   

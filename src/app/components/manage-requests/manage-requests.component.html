@@ -18,8 +18,8 @@
           <td>{{ request.car_id}}</td>
           <td>{{ request.status }}</td>
           <td>
-            <button (click)="approveRequest(request.id)">Approva</button>
-            <button (click)="rejectRequest(request.id)">Rifiuta</button>
+            <app-button *ngFor="let buttonConfig of buttonConfigs" 
+            [config]="buttonConfig"></app-button>
           </td>
         </tr>
       </tbody>

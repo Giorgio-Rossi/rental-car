@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Request } from '../../interface/CarRequest.model.interface';
+import { CarRequest } from '../../interface/CarRequest.model.interface';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgModel, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'; 
-import { RequestService } from '../../service/CarRequest.service';
+import { CarRequestService } from '../../service/CarRequest.service';
 import { AuthService } from '../../service/auth.service';
 import { MOCK_CARS } from '../../mock-data/mock-cars';
 import { NgFor, NgIf } from '@angular/common';
 import { Car } from '../../interface/car.model.interface';
+import { ManageCarsService } from '../../service/manage-cars.service';
 
 
 @Component({
@@ -24,12 +25,11 @@ export class AddRequestUserComponent implements OnInit {
   currentUserRole: string ='';
   availableCars: Car[] = []; 
 
-
   constructor(
     private authService: AuthService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private requestService: RequestService 
+    private manageCars: ManageCarsService 
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +47,7 @@ export class AddRequestUserComponent implements OnInit {
       console.log('Current user role', currentUser.role)
     }
   
-    this.requestService.getAvailableCars().subscribe((cars: Car[]) => { 
+    this.manageCars.getAvailableCars().subscribe((cars: Car[]) => { 
       this.availableCars = cars;
       console.log('Auto disponibili:', this.availableCars);
     });
@@ -64,7 +64,7 @@ export class AddRequestUserComponent implements OnInit {
   
   onSubmit() {
     if (this.addRequestForm.valid) {
-      const newRequest: Request = this.addRequestForm.value;
+      const newRequest: CarRequest = this.addRequestForm.value;
       newRequest.created_at = new Date();
       newRequest.updated_at = new Date();
       console.log('Nuova richiesta:', newRequest);      

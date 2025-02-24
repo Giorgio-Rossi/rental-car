@@ -2,16 +2,16 @@ import { Component } from '@angular/core';
 import { TableConfig } from '../table/table-config.interface';
 import { Router } from '@angular/router';
 import { MOCK_USERS } from '../../mock-data/mock-users';
+import { TableComponent } from "../table/table.component";
 
 @Component({
   selector: 'app-manage-users',
-  imports: [],
+  imports: [TableComponent],
   templateUrl: './manage-users.component.html',
   styleUrl: './manage-users.component.css'
 })
 export class ManageUsersComponent {
   users = MOCK_USERS;
-  
   constructor(private router: Router){}
 
   tableMangeUser: TableConfig = {
@@ -30,7 +30,7 @@ export class ManageUsersComponent {
 
     handleActionClick(action: String, data: any){
      if(action === 'Modifica'){
-      this.router.navigate(['/add-user'])
+      this.router.navigate(['/manage-users'])
      }
 
      if(action === 'Elimina'){

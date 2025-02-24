@@ -1,1 +1,23 @@
-<p>add-user works!</p>
+<h2>Aggiungi Utente</h2>
+<form (ngSubmit)="saveUser()">
+  <label>Username:</label>
+  <input type="text" [(ngModel)]="user.username" name="username" required />
+
+  <label>Nome Completo:</label>
+  <input type="text" [(ngModel)]="user.fullName" name="fullName" required />
+
+  <label>Email:</label>
+  <input type="email" [(ngModel)]="user.email" name="email" required />
+
+  <label>Ruolo:</label>
+  <select [(ngModel)]="user.role" name="role" required>
+    <option value="ADMIN">Admin</option>
+    <option value="USER">User</option>
+  </select>
+
+  <label>Password:</label>
+  <input type="password" [(ngModel)]="user.password" name="password" required />
+
+  <button type="submit">Salva</button>
+  <button type="button" (click)="router.navigate(['/manage-users'])">Annulla</button>
+</form>

@@ -18,6 +18,6 @@ export const  routes: Routes = [
   { path: 'new-request', component: AddRequestUserComponent },
   { path: 'manage-cars', component: ManageCarsComponent },
   { path: 'edit-cars/:id', component: FormViewEditCarComponent },
-  { path: 'add-use', component: AddUserComponent },  
+  { path: 'add-user', component: AddUserComponent },  
   { path: 'manage-users', component: ManageUsersComponent }
 ];

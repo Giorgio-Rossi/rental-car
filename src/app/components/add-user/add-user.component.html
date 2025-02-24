@@ -1,23 +1,35 @@
 <h2>Aggiungi Utente</h2>
-<form (ngSubmit)="saveUser()">
-  <label>Username:</label>
-  <input type="text" [(ngModel)]="user.username" name="username" required />
+<form (ngSubmit)="saveUser()" class="user-form">
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="text" [(ngModel)]="user.username" name="username" required id="username" />
+  </div>
 
-  <label>Nome Completo:</label>
-  <input type="text" [(ngModel)]="user.fullName" name="fullName" required />
+  <div class="form-group">
+    <label for="fullName">Nome Completo:</label>
+    <input type="text" [(ngModel)]="user.fullName" name="fullName" required id="fullName" />
+  </div>
 
-  <label>Email:</label>
-  <input type="email" [(ngModel)]="user.email" name="email" required />
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" [(ngModel)]="user.email" name="email" required id="email" />
+  </div>
 
-  <label>Ruolo:</label>
-  <select [(ngModel)]="user.role" name="role" required>
-    <option value="ADMIN">Admin</option>
-    <option value="USER">User</option>
-  </select>
+  <div class="form-group">
+    <label for="role">Ruolo:</label>
+    <select [(ngModel)]="user.role" name="role" required id="role">
+      <option value="ADMIN">Admin</option>
+      <option value="USER">User</option>
+    </select>
+  </div>
 
-  <label>Password:</label>
-  <input type="password" [(ngModel)]="user.password" name="password" required />
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" [(ngModel)]="user.password" name="password" required id="password" />
+  </div>
 
-  <button type="submit">Salva</button>
-  <button type="button" (click)="router.navigate(['/manage-users'])">Annulla</button>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Salva</button>
+    <button type="button" class="btn btn-secondary" (click)="router.navigate(['/manage-users'])">Annulla</button>
+  </div>
 </form>

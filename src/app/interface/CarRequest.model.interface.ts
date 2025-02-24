@@ -1,4 +1,4 @@
-export interface Request {
+export interface CarRequest {
     id: number;
     user_id: number;
     car_id: number[];

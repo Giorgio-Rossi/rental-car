@@ -19,7 +19,7 @@ export class ManageRequestsComponent {
 
   ngOnInit(): void {
     this.requestService.getRequests().subscribe(requests => {
-      this.requestsCar
+      this.requestsCar = requests;
     });
   }
 

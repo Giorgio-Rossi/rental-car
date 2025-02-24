@@ -1,0 +1,5 @@
+<h2 class="title">Gestisci auto</h2>
+<div>
+  <app-table [config]="tableManageCars" [data]="cars" 
+  (clickAction)="handleActionClick($event.action, $event.data)"></app-table>
+</div>

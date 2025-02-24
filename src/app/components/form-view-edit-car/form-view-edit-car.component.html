@@ -1,0 +1,10 @@
+<div *ngIf="carData" class="form-container">
+    <h3>{{ title }}</h3>
+    <form>
+      <div *ngFor="let key of objectKeys(carData)">
+        <label>{{ key }}</label>
+        <input type="text" [value]="carData[key]" disabled />
+      </div>
+    </form>
+  </div>
+  

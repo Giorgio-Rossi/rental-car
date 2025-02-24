@@ -18,34 +18,31 @@ export class TableComponent implements OnInit{
     @Input() data: any[] = []; 
     @Input() actions?: actionsConfig[];
 
-
     @Output() clickAction: EventEmitter<any> = new EventEmitter();
 
     handleActionClick(action: any, data: any): void{
       console.log('action:', action)
       console.log('data:', data)
+      this.clickAction.emit({action,data});
     }
 
     currentOrderby: OrderBy | undefined;
     currentPagination: PaginationConfig = {itemsPerPage: 10, currentPage: 1};
     currentPage: number = 1;
-    filter: {[key: string]: string} = {} // Oggetto per tenere salvati i filtr
+    filter: {[key: string]: string} = {} 
 
-    // Imposto l'ordinamento di default
     ngOnInit(): void {
       if (this.config?.currentByDefault) {
         this.currentOrderby = this.config.currentByDefault;
         this.orderData(); 
       }
 
-         // Imposto la page di default
       if(this.config?.pagination){
         this.currentPagination = this.config.pagination;
         this.currentPage = this.config.pagination.currentPage || 1;
       }
     }
 
-    // Applico i filtri
     doFilter(): any[]{
       if(!this.data) return [];
       return this.data.filter(riga => {
@@ -61,25 +58,22 @@ export class TableComponent implements OnInit{
     onFilterChange(key: string, value: any): void{
       console.log(key, value);
       this.filter[key] = value?.target?.value;
-      this.currentPage = 1; // La imposto come corrente dopo il filtraggio
+      this.currentPage = 1; 
     }
 
-    // Al click della colonna verifico se posso e come ordinarla
     onOrder(column: string): void{
       if (!this.config?.headers.find(c => c.key === column)?.ordinable) {
-        return; // se è falso non ordino ed esco
+        return; 
       }
       
-      // se la colonna è già stata ordinata, inverto l'ordinamento
       if(this.currentOrderby?.key === column){
         this.currentOrderby.orderby =this.currentOrderby.orderby === 'asc' ? 'desc' : 'asc';
       }
 
-      // Se non è ancora stata ordinata, la ordino in maniera crescente
       else {
         this.currentOrderby = {key: column, orderby: 'asc'}
       }
-      this.orderData(); // Effettuo l'ordinamento al click
+      this.orderData();
     }
 
     orderData(): void{

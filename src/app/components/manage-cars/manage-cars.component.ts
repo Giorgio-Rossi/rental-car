@@ -6,6 +6,7 @@ import { TableComponent } from "../../components/table/table.component";
 import { ManageCarsService } from '../../service/manage-cars.service';
 import { Car } from '../../interface/car.model.interface';
 import { NavbarComponent } from "../navbar/navbar.component";
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-manage-cars',
@@ -32,9 +33,14 @@ export class ManageCarsComponent implements OnInit {
     actions: {actions: [ 'Modifica', 'Elimina' ]}
   };
 
-  constructor(private router: Router, private requestService: ManageCarsService){}
+  constructor(private router: Router, private requestService: ManageCarsService, private authService: AuthService){}
 
   ngOnInit(): void {
+    const userRole = this.authService.getUserType(); 
+    if (userRole !== 'Admin') {
+      this.router.navigate(['/home']);
+    }
+
     this.loadCars();  
   }
 

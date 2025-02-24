@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { ButtonComponent } from "../button/button.component";
 import { ButtonConfig } from '../button/button-config.interface';
 import { CarRequestService } from '../../service/CarRequest.service';
 import { CarRequest } from '../../interface/CarRequest.model.interface';
-import { NavbarComponent } from "../navbar/navbar.component"; 
+import { AuthService } from '../../service/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-requests',
@@ -13,15 +14,20 @@ import { NavbarComponent } from "../navbar/navbar.component";
   styleUrls: ['./manage-requests.component.css']
 })
 
-export class ManageRequestsComponent {
+export class ManageRequestsComponent implements OnInit {
   requestsCar: CarRequest[] = [];  
  
-  constructor(private requestService: CarRequestService){}
+  constructor(private requestService: CarRequestService, private authService: AuthService, private router: Router){}
 
   ngOnInit(): void {
     this.requestService.getRequests().subscribe(requests => {
       this.requestsCar = requests;
     });
+
+    const userRole = this.authService.getUserType(); 
+    if (userRole !== 'Admin') {
+      this.router.navigate(['/home']);
+    }
   }
 
 

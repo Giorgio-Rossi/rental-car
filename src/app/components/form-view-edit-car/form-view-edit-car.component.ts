@@ -5,6 +5,7 @@ import { Car } from '../../interface/car.model.interface';
 import { ButtonComponent } from "../button/button.component";
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from "../navbar/navbar.component";
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-form-view-edit-car',
@@ -17,7 +18,8 @@ export class FormViewEditCarComponent implements OnInit {
   carData!: Car;
   statusOptions: string[] = ['Disponibile', 'Non disponibile', 'In manutenzione', ]; 
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService) {}
+
 
   buttonConfig = [
     {label: 'Salva', action: () => console.log('Azione di salvataggio')},
@@ -25,6 +27,10 @@ export class FormViewEditCarComponent implements OnInit {
   ]
 
   ngOnInit(): void {
+    const userRole = this.authService.getUserType(); 
+    if (userRole !== 'Admin') {
+      this.router.navigate(['/home']);
+    }
     this.route.paramMap.subscribe(params => {
       const carID = params.get('id');
       const navigationData = history.state.carData; // Recupero i dati passati nella navigazione

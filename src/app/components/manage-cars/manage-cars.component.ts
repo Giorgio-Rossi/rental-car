@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MOCK_CARS } from '../../mock-data/mock-cars';
-import { TableConfig } from '../table/table-config.interface';
-import { TableComponent } from "../table/table.component";
+import { TableConfig } from '../../components/table/table-config.interface';
+import { TableComponent } from "../../components/table/table.component";
 
 @Component({
   selector: 'app-manage-cars',

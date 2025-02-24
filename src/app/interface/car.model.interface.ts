@@ -4,4 +4,6 @@ export interface Car {
     model: string;
     license_plate: string;
     status: string;
+
+    [key: string]: any;
 }

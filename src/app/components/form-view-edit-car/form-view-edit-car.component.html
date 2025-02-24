@@ -1,10 +1,24 @@
 <div *ngIf="carData" class="form-container">
-    <h3>{{ title }}</h3>
-    <form>
-      <div *ngFor="let key of objectKeys(carData)">
-        <label>{{ key }}</label>
-        <input type="text" [value]="carData[key]" disabled />
+  <h3>{{ title }}</h3>
+  <form>
+    <div *ngFor="let key of objectKeys(carData)">
+      <label>{{ key }}</label>
+      <input type="text" [value]="carData[key]" disabled />
+
+      <div *ngIf="key === 'status'">
+        <label for="status">Stato macchina</label>
+        <select id="status" [(ngModel)]="carData.status" name="status">
+          <option *ngFor="let status of statusOptions" [value]="status">
+            {{ status }}
+          </option>
+        </select>
       </div>
-    </form>
-  </div>
-  
+    </div>
+  </form>
+
+  <app-button
+    *ngFor="let button of buttonConfig"
+    [config]="{label: button.label}"
+    (click)="button.action()">
+  </app-button>
+</div>

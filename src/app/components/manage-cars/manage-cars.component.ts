@@ -5,6 +5,7 @@ import { TableConfig } from '../../components/table/table-config.interface';
 import { TableComponent } from "../../components/table/table.component";
 import { ManageCarsService } from '../../service/manage-cars.service';
 import { Car } from '../../interface/car.model.interface';
+import { NavbarComponent } from "../navbar/navbar.component";
 
 @Component({
   selector: 'app-manage-cars',

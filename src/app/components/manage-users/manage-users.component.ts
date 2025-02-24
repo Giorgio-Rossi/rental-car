@@ -1,18 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TableConfig } from '../table/table-config.interface';
 import { Router } from '@angular/router';
-import { MOCK_USERS } from '../../mock-data/mock-users';
+import { UserService } from '../../service/user.service'; // Importa il servizio
+import { User } from '../../interface/user.model.interface'; // Importa l'interfaccia User
 import { TableComponent } from "../table/table.component";
+import { NavbarComponent } from "../navbar/navbar.component";
 
 @Component({
   selector: 'app-manage-users',
-  imports: [TableComponent],
+  imports: [TableComponent, NavbarComponent],
   templateUrl: './manage-users.component.html',
   styleUrl: './manage-users.component.css'
 })
-export class ManageUsersComponent {
-  users = MOCK_USERS;
-  constructor(private router: Router){}
+export class ManageUsersComponent implements OnInit {
+  users: User[] = []; 
+  constructor(private router: Router, private userService: UserService) {}
+
+  ngOnInit(): void {
+    this.userService.getUsers().subscribe(users => {
+      this.users = users;
+    });
+  }
 
   tableMangeUser: TableConfig = {
     headers: [
@@ -22,23 +30,19 @@ export class ManageUsersComponent {
       { key: 'email', columnName: 'Email', type: 'String', ordinable: true, filtrable: true},
       { key: 'role', columnName: 'Ruolo', type: 'String', ordinable: true, filtrable: true},
       { key: 'password', columnName: 'Password', type: 'String', ordinable: true, filtrable: true},
-      ],
-      currentByDefault: {key: 'id', orderby: 'asc'},
-      pagination: {itemsPerPage: 10, currentPage:1},
-      actions: {actions: [ 'Modifica', 'Elimina' ]}
-    };
+    ],
+    currentByDefault: {key: 'id', orderby: 'asc'},
+    pagination: {itemsPerPage: 10, currentPage: 1},
+    actions: {actions: ['Modifica', 'Elimina']}
+  };
 
-    handleActionClick(action: String, data: any){
-     if(action === 'Modifica'){
-      this.router.navigate(['/manage-users'])
-     }
-
-     if(action === 'Elimina'){
-      console.log('Azione di elimina inviata')
-     }
+  handleActionClick(action: string, data: any) {
+    if (action === 'Modifica') {
+      this.router.navigate(['/manage-users']);
     }
 
-    addUser(event: Event): void{
-
+    if (action === 'Elimina') {
+      console.log('Azione di elimina inviata');
     }
+  }
 }

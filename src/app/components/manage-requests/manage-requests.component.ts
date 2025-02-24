@@ -3,7 +3,8 @@ import { NgFor } from '@angular/common';
 import { ButtonComponent } from "../button/button.component";
 import { ButtonConfig } from '../button/button-config.interface';
 import { CarRequestService } from '../../service/CarRequest.service';
-import { CarRequest } from '../../interface/CarRequest.model.interface'; 
+import { CarRequest } from '../../interface/CarRequest.model.interface';
+import { NavbarComponent } from "../navbar/navbar.component"; 
 
 @Component({
   selector: 'app-manage-requests',

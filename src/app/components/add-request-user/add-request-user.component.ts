@@ -3,13 +3,11 @@ import { CarRequest } from '../../interface/CarRequest.model.interface';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgModel, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'; 
-import { CarRequestService } from '../../service/CarRequest.service';
 import { AuthService } from '../../service/auth.service';
 import { MOCK_CARS } from '../../mock-data/mock-cars';
 import { NgFor, NgIf } from '@angular/common';
 import { Car } from '../../interface/car.model.interface';
 import { ManageCarsService } from '../../service/manage-cars.service';
-
 
 @Component({
   selector: 'app-add-request-user',

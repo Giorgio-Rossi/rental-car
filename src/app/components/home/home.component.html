@@ -6,7 +6,11 @@
     <h2>Welcome user</h2>
 </div>
 
-<app-navbar></app-navbar>
+<app-button
+*ngFor="let buttonConfig of (currentUserRole === 'ADMIN' ?buttonConfigsAdmin : buttonConfigsUser)"
+[config]="{ label: buttonConfig.label }"
+(click)="buttonConfig.action()">
+</app-button>
 
 <div *ngIf="isLogged">
     <app-table [config]="userType === 'CUSTOMER' ? tableCustomerConfig : tableAdminConfig" [data]="requests">

@@ -25,7 +25,7 @@ export class ManageRequestsComponent implements OnInit {
     });
 
     const userRole = this.authService.getUserType(); 
-    if (userRole !== 'Admin') {
+    if (userRole !== 'ADMIN') {
       this.router.navigate(['/home']);
     }
   }
@@ -34,7 +34,7 @@ export class ManageRequestsComponent implements OnInit {
   buttonConfigs: ButtonConfig[] = [
     { 
       label: 'Approva', 
-      action: (id: number) => this.approveRequest(id), 
+      action: (id: number) => this.updateRequest(id, 'APPROVATO'), 
       type: 'button', 
       style: {
         color: 'white',
@@ -44,7 +44,7 @@ export class ManageRequestsComponent implements OnInit {
     },
     { 
       label: 'Rifiuta', 
-      action: (id: number) => this.rejectRequest(id), 
+      action: (id: number) => this.updateRequest(id, 'RIFIUTATO'), 
       type: 'button', 
       disabled: false, 
       style: {
@@ -55,24 +55,13 @@ export class ManageRequestsComponent implements OnInit {
     }
   ];
   
-  approveRequest(id: number): void {
+  updateRequest(id: number, status: string): void {
     console.log('id request: ', id);
     const request = this.requestsCar.find(r => r.id === id);
     if (request) {
-      this.requestService.updateRequestStatus(id, 'Approvata').subscribe(updatedRequest => {
+      this.requestService.updateRequestStatus(id, status).subscribe(updatedRequest => {
         request.status = updatedRequest!.status;  
-        alert(`Richiesta ${id} approvata!`);
-      });
-    }
-  }
-
-  rejectRequest(id: number): void {
-    console.log('id request: ', id);
-    const request = this.requestsCar.find(r => r.id === id);
-    if (request) {
-      this.requestService.updateRequestStatus(id, 'Rifiutata').subscribe(updatedRequest => {
-        request.status = updatedRequest!.status;  
-        alert(`Richiesta ${id} rifiutata!`);
+        alert(`Richiesta ${id} ${status}`);
       });
     }
   }

@@ -1,12 +1,12 @@
 <nav class="navbar">
   <app-button
-    *ngFor="let buttonConfig of (currentUserRole === 'ADMIN' ?buttonConfigsAdmin : buttonConfigsUser)"
-    [config]="{ label: buttonConfig.label }"
-    (click)="buttonConfig.action()">
+    *ngFor="let button of buttons"
+    [config]="{ label: button.label }"
+    (click)="button.action()">
   </app-button>
 
-    <div class="navbar-user">
-      <span>Benvenuto, {{ username }}</span>
-      <button (click)="logout()">Logout</button>
-    </div>
-  </nav>
+  <div class="navbar-user">
+    <span>Benvenuto, {{ username }}</span>
+    <button (click)="logout()">Logout</button>
+  </div>
+</nav>

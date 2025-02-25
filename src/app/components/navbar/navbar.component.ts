@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 import { FormsModule } from '@angular/forms';
@@ -12,41 +12,14 @@ import { NgFor } from '@angular/common';
   styleUrls: ['./navbar.component.css']
 })
 
-export class NavbarComponent implements OnInit {
-  isAdmin: boolean = false;
-  username: string = '';
+export class NavbarComponent {
   currentUserRole: string = '';
 
-  buttonConfigsAdmin = [
-    { label: 'Home', action: () => this.router.navigate(['/home']) },
-    //{ label: 'Logout', action: () => this.logout() },
-    { label: 'Gestisci richieste', action: () => this.router.navigate(['/manage-requests']) },
-    { label: 'Gestisci auto', action: () => this.router.navigate(['/manage-cars']) },
-    { label: 'Aggiungi auto', action: () => this.router.navigate(['/add-car']) },
-    { label: 'Gestici utenti', action: () => this.router.navigate(['/manage-users']) },
-    { label: 'Aggiungi utente', action: () => this.router.navigate(['/add-user']) }
-  ];
-
-  
-  buttonConfigsUser = [
-    { label: 'Home', action: () => this.router.navigate(['/home']) },
-    //{ label: 'Logout', action: () => this.logout() },
-    { label: 'Aggiungi richieste di prenotazione', action: () => this.router.navigate(['/new-request']) },
-  ];
+  @Input() buttons: { label: string; action: () => void }[] = [];
+  @Input() username: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit(): void {
-    const currentUser = this.authService.getCurrentUser();
-
-    if (currentUser) {
-      this.currentUserRole = currentUser.role;
-      this.username = currentUser.username;
-      if(currentUser.type === 'ADMIN'){
-        this.isAdmin = true;
-      }
-    }
-  }
 
   logout(): void {
     this.authService.logout();

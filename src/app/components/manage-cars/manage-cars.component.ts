@@ -37,7 +37,7 @@ export class ManageCarsComponent implements OnInit {
 
   ngOnInit(): void {
     const userRole = this.authService.getUserType(); 
-    if (userRole !== 'Admin') {
+    if (userRole !== 'ADMIN') {
       this.router.navigate(['/home']);
     }
 

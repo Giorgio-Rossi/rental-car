@@ -29,18 +29,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.path = this.router.url;
-    
-    this.userService.getUsers().subscribe(users => {
-      this.users = users;
-    });
-
-    this.carRequestService.getRequests().subscribe(requests => {
-      this.requests = requests;
-    });
-
-    this.manageCarsService.getAllCars().subscribe(cars => {
-      this.cars = cars;
-    });
   }
+
+
 }

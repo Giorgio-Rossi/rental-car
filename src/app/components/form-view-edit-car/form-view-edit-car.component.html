@@ -2,8 +2,10 @@
   <h3>{{ title }}</h3>
   <form >
     <div *ngFor="let key of objectKeys(carData)">
-      <label>{{ key }}</label>
-      <input type="text" [value]="carData[key]" disabled />
+      <div class="form-group" *ngIf="key !== 'status'">
+        <label>{{ key }}</label>
+        <input type="text" [value]="carData[key]"/>
+      </div>
 
       <div *ngIf="key === 'status'">
         <label for="status">Stato macchina</label>

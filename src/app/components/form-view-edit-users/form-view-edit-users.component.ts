@@ -16,6 +16,7 @@ import { ButtonComponent } from "../button/button.component";
 
 export class FormViewEditUsersComponent implements OnInit {
   userData!: User;
+  roleOptions: string[] = ['ADMIN', 'CUSTOMER']; 
 
   constructor(
     private userService: UserService,

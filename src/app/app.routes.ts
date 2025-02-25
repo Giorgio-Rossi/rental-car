@@ -21,6 +21,5 @@ export const  routes: Routes = [
   { path: 'edit-cars/:id', component: FormViewEditCarComponent },
   { path: 'add-user', component: AddUserComponent },  
   { path: 'manage-users', component: ManageUsersComponent },
-  { path: 'edit-user/:id', component: FormViewEditUsersComponent },
-
+  { path: 'edit-user/:id', component: FormViewEditUsersComponent }
 ];

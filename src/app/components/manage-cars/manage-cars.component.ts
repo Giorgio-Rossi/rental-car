@@ -54,6 +54,7 @@ export class ManageCarsComponent implements OnInit {
   handleActionClick(action: string, data: any): void{
     if (action === 'Modifica') {
       this.router.navigate(['/edit-cars', data.id],  {state: {carData: data } });
+      console.log('ID auto:', data.id)
     }
     if (action === 'Elimina') {
       console.log('Azione di elimina inviata')

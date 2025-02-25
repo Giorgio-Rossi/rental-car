@@ -1,36 +1,26 @@
-<div *ngIf="userData"class="edit-user-container">
-    <h3>Modifica Utente</h3>
-    <form>
-      <div *ngFor="let key of objectKeys(userData)">
-        <div class="form-group">
-          <label>{{ capitalize(key) }}</label>
-          <input type="text" [value]="userData[key]"/>
-  
-          <div *ngIf="key === 'role'" class="form-group">
-            <label for="role">Ruolo</label>
-            <select [(ngModel)]="userData.role" name="role" id="role" required>
-              <option value="USER">Utente</option>
-              <option value="ADMIN">Amministratore</option>
-            </select>
-          </div>
-  
-          <div *ngIf="key === 'password'" class="form-group">
-            <label for="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              [(ngModel)]="userData.password"
-              required />
-          </div>
-        </div>
+<div *ngIf="userData" class="edit-user-container">
+  <h3>Modifica Utente</h3>
+  <form>
+    <div *ngFor="let key of objectKeys(userData)">
+      <div class="form-group" *ngIf="key !== 'role'">
+        <label>{{ capitalize(key) }}</label>
+        <input type="text" [value]="userData[key]" />
       </div>
-  
-      <app-button
+    </div>
+
+    <div *ngIf="userData.role" class="form-group">
+      <label for="role">Ruolo utente</label>
+      <select id="role" [(ngModel)]="userData.role" name="role">
+        <option *ngFor="let role of roleOptions" [value]="role">
+          {{ role }}
+        </option>
+      </select>
+    </div>
+
+    <app-button
       *ngFor="let button of buttonConfig"
       [config]="{label: button.label}"
       (click)="button.action()">
     </app-button>
-    </form>
-  </div>
-  
+  </form>
+</div>

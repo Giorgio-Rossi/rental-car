@@ -9,7 +9,7 @@ import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-manage-users',
-  imports: [TableComponent, NavbarComponent],
+  imports: [TableComponent],
   templateUrl: './manage-users.component.html',
   styleUrl: './manage-users.component.css'
 })
@@ -45,7 +45,7 @@ export class ManageUsersComponent implements OnInit {
 
   handleActionClick(action: string, data: any) {
     if (action === 'Modifica') {
-      this.router.navigate(['/manage-users']);
+      this.router.navigate(['/edit-user', data.id], {state: {userData: data}});
     }
 
     if (action === 'Elimina') {

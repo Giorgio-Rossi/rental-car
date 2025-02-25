@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from  '@angular/forms';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
+import { NgIf } from '@angular/common';
  
 @Component({
   selector: 'app-add-car',
-  imports: [FormsModule],
+  imports: [FormsModule, NgIf],
   templateUrl: './add-car.component.html',
   styleUrl: './add-car.component.css'
 })

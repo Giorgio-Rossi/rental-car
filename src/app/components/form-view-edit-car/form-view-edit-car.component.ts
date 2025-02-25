@@ -31,9 +31,10 @@ export class FormViewEditCarComponent implements OnInit {
     if (userRole !== 'Admin') {
       this.router.navigate(['/home']);
     }
+    
     this.route.paramMap.subscribe(params => {
       const carID = params.get('id');
-      const navigationData = history.state.carData; // Recupero i dati passati nella navigazione
+      const navigationData = history.state.carData; 
 
       if (navigationData) {
         this.carData = navigationData;

@@ -8,6 +8,18 @@ import { User } from '../interface/user.model.interface';
 })
 export class UserService {
   constructor() {}
+  
+  updateUser(user: User) {
+    return console.log('Operazione di update', user)  }
+
+  getUserById(arg0: number) {
+    return console.log()
+  }
+
+  
+  editUser(): Observable<User[]>{
+    return of(MOCK_USERS); 
+  }
 
   getUsers(): Observable<User[]> {
     return of(MOCK_USERS); 

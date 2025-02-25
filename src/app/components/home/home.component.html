@@ -3,8 +3,6 @@
     <button (click)="logout()">Logout</button>
 </div>
 
-
-
 <app-navbar [buttons]="currentUserRole === 'ADMIN' ?buttonConfigsAdmin : buttonConfigsUser">
     <app-button *ngFor="let buttonConfig of (currentUserRole === 'ADMIN' ?buttonConfigsAdmin : buttonConfigsUser)"
     [config]="{ label: buttonConfig.label }"
@@ -12,23 +10,21 @@
     </app-button>
 </app-navbar>
 
+<app-table [config]="userType === 'CUSTOMER' ? tableCustomerConfig : tableAdminConfig" 
+           [data]="requests" 
+           (clickAction)="handleActionClick($event.action, $event.data)">
+    <tbody>
+      <ng-container *ngFor="let request of requests">
+        <tr>
+          <td>{{ request.id }}</td>
+          <td>{{ request.status }}</td>
+          <td>{{ request.start_reservation ? (request.start_reservation | date:'dd/MM/yyyy') : 'N/A' }}</td>
+          <td>{{ request.end_reservation ? (request.end_reservation | date:'dd/MM/yyyy') : 'N/A' }}</td>
+          <td>{{ request.created_at ? (request.created_at | date:'dd/MM/yyyy') : 'N/A' }}</td>
+          <td>{{ request.updated_at ? (request.updated_at | date:'dd/MM/yyyy') : 'N/A' }}</td>
+          <td>{{ request.carDetails }}</td> 
+        </tr>
+      </ng-container>
+    </tbody>
+</app-table>
 
-<div *ngIf="isLogged">
-    <app-table [config]="userType === 'CUSTOMER' ? tableCustomerConfig : tableAdminConfig" [data]="requests"  (clickAction)="handleActionClick($event.action, $event.data)">
-        <tbody>
-        <ng-container *ngFor="let request of requests">
-            <tr>
-              <td>{{ request.id }}</td>
-              <td>{{ request.status }}</td>
-              <td>{{ request.start_reservation ? (request.start_reservation | date:'dd/MM/yyyy') : 'N/A' }}</td>
-              <td>{{ request.end_reservation ? (request.end_reservation | date:'dd/MM/yyyy') : 'N/A' }}</td>
-              <td>{{ request.created_at ? (request.created_at | date:'dd/MM/yyyy') : 'N/A' }}</td>
-              <td>{{ request.updated_at ? (request.updated_at | date:'dd/MM/yyyy') : 'N/A' }}</td>
-              <td>{{ request.car_id }}</td>
-            </tr>
-        </ng-container>
-        </tbody>
-    </app-table>
-</div>
-
-<!-- <button class="login-container" (click)="authService.logout()">Logout</button> -->

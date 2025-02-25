@@ -23,6 +23,9 @@ export interface PaginationConfig{
     currentPage: number; 
 }
 
-export interface actionsConfig{
-  actions: string[];
-}
+export interface actionsConfig {
+    actions: {
+      name: string; 
+      visible?: (row: any) => boolean;
+    }[];
+  }

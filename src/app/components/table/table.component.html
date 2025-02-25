@@ -27,7 +27,7 @@
         </td>
         <td *ngIf="config?.actions?.actions?.length">
           <button *ngFor="let action of config?.actions?.actions" (click)="handleActionClick(action, riga)">
-            {{ action }}
+            {{ action.name }}
           </button>
     </tbody>
 </table>

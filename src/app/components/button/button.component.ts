@@ -9,7 +9,7 @@ import { EventEmitter } from '@angular/core';
   imports: [NgIf, CommonModule]
 })
 export class ButtonComponent {
-  @Input() config?: any; 
+  @Input() config?: {label: string, action: () => void}; 
   @Input() icon?: string;
   @Input() customCssClass?: string;
 
@@ -17,6 +17,9 @@ export class ButtonComponent {
   @Output() onClick=new EventEmitter<any>();
 
   handleClick(){
-    this.onClick.emit(this.config?.actions);
+    if (this.config?.action) {
+      this.config.action();  
+      this.onClick.emit();    
+    }
   }
 }

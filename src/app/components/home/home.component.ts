@@ -12,10 +12,11 @@ import { ButtonConfig } from '../button/button-config.interface';
 import { Car } from '../../interface/car.model.interface';
 import { User } from '../../interface/user.model.interface';
 import { ManageCarsService } from '../../service/manage-cars.service';
+import { CarRequest } from '../../interface/CarRequest.model.interface';
 
 @Component({
   selector: 'app-home',
-  imports: [NgIf, NgFor, TableComponent, CommonModule, ButtonComponent, NavbarComponent],
+  imports: [NgIf, NgFor, TableComponent, CommonModule, NavbarComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   providers: [DatePipe]
@@ -57,7 +58,6 @@ export class HomeComponent implements OnInit {
       console.log('User type:', this.userType);
     }
   
-    // Carica le auto disponibili
     this.manageCarsService.getAllCars().subscribe(cars => {
       this.cars = cars;
       console.log('Cars:', this.cars);
@@ -106,7 +106,19 @@ export class HomeComponent implements OnInit {
     ],
     currentByDefault: { key: 'id', orderby: 'asc' },
     pagination: { itemsPerPage: 10, currentPage: 1 },
-    actions: { actions: ['Modifica', 'Cancella'] }
+    actions: { 
+      actions: [
+        {
+          name:'Modifica',
+          visible: (row: any) => true
+        },
+        {
+          name: 'Cancella',
+          visible: (row: any) => true
+        } 
+      
+      ] 
+    }
   };
 
   tableCustomerConfig: TableConfig = {
@@ -119,12 +131,23 @@ export class HomeComponent implements OnInit {
     ],
     currentByDefault: { key: 'id', orderby: 'asc' },
     pagination: { itemsPerPage: 10, currentPage: 1 },
-    actions: { actions: ['Modifica', 'Cancella'] }
+    actions: {
+      actions: [
+        { 
+          name: 'Modifica', 
+          visible: (row: any) => this.canEditRequest(row) 
+        },
+        { 
+          name: 'Cancella', 
+          visible: (row: any) => true 
+        }
+
+      ]
+    }
   };
 
   buttonConfigsAdmin = [
     { label: 'Home', action: () => this.router.navigate(['/home']) },
-    //{ label: 'Logout', action: () => this.logout() },
     { label: 'Gestisci richieste', action: () => this.router.navigate(['/manage-requests']) },
     { label: 'Gestisci auto', action: () => this.router.navigate(['/manage-cars']) },
     { label: 'Aggiungi auto', action: () => this.router.navigate(['/add-car']) },
@@ -134,23 +157,15 @@ export class HomeComponent implements OnInit {
 
   buttonConfigsUser = [
     { label: 'Home', action: () => this.router.navigate(['/home']) },
-    //{ label: 'Logout', action: () => this.logout() },
     { label: 'Aggiungi richieste di prenotazione', action: () => this.router.navigate(['/new-request']) },
   ];
 
-  handleActionClick(action: string, data: any): void {
-    const currentUserType = this.authService.getCurrentUser()
-    if(currentUserType.role === 'CUSTOMER'){
-      if (action === 'Modifica') {
-        this.router.navigate(['/edit-request', data.id], {state: {requestData: data}});
-        console.log('ID richiesta: ', data.id)
-      }
-
-      if (action === 'Elimina') {
-        console.log('Azione di elimina inviata');
-      }
+  handleActionClick(action: string, row: any): void {
+    if (action === 'Modifica') {
+      this.router.navigate(['/edit-request', row.id], { state: { requestData: row } });
+    } else if (action === 'Cancella') {
+      console.log('Cancella richiesta:', row.id);
     }
-    if(currentUserType === 'ADMIN'){ }
   }
 
   getCarById(carId: number): Car | undefined {
@@ -160,5 +175,9 @@ export class HomeComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.userType = '';
+  }
+  
+  canEditRequest(carRequest: CarRequest): boolean {
+    return carRequest.status !== 'Annullata';
   }
 }

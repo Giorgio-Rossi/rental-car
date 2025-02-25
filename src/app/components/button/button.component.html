@@ -1,5 +1,8 @@
-<button (click)="handleClick()" [ngClass]="customCssClass">
-    <i *ngIf="icon" class="{{ icon }}"></i> 
-    {{ config?.label }}
-  </button>
-  
+<button 
+  [ngClass]="customCssClass"
+  (click)="handleClick()">
+  <ng-container *ngIf="icon">
+    <i class="{{ icon }}"></i> 
+  </ng-container>
+  {{ config?.label }} 
+</button>

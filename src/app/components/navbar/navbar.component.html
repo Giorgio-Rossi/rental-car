@@ -1,7 +1,6 @@
 <nav class="navbar">
   <app-button
     *ngFor="let button of buttons"
-    [config]="{ label: button.label }"
-    (click)="button.action()">
+    [config]="{ label: button.label, action: button.action }">
   </app-button>
 </nav>

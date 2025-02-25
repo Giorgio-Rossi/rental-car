@@ -40,7 +40,17 @@ export class ManageUsersComponent implements OnInit {
     ],
     currentByDefault: {key: 'id', orderby: 'asc'},
     pagination: {itemsPerPage: 10, currentPage: 1},
-    actions: {actions: ['Modifica', 'Elimina']}
+    actions: {
+      actions: [
+        {
+          name:'Modifica',
+          visible: (row: any) => true 
+        },
+        {
+          name: 'Elimina',
+          visible: (row: any) => true 
+        }
+       ]}
   };
 
   handleActionClick(action: string, data: any) {

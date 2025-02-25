@@ -20,10 +20,10 @@ export class TableComponent implements OnInit{
 
     @Output() clickAction: EventEmitter<any> = new EventEmitter();
 
-    handleActionClick(action: any, data: any): void{
-      console.log('action:', action)
-      console.log('data:', data)
-      this.clickAction.emit({action,data});
+    @Output() actionClick = new EventEmitter<{ action: string, row: any }>();
+
+    handleActionClick(action: any, row: any): void {
+      this.actionClick.emit({ action: action.name, row });
     }
 
     currentOrderby: OrderBy | undefined;

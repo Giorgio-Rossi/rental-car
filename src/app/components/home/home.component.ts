@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import { ButtonComponent } from "../button/button.component";
 import { NavbarComponent } from "../navbar/navbar.component";
 import { ButtonConfig } from '../button/button-config.interface';
+import { Car } from '../../interface/car.model.interface';
+import { User } from '../../interface/user.model.interface';
 
 @Component({
   selector: 'app-home',
@@ -20,8 +22,9 @@ import { ButtonConfig } from '../button/button-config.interface';
 export class HomeComponent implements OnInit {
   userType: string = '';
   isLogged: boolean = false;
+  cars: Car[] = [];
   requests: any[] = [];
-  users: any[] = [];
+  users: User[] = [];
   isAdmin: boolean = false;
   username: string = '';
   currentUserRole: string = '';
@@ -65,7 +68,7 @@ export class HomeComponent implements OnInit {
             ...request,
             fullName: user?.fullName || 'Unknown',
             start_reservation: request.start_reservation ? this.datePipe.transform(request.start_reservation, "dd/MM/yyy") : null,
-            end_reservation: request.end_reservation ? this.datePipe.transform(request.end_reservation, "dd/MM/yyy") : null
+            end_reservation: request.end_reservation ? this.datePipe.transform(request.end_reservation, "dd/MM/yyy") : null,
           };
 
           console.log('Updated request with:', updatedRequest);
@@ -75,7 +78,7 @@ export class HomeComponent implements OnInit {
     });
 
     console.log('Button Configs Admin:', this.buttonConfigsAdmin);
-console.log('Button Configs User:', this.buttonConfigsUser);
+    console.log('Button Configs User:', this.buttonConfigsUser);
   }
 
   tableAdminConfig: TableConfig = {
@@ -122,7 +125,26 @@ console.log('Button Configs User:', this.buttonConfigsUser);
       { label: 'Aggiungi richieste di prenotazione', action: () => this.router.navigate(['/new-request']) },
     ];
     
+    handleActionClick(action: string, data: any): void {
+    const currentUserType = this.authService.getCurrentUser()
+      if(currentUserType.role === 'CUSTOMER'){
+          if (action === 'Modifica') {
+            this.router.navigate(['/edit-request', data.id], {state: {requestData: data}});
+            console.log('ID richiesta: ', data.id)
+          }
+      
+          if (action === 'Elimina') {
+            console.log('Azione di elimina inviata');
+          }
+        }
+        if(currentUserType === 'ADMIN'){}
+      }
 
+      getCarById(carId: number): Car | undefined {
+        return this.cars.find(car => car.id === carId);
+      }
+      
+    
   logout() {
     this.authService.logout();
     this.userType = '';

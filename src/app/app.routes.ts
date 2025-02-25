@@ -9,6 +9,7 @@ import { FormViewEditCarComponent } from './components/form-view-edit-car/form-v
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { AddUserComponent } from './components/add-user/add-user.component';
 import { FormViewEditUsersComponent } from './components/form-view-edit-users/form-view-edit-users.component';
+import { FormViewEditRequestComponent } from './components/form-view-edit-request/form-view-edit-request.component';
 
 export const  routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -21,5 +22,7 @@ export const  routes: Routes = [
   { path: 'edit-cars/:id', component: FormViewEditCarComponent },
   { path: 'add-user', component: AddUserComponent },  
   { path: 'manage-users', component: ManageUsersComponent },
-  { path: 'edit-user/:id', component: FormViewEditUsersComponent }
+  { path: 'edit-user/:id', component: FormViewEditUsersComponent },
+  { path: 'edit-request/:id', component: FormViewEditRequestComponent }
+
 ];

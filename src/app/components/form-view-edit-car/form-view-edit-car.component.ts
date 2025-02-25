@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Car } from '../../interface/car.model.interface';
 import { ButtonComponent } from "../button/button.component";
 import { FormsModule } from '@angular/forms';
-import { NavbarComponent } from "../navbar/navbar.component";
 import { AuthService } from '../../service/auth.service';
 
 @Component({

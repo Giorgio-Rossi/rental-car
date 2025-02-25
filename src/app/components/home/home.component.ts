@@ -7,10 +7,12 @@ import { TableComponent } from "../table/table.component";
 import { CarRequestService } from '../../service/CarRequest.service';
 import { Router } from '@angular/router';
 import { ButtonComponent } from "../button/button.component";
+import { NavbarComponent } from "../navbar/navbar.component";
+import { ButtonConfig } from '../button/button-config.interface';
 
 @Component({
   selector: 'app-home',
-  imports: [NgIf, NgFor, TableComponent, CommonModule, ButtonComponent],
+  imports: [NgIf, NgFor, TableComponent, CommonModule, ButtonComponent, NavbarComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   providers: [DatePipe]
@@ -62,8 +64,8 @@ export class HomeComponent implements OnInit {
           const updatedRequest = {
             ...request,
             fullName: user?.fullName || 'Unknown',
-            start_reservation: request.start_reservation ? request.start_reservation : null,
-            end_reservation: request.end_reservation ? request.end_reservation : null
+            start_reservation: request.start_reservation ? this.datePipe.transform(request.start_reservation, "dd/MM/yyy") : null,
+            end_reservation: request.end_reservation ? this.datePipe.transform(request.end_reservation, "dd/MM/yyy") : null
           };
 
           console.log('Updated request with:', updatedRequest);
@@ -71,6 +73,9 @@ export class HomeComponent implements OnInit {
         });
       });
     });
+
+    console.log('Button Configs Admin:', this.buttonConfigsAdmin);
+console.log('Button Configs User:', this.buttonConfigsUser);
   }
 
   tableAdminConfig: TableConfig = {
@@ -98,22 +103,25 @@ export class HomeComponent implements OnInit {
     actions: { actions: ['Modifica', 'Cancella'] }
   };
 
-   buttonConfigsAdmin = [
-      { label: 'Home', action: () => this.router.navigate(['/home']) },
-      //{ label: 'Logout', action: () => this.logout() },
-      { label: 'Gestisci richieste', action: () => this.router.navigate(['/manage-requests']) },
-      { label: 'Gestisci auto', action: () => this.router.navigate(['/manage-cars']) },
-      { label: 'Aggiungi auto', action: () => this.router.navigate(['/add-car']) },
-      { label: 'Gestici utenti', action: () => this.router.navigate(['/manage-users']) },
-      { label: 'Aggiungi utente', action: () => this.router.navigate(['/add-user']) }
-    ];
+
   
+   buttonConfigsAdmin =  [
+    { label: 'Home', action: () => this.router.navigate(['/home']) },
+    //{ label: 'Logout', action: () => this.logout() },
+    { label: 'Gestisci richieste', action: () => this.router.navigate(['/manage-requests']) },
+    { label: 'Gestisci auto', action: () => this.router.navigate(['/manage-cars']) },
+    { label: 'Aggiungi auto', action: () => this.router.navigate(['/add-car']) },
+    { label: 'Gestici utenti', action: () => this.router.navigate(['/manage-users']) },
+    { label: 'Aggiungi utente', action: () => this.router.navigate(['/add-user']) }
+    ]
+
     
     buttonConfigsUser = [
       { label: 'Home', action: () => this.router.navigate(['/home']) },
       //{ label: 'Logout', action: () => this.logout() },
       { label: 'Aggiungi richieste di prenotazione', action: () => this.router.navigate(['/new-request']) },
     ];
+    
 
   logout() {
     this.authService.logout();

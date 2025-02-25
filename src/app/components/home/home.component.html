@@ -1,18 +1,22 @@
-<div *ngIf="userType === 'ADMIN'"> 
-    <h2>Welcome admin</h2>
+<div class="navbar-user">
+    <span>Benvenuto, {{ username }}</span>
+    <button (click)="logout()">Logout</button>
 </div>
 
-<div *ngIf="userType === 'CUSTOMER'"> 
-    <h2>Welcome user</h2>
-</div>
 
-<app-button
-*ngFor="let buttonConfig of (currentUserRole === 'ADMIN' ?buttonConfigsAdmin : buttonConfigsUser)"
-[config]="{ label: buttonConfig.label }"
-(click)="buttonConfig.action()">
-</app-button>
+
+<app-navbar [buttons]="currentUserRole === 'ADMIN' ?buttonConfigsAdmin : buttonConfigsUser">
+    <app-button *ngFor="let buttonConfig of (currentUserRole === 'ADMIN' ?buttonConfigsAdmin : buttonConfigsUser)"
+    [config]="{ label: buttonConfig.label }"
+    (click)="buttonConfig.action()">
+    </app-button>
+</app-navbar>
+
 
 <div *ngIf="isLogged">
+
+    
+
     <app-table [config]="userType === 'CUSTOMER' ? tableCustomerConfig : tableAdminConfig" [data]="requests">
         <tbody>
         <ng-container *ngFor="let request of requests">
@@ -24,7 +28,7 @@
               <td>{{ request.car_id }}</td>
             </tr>
         </ng-container>
-    </tbody>
+        </tbody>
     </app-table>
 </div>
 

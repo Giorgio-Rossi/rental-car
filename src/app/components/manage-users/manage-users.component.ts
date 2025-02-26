@@ -29,7 +29,7 @@ export class ManageUsersComponent implements OnInit {
     }
   }
 
-  tableMangeUser: TableConfig = {
+  tableManageUser: TableConfig = {
     headers: [
       { key: 'id', columnName: 'Id utente', type: 'Number', ordinable: true, filtrable: true},
       { key: 'username', columnName: 'Username ', type: 'String', ordinable: true, filtrable: true},
@@ -44,11 +44,11 @@ export class ManageUsersComponent implements OnInit {
       actions: [
         {
           name:'Modifica',
-          visible: (row: any) => true 
+          visible: (row: any) => true,
         },
         {
           name: 'Elimina',
-          visible: (row: any) => true 
+          visible: (row: any) => true,
         }
        ]}
   };

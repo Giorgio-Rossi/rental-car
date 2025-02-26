@@ -17,14 +17,13 @@
         <td>{{ request.car_id }}</td>
         <td>{{ request.status }}</td>
         <td>
-          
-         <app-table 
-          [config]="tableConfig"
-          [data]="requestsCar"
-          (actionClick)="handleActionClick($event.action, $event.row)">
-        </app-table>
-
-        
+          <ng-container *ngFor="let action of tableConfig.actions?.actions">
+            <button 
+              *ngIf="action?.visible(request)" 
+              (click)="handleActionClick(action.name, request)">
+              {{ action.name }}
+            </button>
+          </ng-container>
         </td>
       </tr>
     </tbody>

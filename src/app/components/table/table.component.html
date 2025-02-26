@@ -26,16 +26,14 @@
           {{ riga[column.key] }}
         </td>
         <td *ngIf="config?.actions?.actions?.length">
-          <td *ngIf="config?.actions?.actions?.length">
-            <ng-container *ngFor="let action of config?.actions?.actions">
-              <button 
-                *ngIf="canEditRequest(riga)" 
-                (click)="handleActionClick(action, riga)">
-                {{ action.name }}
-              </button>
-            </ng-container>
-          </td>
-          
+          <ng-container *ngFor="let action of config?.actions?.actions">
+            <button 
+              *ngIf="canEditRequest(riga)" 
+              (click)="handleActionClick(action, riga)">
+              {{ action.name }}
+            </button>
+          </ng-container>
+        </td>          
       </tr>
     </tbody>
     

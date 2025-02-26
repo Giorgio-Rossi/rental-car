@@ -27,6 +27,7 @@ export class TableComponent implements OnInit{
 
     handleActionClick(action: any, row: any): void {
       this.actionClick.emit({ action: action.name, row });
+      this.clickAction.emit({ action: action.name, row });
     }
 
     currentOrderby: OrderBy | undefined;

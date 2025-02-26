@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { ButtonComponent } from "../button/button.component";
 import { ButtonConfig } from '../button/button-config.interface';
 import { CarRequestService } from '../../service/CarRequest.service';
@@ -11,7 +11,7 @@ import { TableConfig } from '../table/table-config.interface';
 
 @Component({
   selector: 'app-manage-requests',
-  imports: [NgFor, TableComponent],
+  imports: [NgFor, NgIf],
   templateUrl: './manage-requests.component.html',
   styleUrls: ['./manage-requests.component.css']
 })
@@ -43,8 +43,8 @@ export class ManageRequestsComponent implements OnInit {
     pagination: { itemsPerPage: 10, currentPage: 1 },
     actions: {
       actions: [
-        { name: 'Approva', visible: (row) => row.status === 'PENDING' },
-        { name: 'Rifiuta', visible: (row) => row.status === 'PENDING' }
+        { name: 'Approva', visible: (row) => row.status !== 'Annullata' },
+        { name: 'Rifiuta', visible: (row) => row.status !== 'Annullata' }
       ]
     }
   };

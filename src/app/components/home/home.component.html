@@ -1,30 +1,16 @@
 <div class="navbar-user">
-    <span>Benvenuto, {{ username }}</span>
-    <button (click)="logout()">Logout</button>
+  <span>Benvenuto, {{ username }}</span>
+  <button (click)="logout()">Logout</button>
 </div>
 
 <app-navbar *ngIf="currentUserRole" [buttons]="currentUserRole === 'ADMIN' ? buttonConfigsAdmin : buttonConfigsUser">
 </app-navbar>
 
+<app-table 
+  [config]="userType === 'CUSTOMER' ? tableCustomerConfig : tableAdminConfig" 
+  [data]="requests" 
+  (actionClick)="handleActionClick($event.action, $event.row)">
+</app-table>
 
-  <tbody>
-    <ng-container *ngFor="let request of requests">
-      
-    <app-table 
-      [config]="userType === 'CUSTOMER' ? tableCustomerConfig : tableAdminConfig" 
-      [data]="requests" 
-      (actionClick)="handleActionClick($event.action, $event.row)">
-    </app-table>
-      <tr>
-        <td>{{ request.id }}</td>
-        <td>{{ request.status }}</td>
-        <td>{{ request.start_reservation ? (request.start_reservation | date:'dd/MM/yyyy') : 'N/A' }}</td>
-        <td>{{ request.end_reservation ? (request.end_reservation | date:'dd/MM/yyyy') : 'N/A' }}</td>
-        <td>{{ request.created_at ? (request.created_at | date:'dd/MM/yyyy') : 'N/A' }}</td>
-        <td>{{ request.updated_at ? (request.updated_at | date:'dd/MM/yyyy') : 'N/A' }}</td>
-        <td>{{ request.carDetails }}</td> 
-      </tr>
-    </ng-container>
-  </tbody>
 
    

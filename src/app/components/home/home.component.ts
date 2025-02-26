@@ -17,7 +17,7 @@ import { getButtonConfigsAdmin, getButtonConfigsUser, getTableAdminConfig, getTa
 
 @Component({
   selector: 'app-home',
-  imports: [NgIf, NgFor, TableComponent, CommonModule, NavbarComponent],
+  imports: [NgIf, TableComponent, CommonModule, NavbarComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   providers: [DatePipe]

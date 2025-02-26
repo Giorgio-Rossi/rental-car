@@ -11,7 +11,7 @@ import { TableConfig } from '../table/table-config.interface';
 
 @Component({
   selector: 'app-manage-requests',
-  imports: [NgFor, ButtonComponent, TableComponent],
+  imports: [NgFor, TableComponent],
   templateUrl: './manage-requests.component.html',
   styleUrls: ['./manage-requests.component.css']
 })

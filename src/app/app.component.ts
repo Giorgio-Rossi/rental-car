@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { NgIf } from '@angular/common';
-import { UserService } from './service/user.service';
-import { CarRequestService } from './service/CarRequest.service';
-import { ManageCarsService } from './service/manage-cars.service';
 import { User } from './interface/user.model.interface';
 import { Car } from './interface/car.model.interface';
 import { CarRequest } from './interface/CarRequest.model.interface';
@@ -23,9 +20,6 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private userService: UserService,
-    private carRequestService: CarRequestService,
-    private manageCarsService: ManageCarsService
   ) {}
 
   ngOnInit(): void {

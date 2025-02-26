@@ -17,10 +17,10 @@
       </select>
     </div>
 
-    <app-button
-      *ngFor="let button of buttonConfig"
-      [config]="{label: button.label}"
-      (click)="button.action()">
-    </app-button>
+ <app-button
+  *ngFor="let button of buttonConfig"
+  [config]="{ label: button.label, action: button.action }">
+</app-button>
+
   </form>
 </div>

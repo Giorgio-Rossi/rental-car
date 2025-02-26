@@ -1,26 +1,32 @@
 <div class="manage-requests-container">
-    <h2>Gestione richieste</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Cliente</th>
-          <th>Auto richiesta</th>
-          <th>Stato</th>
-          <th>Azioni</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let request of requestsCar">
-          <td>{{ request.id }}</td>
-          <td>{{ request.user_id }}</td>
-          <td>{{ request.car_id}}</td>
-          <td>{{ request.status }}</td>
-          <td>
-            <app-button *ngFor="let buttonConfig of buttonConfigs" 
-            [config]="buttonConfig"></app-button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <h2>Gestione richieste</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Auto richiesta</th>
+        <th>Stato</th>
+        <th>Azioni</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let request of requestsCar">
+        <td>{{ request.id }}</td>
+        <td>{{ request.user_id }}</td>
+        <td>{{ request.car_id }}</td>
+        <td>{{ request.status }}</td>
+        <td>
+          
+         <app-table 
+          [config]="tableConfig"
+          [data]="requestsCar"
+          (actionClick)="handleActionClick($event.action, $event.row)">
+        </app-table>
+
+        
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

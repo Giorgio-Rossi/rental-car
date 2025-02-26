@@ -5,6 +5,7 @@ import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PaginationPipe } from "../../pagination.pipe";
 import {FormsModule} from  '@angular/forms';
+import { CarRequestService } from '../../service/CarRequest.service';
 
 @Component({
   selector: 'app-table',
@@ -21,6 +22,8 @@ export class TableComponent implements OnInit{
     @Output() clickAction: EventEmitter<any> = new EventEmitter();
 
     @Output() actionClick = new EventEmitter<{ action: string, row: any }>();
+
+    constructor(private requestService: CarRequestService){}
 
     handleActionClick(action: any, row: any): void {
       this.actionClick.emit({ action: action.name, row });
@@ -112,4 +115,10 @@ export class TableComponent implements OnInit{
       const numberPage = this.getNumberPage();
       return Array.from({length: numberPage}, (_, i) => i + 1);
       }
+
+      canEditRequest(row: any): boolean {
+        return this.requestService.canEditRequest(row);
+      }
+
+
   }

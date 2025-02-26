@@ -21,25 +21,32 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let riga of doFilter() | pagination: currentPage : (currentPagination ? currentPagination.itemsPerPage: 10)"> <!-- setto l'attributo a 10 elementi se è null-->
+      <tr *ngFor="let riga of doFilter() | pagination: currentPage : (currentPagination ? currentPagination.itemsPerPage: 10)">
         <td *ngFor="let column of config?.headers">
           {{ riga[column.key] }}
         </td>
         <td *ngIf="config?.actions?.actions?.length">
-          <button *ngFor="let action of config?.actions?.actions" (click)="handleActionClick(action, riga)">
-            {{ action.name }}
-          </button>
+          <td *ngIf="config?.actions?.actions?.length">
+            <ng-container *ngFor="let action of config?.actions?.actions">
+              <button 
+                *ngIf="canEditRequest(riga)" 
+                (click)="handleActionClick(action, riga)">
+                {{ action.name }}
+              </button>
+            </ng-container>
+          </td>
+          
+      </tr>
     </tbody>
+    
 </table>
 
-
-  <!--- Sezione paginazione -->
-  <div class="pagination">
+<div class="pagination">
     <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Precendente</button>
     <span *ngFor="let page of getPage()" (click)="changePage(page)" [class.active]="page === currentPage">
       {{ page }}
     </span>
     <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === getNumberPage()">Successivo</button>
-  </div>
+</div>
   
 

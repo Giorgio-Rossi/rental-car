@@ -22,10 +22,10 @@
       </div>
     </div>
   </form>
-
+  
   <app-button
     *ngFor="let button of buttonConfig"
-    [config]="{label: button.label}"
+    [config]="{ label: button.label, action: button.action }"
     (click)="button.action()">
   </app-button>
 </div>

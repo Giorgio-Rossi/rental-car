@@ -13,6 +13,7 @@ import { Car } from '../../interface/car.model.interface';
 import { User } from '../../interface/user.model.interface';
 import { ManageCarsService } from '../../service/manage-cars.service';
 import { CarRequest } from '../../interface/CarRequest.model.interface';
+import { getButtonConfigsAdmin, getButtonConfigsUser, getTableAdminConfig, getTableCustomerConfig } from '../config/home-config';
 
 @Component({
   selector: 'app-home',
@@ -31,6 +32,11 @@ export class HomeComponent implements OnInit {
   username: string = '';
   currentUserRole: string = '';
 
+  tableAdminConfig: any;
+  tableCustomerConfig: any;
+  buttonConfigsAdmin: any;
+  buttonConfigsUser: any;
+  
   constructor(
     public authService: AuthService,
     private carRequestService: CarRequestService,
@@ -52,6 +58,11 @@ export class HomeComponent implements OnInit {
   
     this.isLogged = this.authService.checkLogin();
     console.log('Is logged:', this.isLogged);
+
+    this.tableAdminConfig = getTableAdminConfig();
+    this.tableCustomerConfig = getTableCustomerConfig(this.carRequestService);
+    this.buttonConfigsAdmin = getButtonConfigsAdmin(this.router);
+    this.buttonConfigsUser = getButtonConfigsUser(this.router);
   
     if (this.isLogged) {
       this.userType = this.authService.getUserType();
@@ -68,10 +79,8 @@ export class HomeComponent implements OnInit {
         
         this.carRequestService.getRequests().subscribe(requests => {
           this.requests = requests.map(request => {
-            console.log('Processing request:', request);
         
             const user = this.users.find(u => u.id === request.user_id);
-            console.log('Found user:', user);
         
             const carDetails = request.car_id.map(carId => {
               const car = this.cars.find(car => car.id === carId);  
@@ -86,79 +95,13 @@ export class HomeComponent implements OnInit {
               carDetails: carDetails || 'Unknown'  
             };
   
-            console.log('Updated request with:', updatedRequest);
             return updatedRequest;
           });
         });
       });
     });
-
-    console.log('Button Configs Admin:', this.buttonConfigsAdmin);
-    console.log('Button Configs User:', this.buttonConfigsUser);
   }
 
-  tableAdminConfig: TableConfig = {
-    headers: [
-      { key: 'id', columnName: 'Codice richiesta', type: 'Number', ordinable: true, filtrable: true },
-      { key: 'car_id', columnName: 'Macchina', type: 'Number', ordinable: true, filtrable: true },
-      { key: 'fullName', columnName: 'Cliente', type: 'String', ordinable: true, filtrable: true },
-      { key: 'status', columnName: 'Stato prenotazione', type: 'Date', ordinable: false, filtrable: true }
-    ],
-    currentByDefault: { key: 'id', orderby: 'asc' },
-    pagination: { itemsPerPage: 10, currentPage: 1 },
-    actions: { 
-      actions: [
-        {
-          name:'Modifica',
-          visible: (row: any) => true
-        },
-        {
-          name: 'Cancella',
-          visible: (row: any) => true
-        } 
-      
-      ] 
-    }
-  };
-
-  tableCustomerConfig: TableConfig = {
-    headers: [
-      { key: 'id', columnName: 'Codice richiesta', type: 'Number', ordinable: true, filtrable: true },
-      { key: 'carDetails', columnName: 'Macchina', type: 'String', ordinable: false, filtrable: true },
-      { key: 'status', columnName: 'Stato prenotazione', type: 'String', ordinable: true, filtrable: true },
-      { key: 'start_reservation', columnName: 'Data inizio prenotazione', type: 'Date', ordinable: true, filtrable: true },
-      { key: 'end_reservation', columnName: 'Data fine prenotazione', type: 'Date', ordinable: false, filtrable: true }
-    ],
-    currentByDefault: { key: 'id', orderby: 'asc' },
-    pagination: { itemsPerPage: 10, currentPage: 1 },
-    actions: {
-      actions: [
-        { 
-          name: 'Modifica', 
-          visible: (row: any) => this.canEditRequest(row) 
-        },
-        { 
-          name: 'Cancella', 
-          visible: (row: any) => true 
-        }
-
-      ]
-    }
-  };
-
-  buttonConfigsAdmin = [
-    { label: 'Home', action: () => this.router.navigate(['/home']) },
-    { label: 'Gestisci richieste', action: () => this.router.navigate(['/manage-requests']) },
-    { label: 'Gestisci auto', action: () => this.router.navigate(['/manage-cars']) },
-    { label: 'Aggiungi auto', action: () => this.router.navigate(['/add-car']) },
-    { label: 'Gestici utenti', action: () => this.router.navigate(['/manage-users']) },
-    { label: 'Aggiungi utente', action: () => this.router.navigate(['/add-user']) }
-  ];
-
-  buttonConfigsUser = [
-    { label: 'Home', action: () => this.router.navigate(['/home']) },
-    { label: 'Aggiungi richieste di prenotazione', action: () => this.router.navigate(['/new-request']) },
-  ];
 
   handleActionClick(action: string, row: any): void {
     if (action === 'Modifica') {
@@ -177,7 +120,5 @@ export class HomeComponent implements OnInit {
     this.userType = '';
   }
   
-  canEditRequest(carRequest: CarRequest): boolean {
-    return carRequest.status !== 'Annullata';
-  }
+
 }

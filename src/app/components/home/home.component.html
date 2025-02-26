@@ -7,12 +7,14 @@
 </app-navbar>
 
 
-<app-table 
-  [config]="userType === 'CUSTOMER' ? tableCustomerConfig : tableAdminConfig" 
-  [data]="requests" 
-  (actionClick)="handleActionClick($event.action, $event.row)">
   <tbody>
     <ng-container *ngFor="let request of requests">
+      
+    <app-table 
+      [config]="userType === 'CUSTOMER' ? tableCustomerConfig : tableAdminConfig" 
+      [data]="requests" 
+      (actionClick)="handleActionClick($event.action, $event.row)">
+    </app-table>
       <tr>
         <td>{{ request.id }}</td>
         <td>{{ request.status }}</td>
@@ -24,5 +26,5 @@
       </tr>
     </ng-container>
   </tbody>
-</app-table>
+
    

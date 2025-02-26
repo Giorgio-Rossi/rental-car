@@ -32,4 +32,8 @@ export class CarRequestService {
     }
     return of(request!);  
   }
+
+  canEditRequest(row: any): boolean {
+    return row.status !== 'Annullata';
+  }
 }

@@ -34,11 +34,11 @@ export class ManageCarsComponent implements OnInit {
       actions: [
         {
           name:'Modifica',
-          visible: (row: any) => true 
+          visible: (row: any) => true, 
         },
         {
           name: 'Elimina',
-          visible: (row: any) => true 
+          visible: (row: any) => true, 
         }
        ]}
   };
@@ -55,16 +55,18 @@ export class ManageCarsComponent implements OnInit {
   }
 
   loadCars(): void {
-    this.requestService.getAvailableCars().subscribe(cars => {
+    this.requestService.getAllCars().subscribe(cars => {
       this.cars = cars;  
     });
   }
 
 
-  handleActionClick(action: string, data: any): void{
+  handleActionClick(action: string, data?: Car): void{
+    console.log('Event received:', { action, data });
+    console.log('ID auto:', data?.id)
     if (action === 'Modifica') {
-      this.router.navigate(['/edit-cars', data.id],  {state: {carData: data } });
-      console.log('ID auto:', data.id)
+      this.router.navigate(['/edit-cars', data?.id],  {state: {carData: data } });
+
     }
     if (action === 'Elimina') {
       console.log('Azione di elimina inviata')

@@ -26,6 +26,8 @@ export class TableComponent implements OnInit{
     constructor(private requestService: CarRequestService){}
 
     handleActionClick(action: any, row: any): void {
+      console.log("Emitting row:", row);
+      console.log("Emitting action: ", action)
       this.actionClick.emit({ action: action.name, row });
       this.clickAction.emit({ action: action.name, row });
     }

@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../service/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../interface/user.model.interface';
@@ -18,12 +18,10 @@ export class FormViewEditUsersComponent implements OnInit {
   userData!: User;
   roleOptions: string[] = ['ADMIN', 'CUSTOMER']; 
 
-  constructor(
-    private userService: UserService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
-
+  userService = inject(UserService);
+  route = inject(ActivatedRoute);
+  router = inject(Router);
+  
   ngOnInit(): void {
     const userId = this.route.snapshot.paramMap.get('id');
     console.log('User ID: ', userId)

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CarRequest } from '../../interface/CarRequest.model.interface';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgModel, Validators } from '@angular/forms';
@@ -23,16 +23,13 @@ export class AddRequestUserComponent implements OnInit {
   currentUserRole: string ='';
   availableCars: Car[] = []; 
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private manageCars: ManageCarsService 
-  ) {}
+  authService = inject(AuthService);
+  router = inject(Router);
+  formBuilder = inject(FormBuilder);
+  manageCars = inject(ManageCarsService)
+
 
   ngOnInit(): void {
-    console.log(MOCK_CARS)
-
     const currentUser = this.authService.getCurrentUser();
 
     if (currentUser) {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormsModule, NgForm} from  '@angular/forms';
 import { AuthService } from '../../service/auth.service';
@@ -15,8 +15,9 @@ export class LoginComponent {
   password: string = '';
   passwordVisibile: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router){}
-
+  authService = inject(AuthService);
+  router = inject(Router);
+  
   togglePasswordVisibility(): void {
     this.passwordVisibile = !this.passwordVisibile; 
   }

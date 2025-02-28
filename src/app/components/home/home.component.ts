@@ -1,23 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
-import { UserService } from '../../service/user.service';  // Importa il servizio degli utenti
-import { NgIf, NgFor, DatePipe, CommonModule } from '@angular/common';
-import { TableConfig } from '../table/table-config.interface';
+import { UserService } from '../../service/user.service'; 
+import { NgIf, DatePipe, CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { TableComponent } from "../table/table.component";
 import { CarRequestService } from '../../service/CarRequest.service';
 import { Router } from '@angular/router';
-import { ButtonComponent } from "../button/button.component";
 import { NavbarComponent } from "../navbar/navbar.component";
-import { ButtonConfig } from '../button/button-config.interface';
 import { Car } from '../../interface/car.model.interface';
 import { User } from '../../interface/user.model.interface';
 import { ManageCarsService } from '../../service/manage-cars.service';
-import { CarRequest } from '../../interface/CarRequest.model.interface';
 import { getButtonConfigsAdmin, getButtonConfigsUser, getTableAdminConfig, getTableCustomerConfig } from '../config/home-config';
 
 @Component({
   selector: 'app-home',
-  imports: [NgIf, TableComponent, CommonModule, NavbarComponent],
+  imports: [NgIf, TableComponent, CommonModule, NavbarComponent,HttpClientModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   providers: [DatePipe]
@@ -105,6 +102,7 @@ export class HomeComponent implements OnInit {
 
   handleActionClick(action: string, row: any): void {
     if (action === 'Modifica') {
+    
       this.router.navigate(['/edit-request', row.id], { state: { requestData: row } });
     } else if (action === 'Cancella') {
       console.log('Cancella richiesta:', row.id);
@@ -114,11 +112,22 @@ export class HomeComponent implements OnInit {
   getCarById(carId: number): Car | undefined {
     return this.cars.find(car => car.id === carId);
   }
-
-  logout() {
-    this.authService.logout();
-    this.userType = '';
+/*
+  logout(): void {
+    if (this.username) {
+      this.authService.logout(this.username).subscribe(
+        response => {
+          localStorage.removeItem('currentUser');
+          this.router.navigate(['/login']);
+        },
+        error => {
+          console.error('Errore nel logout:', error);
+        }
+      );
+    } else {
+      localStorage.removeItem('currentUser');
+      this.router.navigate(['/login']);
+    }
   }
-  
-
+     */
 }

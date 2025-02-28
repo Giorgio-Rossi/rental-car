@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 import { FormsModule } from '@angular/forms';
@@ -20,9 +20,22 @@ export class NavbarComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-
+  /*
   logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+    if (this.username) {
+      this.authService.logout(this.username).subscribe(
+        response => {
+          localStorage.removeItem('currentUser');  
+          this.router.navigate(['/login']);  
+        },
+        error => {
+          console.error('Logout error:', error);
+        }
+      );
+    } else {
+      localStorage.removeItem('currentUser');
+      this.router.navigate(['/login']);
+    }
   }
+    */
 }

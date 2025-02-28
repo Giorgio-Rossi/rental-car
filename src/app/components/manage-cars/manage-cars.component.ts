@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TableConfig } from '../../components/table/table-config.interface';
@@ -16,6 +16,10 @@ import { AuthService } from '../../service/auth.service';
 })
 
 export class ManageCarsComponent implements OnInit {
+  router = inject(Router);
+  requestService = inject(ManageCarsService);
+  authService = inject(AuthService);
+  
   cars: Car[] = [];
 
   tableManageCars: TableConfig = {
@@ -43,7 +47,6 @@ export class ManageCarsComponent implements OnInit {
        ]}
   };
 
-  constructor(private router: Router, private requestService: ManageCarsService, private authService: AuthService){}
 
   ngOnInit(): void {
     const userRole = this.authService.getUserType(); 

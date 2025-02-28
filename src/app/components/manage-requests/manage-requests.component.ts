@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { ButtonComponent } from "../button/button.component";
 import { ButtonConfig } from '../button/button-config.interface';
@@ -19,7 +19,9 @@ import { TableConfig } from '../table/table-config.interface';
 export class ManageRequestsComponent implements OnInit {
   requestsCar: CarRequest[] = [];  
  
-  constructor(private requestService: CarRequestService, private authService: AuthService, private router: Router){}
+  requestService = inject(CarRequestService);
+  authService = inject(AuthService);
+  router = inject(Router);
 
   ngOnInit(): void {
     this.requestService.getRequests().subscribe(requests => {

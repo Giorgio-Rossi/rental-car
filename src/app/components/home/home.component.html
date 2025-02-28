@@ -1,6 +1,5 @@
 <div class="navbar-user">
   <span>Benvenuto, {{ username }}</span>
-  <button (click)="logout()">Logout</button>
 </div>
 
 <app-navbar *ngIf="currentUserRole" [buttons]="currentUserRole === 'ADMIN' ? buttonConfigsAdmin : buttonConfigsUser">

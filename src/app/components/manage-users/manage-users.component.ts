@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TableConfig } from '../table/table-config.interface';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service'; 
@@ -15,13 +15,14 @@ import { AuthService } from '../../service/auth.service';
 })
 export class ManageUsersComponent implements OnInit {
   users: User[] = []; 
-  constructor(private router: Router, private userService: UserService, private authService: AuthService) {}
-
+  router = inject(Router);
+  userService = inject(UserService);
+  authService = inject(AuthService);
+  
   ngOnInit(): void {
     this.userService.getUsers().subscribe(users => {
       this.users = users;
     });
-
 
     const userRole = this.authService.getUserType(); 
     if (userRole !== 'ADMIN') {

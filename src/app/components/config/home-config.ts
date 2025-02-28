@@ -43,7 +43,7 @@ export function getTableCustomerConfig(carRequestService: CarRequestService): Ta
       actions: [
         { 
           name: 'Modifica', 
-          visible: (row: any) => carRequestService.canEditRequest(row)  // ✅ Funzione dal service
+          visible: (row: any) => carRequestService.canEditRequest(row) 
         },
         { 
           name: 'Cancella', 

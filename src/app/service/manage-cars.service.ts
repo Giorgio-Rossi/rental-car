@@ -1,34 +1,34 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MOCK_CARS } from '../mock-data/mock-cars';
 import { Observable, of } from 'rxjs';
 import { Car } from '../interface/car.model.interface';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ManageCarsService {
+  private apiUrl = 'http://localhost:8080/api/cars';  
+  private apiUrlAllCars = 'http://localhost:8080/api/cars/allcars';  
 
-  constructor() { }
+
+  http = inject(HttpClient)
 
   getAllCars(): Observable<Car[]> {
-    return of(MOCK_CARS);
+    return this.http.get<Car[]>(this.apiUrlAllCars);
   }
 
   getCarById(id: number): Observable<Car> {
-    return of(MOCK_CARS.find(car => car.id === id) as Car);
+    return this.http.get<Car>(`${this.apiUrl}/${id}`);
   }
+  
 
   updateCar(id: number, updatedCar: Partial<Car>): Observable<Car> {
-    const carIndex = MOCK_CARS.findIndex(car => car.id === id);
-    if (carIndex !== -1) {
-      MOCK_CARS[carIndex] = { ...MOCK_CARS[carIndex], ...updatedCar };
-    }
-    return of(MOCK_CARS[carIndex]);
+    return this.http.put<Car>(`${this.apiUrl}/${id}`, updatedCar);
   }
-
-    getAvailableCars(): Observable<Car[]> { 
-      return of(MOCK_CARS.filter(car => car.status === 'Disponibile'));
-    }
-    
+  
+  getAvailableCars(): Observable<Car[]> {
+    return this.http.get<Car[]>(`${this.apiUrl}/Disponibile`);
+  }
   
 }

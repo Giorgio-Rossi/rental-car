@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, inject } from '@angular/core';
 import { actionsConfig, OrderBy, PaginationConfig, TableConfig } from './table-config.interface';
 import { NgFor, NgIf, } from '@angular/common';
 import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
@@ -23,7 +23,7 @@ export class TableComponent implements OnInit{
 
     @Output() actionClick = new EventEmitter<{ action: string, row: any }>();
 
-    constructor(private requestService: CarRequestService){}
+    requestService = inject(CarRequestService)
 
     handleActionClick(action: any, row: any): void {
       console.log("Emitting row:", row);

@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { CarRequest } from '../interface/CarRequest.model.interface';
 import { Observable } from 'rxjs/internal/Observable';
 import { MOCK_CARS } from '../mock-data/mock-cars';
 import { Car} from '../interface/car.model.interface';
 import { of } from 'rxjs';
 import { MOCK_REQUEST } from '../mock-data/mock-requests';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,25 +13,26 @@ import { MOCK_REQUEST } from '../mock-data/mock-requests';
 
 export class CarRequestService {
   requests: CarRequest[] = [];
+  
+  http=inject(HttpClient)
 
-  constructor() {}
-
+  private apiUrl = 'http://localhost:8080/api/car-request';  
+  private apiUrlAllCarRequest = 'http://localhost:8080/api/car-request/all-requests';  
+  private apiUrlAdminManageRequest = 'http://localhost:8080/admin/manage-request'; 
+  
   getRequests(): Observable<CarRequest[]> {
-    return of(MOCK_REQUEST);  
+    return this.http.get<CarRequest[]>(`${this.apiUrlAllCarRequest}`);
   }
-
+  
   createRequest(request: CarRequest): Observable<CarRequest> {
     request.created_at = new Date();
     request.updated_at = new Date();
-    return of(request); 
+    return this.http.post<CarRequest>(`${this.apiUrl}/create-request`, request);
   }
 
+
   updateRequestStatus(id: number, status: string): Observable<CarRequest> {
-    const request = MOCK_REQUEST.find(r => r.id === id);  
-    if (request) {
-      request.status = status;
-    }
-    return of(request!);  
+    return this.http.put<CarRequest>(`${this.apiUrlAdminManageRequest}/${id}`, { status });
   }
 
   canEditRequest(row: any): boolean {

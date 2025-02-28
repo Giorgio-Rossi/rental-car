@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CarRequest } from '../../interface/CarRequest.model.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
@@ -18,7 +18,9 @@ export class FormViewEditRequestComponent implements OnInit {
   title: string = 'Dettaglio Richiesta';
   availableCars: Car[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute, private manageCarsService: ManageCarsService){}
+  router = inject(Router);
+  route = inject(ActivatedRoute);
+  manageCarsService = inject(ManageCarsService);
 
   buttonConfig = [
     {label: 'Salva', action: () => console.log('Azione di salvataggio')},

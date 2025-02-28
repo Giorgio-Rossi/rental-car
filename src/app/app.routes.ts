@@ -24,5 +24,4 @@ export const  routes: Routes = [
   { path: 'manage-users', component: ManageUsersComponent },
   { path: 'edit-user/:id', component: FormViewEditUsersComponent },
   { path: 'edit-request/:id', component: FormViewEditRequestComponent }
-
 ];

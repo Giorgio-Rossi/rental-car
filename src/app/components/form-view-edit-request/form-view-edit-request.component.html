@@ -5,27 +5,29 @@
       
       <div class="form-group" *ngIf="key === 'car_id'">
         <label for="car">Seleziona Auto</label>
-        <select [(ngModel)]="requestData[key]" name="car" required>
+        <select 
+          [(ngModel)]="requestData[key]" 
+          [name]="key"
+          required>
           <option *ngFor="let car of availableCars" [value]="car.id">
             {{ car.brand }} - {{ car.model }}
           </option>
         </select>
       </div>
 
-      <div class="form-group" *ngIf="key !== 'id'">
+      <div class="form-group" *ngIf="key !== 'id' && key !== 'car_id'">
         <label>{{ key }}</label>
-
         <input 
           type="text" 
-          [value]="formatDate(requestData[key], key)"
+          [(ngModel)]="requestData[key]" 
+          [name]="key"
           [disabled]="key !== 'start_reservation' && key !== 'end_reservation'"/>
       </div>
     </div>
   </form>
   
-  <app-button
-    *ngFor="let button of buttonConfig"
-    [config]="{ label: button.label, action: button.action }"
-    (click)="button.action()">
+  <app-button *ngFor="let button of buttonConfig" 
+              [config]="{ label: button.label, action: button.action }"
+              (click)="button.action()">
   </app-button>
 </div>

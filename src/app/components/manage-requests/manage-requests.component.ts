@@ -31,7 +31,7 @@ export class ManageRequestsComponent implements OnInit {
   router = inject(Router);
   userService = inject(UserService); 
   carService = inject(CarService);
-  carRequstService = inject(CarRequestService);
+  carRequestService = inject(CarRequestService);
   datePipe = inject(DatePipe);
   
 
@@ -44,10 +44,11 @@ export class ManageRequestsComponent implements OnInit {
         this.users = users;
         console.log('Users:', this.users);
   
-        this.carRequstService.getRequests().subscribe(requests => {
+        this.carRequestService.getRequests().subscribe(requests => {
           console.log('Requests:', requests);
           this.requestsCar = requests.map(request => {
 
+            
             const user = this.users.find(u => u.id === request.userID);
           
             console.log('User found', user)
@@ -101,7 +102,7 @@ export class ManageRequestsComponent implements OnInit {
   buttonConfigs: ButtonConfig[] = [
     { 
       label: 'Approva', 
-      action: (id: number) => this.updateRequest(id, 'APPROVATO'), 
+      action: (id: number) => this.updateRequest(id, 'APPROVATA'), 
       type: 'button', 
       style: {
         color: 'white',
@@ -111,7 +112,7 @@ export class ManageRequestsComponent implements OnInit {
     },
     { 
       label: 'Rifiuta', 
-      action: (id: number) => this.updateRequest(id, 'RIFIUTATO'), 
+      action: (id: number) => this.updateRequest(id, 'RIFIUTATA'), 
       type: 'button', 
       disabled: false, 
       style: {
@@ -128,7 +129,6 @@ export class ManageRequestsComponent implements OnInit {
     if (request) {
       this.requestService.updateRequestStatus(id, status).subscribe(updatedRequest => {
         request.status = updatedRequest!.status;  
-        alert(`Richiesta ${id} ${status}`);
       });
     }
   }
@@ -136,10 +136,19 @@ export class ManageRequestsComponent implements OnInit {
   handleActionClick(action: string, data: any) {
     if (action === 'Modifica') {
       this.router.navigate(['/manage-request', data.id], {state: {userData: data}});
-    }
-
-    if (action === 'Elimina') {
-      console.log('Azione di elimina inviata');
+    } else if (action === 'Elimina') {
+      this.carRequestService.deleteRequest(data.id).subscribe({
+        next: () => {
+          this.requestsCar = this.requestsCar.filter(requestsCar => requestsCar.id !== data.id);
+        },
+        error: (err) => {
+          console.error('Errore durante l\'eliminazione dell\'auto:', err);
+        }
+      });
+    } else if (action === 'Approva') {
+      this.updateRequest(data.id, 'APPROVATA');
+    } else if (action === 'Rifiuta') {
+      this.updateRequest(data.id, 'RIFIUTATA');
     }
   }
 }

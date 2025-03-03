@@ -11,6 +11,9 @@ export class CarService {
   private apiUrl = 'http://localhost:8080/admin/add-car';
   private lastIdUrl = 'http://localhost:8080/admin/last-car-id';
   private apiCars = 'http://localhost:8080/api/cars/allcars';
+  private apiUrlEditCars = 'http://localhost:8080/admin/edit-car';  
+  private apiUrlDeleteCa = 'http://localhost:8080/api/cars';  
+
 
   http = inject(HttpClient)
 
@@ -25,12 +28,17 @@ export class CarService {
     );
   }
 
+  updateCar(car: Car): Observable<Car>{
+    return this.http.put<Car>(`${this.apiUrlEditCars}/${car.id}`, car);
+  }
+
   getLastId(): Observable<number>{
     return this.http.get<number>(this.lastIdUrl);
   }
 
   deleteCar(id?: number): Observable<Car>{
-    return this.http.delete<Car>(`${this.apiUrl}/${id}`);
+    console.log('ID received:', id)
+    return this.http.delete<Car>(`${this.apiUrlDeleteCa}/${id}`);
   }
 
   getCars(): Observable<Car[]> {

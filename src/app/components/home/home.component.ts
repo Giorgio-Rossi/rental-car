@@ -11,6 +11,7 @@ import { Car } from '../../interface/car.model.interface';
 import { User } from '../../interface/user.model.interface';
 import { ManageCarsService } from '../../service/manage-cars.service';
 import { getButtonConfigsAdmin, getButtonConfigsUser, getTableAdminConfig, getTableCustomerConfig } from '../config/home-config';
+import { CarRequest } from '../../interface/CarRequest.model.interface';
 
 @Component({
   selector: 'app-home',
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit {
   userType: string = '';
   isLogged: boolean = false;
   cars: Car[] = [];
+  requestsCar: CarRequest[] = [];
   requests: any[] = [];
   users: User[] = [];
   isAdmin: boolean = false;
@@ -112,7 +114,14 @@ export class HomeComponent implements OnInit {
     
       this.router.navigate(['/edit-request', row.id], { state: { requestData: row } });
     } else if (action === 'Cancella') {
-      console.log('Cancella richiesta:', row.id);
+        this.carRequestService.deleteRequest(row.id).subscribe({
+          next: () => {
+            this.requests = this.requests.filter(request => request.id !== row.id);
+          },
+        error: (err) => {
+          console.error('Errore durante l\'eliminazione dell\'auto:', err);
+        }
+        }); 
     }
   }
 
@@ -137,4 +146,32 @@ export class HomeComponent implements OnInit {
     }
   }
      */
+
+  refreshRequests(): void {
+    this.carRequestService.getRequests().subscribe(requests => {
+      this.requestsCar = requests.map(request => {
+        const user = this.users.find(u => u.id === request.userID);
+        let carDetails = '';
+  
+        if (Array.isArray(request.carID)) {
+          carDetails = request.carID.map(carID => {
+            const car = this.cars.find(car => car.id === carID);
+            return car ? car.licensePlate : 'Unknown';
+          }).join(', ');
+        } else {
+          const car = this.cars.find(car => car.id === request.carID);
+          carDetails = car ? (car.licensePlate ?? 'Unknown') : 'Unknown';
+        }
+  
+        return {
+          ...request,
+          userFullName: user?.fullName || 'Unknown',  
+          start_reservation: request.startReservation ? this.datePipe.transform(request.startReservation, "dd/MM/yyyy") : null,
+          end_reservation: request.endReservation ? this.datePipe.transform(request.endReservation, "dd/MM/yyyy") : null,
+          carDetails: carDetails || 'Unknown'
+        };
+      });
+    });
+  }
+  
 }

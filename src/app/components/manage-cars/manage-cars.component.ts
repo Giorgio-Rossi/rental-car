@@ -77,10 +77,12 @@ export class ManageCarsComponent implements OnInit {
     if (action === 'Elimina') {
       this.carService.deleteCar(data?.id).subscribe({
         next: () => {
-          console.log('Utente eliminato con successo');
+          console.log('Auto eliminata con successo');
+          this.cars = this.cars.filter(car => car.id !== data?.id);
+
         },
         error: (err) => {
-          console.error('Errore durante l\'eliminazione dell\'utente:', err);
+          console.error('Errore durante l\'eliminazione dell\'auto:', err);
         }
       });
     }

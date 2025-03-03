@@ -9,7 +9,7 @@
         <select id="car_id" formControlName="car_id">
           <option value="" disabled selected>Seleziona un'auto</option>
           <option *ngFor="let car of availableCars" [value]="car.id">
-            {{ car.brand }} - {{ car.model }} - {{ car.license_plate }}
+            {{ car.brand }} - {{ car.model }} - {{ car.licensePlate }}
           </option>
         </select>
       </div>

@@ -6,6 +6,7 @@ import { User } from '../../interface/user.model.interface';
 import { FormsModule } from '@angular/forms';
 import { TitleCasePipe } from '@angular/common';
 import { ButtonComponent } from "../button/button.component";
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-form-view-edit-users',
@@ -41,7 +42,7 @@ export class FormViewEditUsersComponent implements OnInit {
   }
 
   buttonConfig = [
-    {label: 'Salva', action: () => console.log('Azione di salvataggio')},
+    {label: 'Salva', action: () => this.saveUser()},
     {label: 'Chiudi', action: () => this.router.navigate(['/manage-users'])}
   ]
 
@@ -60,4 +61,21 @@ export class FormViewEditUsersComponent implements OnInit {
     console.log('Status passato come param: ', event.target)
   }
 
+  saveUser(): void {
+    if (this.userData) {
+      this.userService.updateUser(this.userData).subscribe({
+        next: (updatedUser) => {
+          console.log('Utente aggiornato con successo:', updatedUser);
+          this.router.navigate(['/manage-users']);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error('Errore durante l\'aggiornamento dell\'utente:', error.message);
+        },
+        complete: () => {
+          console.log('Operazione completata');
+        }
+      });
+    }
+  }
+  
 }

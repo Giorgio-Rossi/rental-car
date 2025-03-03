@@ -2,13 +2,13 @@
   <h3>Modifica Utente</h3>
   <form>
     <div *ngFor="let key of objectKeys(userData)">
-      <div class="form-group" *ngIf="key !== 'role'">
+      <div class="form-group" *ngIf="key !== 'role' && key !== 'id'">
         <label>{{ capitalize(key) }}</label>
-        <input type="text" [value]="userData[key]" />
+        <input type="text" [(ngModel)]="userData[key]" [name]="key" />
       </div>
     </div>
 
-    <div *ngIf="userData.role" class="form-group">
+    <div class="form-group">
       <label for="role">Ruolo utente</label>
       <select id="role" [(ngModel)]="userData.role" name="role">
         <option *ngFor="let role of roleOptions" [value]="role">
@@ -17,10 +17,9 @@
       </select>
     </div>
 
- <app-button
-  *ngFor="let button of buttonConfig"
-  [config]="{ label: button.label, action: button.action }">
-</app-button>
-
+    <app-button
+      *ngFor="let button of buttonConfig"
+      [config]="{ label: button.label, action: button.action }">
+    </app-button>
   </form>
 </div>

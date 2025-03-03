@@ -3,8 +3,8 @@ export interface CarRequest {
     userID: number;
     carID: number;
     status: string;
-    startReservation: Date | null;
-    endReservation: Date | null;
+    startReservation: Date;
+    endReservation: Date;
     created_at: Date  | null;
     updated_at: Date | null;
 

@@ -1,10 +1,10 @@
 <div *ngIf="carData" class="form-container">
   <h3>{{ title }}</h3>
-  <form >
+  <form>
     <div *ngFor="let key of objectKeys(carData)">
-      <div class="form-group" *ngIf="key !== 'status'">
+      <div class="form-group" *ngIf="key !== 'status' && key !== 'id'">
         <label>{{ key }}</label>
-        <input type="text" [value]="carData[key]"/>
+        <input type="text" [(ngModel)]="carData[key]" [name]="key" />
       </div>
 
       <div *ngIf="key === 'status'">

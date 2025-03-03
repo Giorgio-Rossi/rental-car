@@ -9,11 +9,12 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UserService {
   private apiUrl = 'http://localhost:8080/users';  
+  private apiUrlSaveUser = 'http://localhost:8080/admin/edit-user';  
 
   http = inject(HttpClient)
   
   updateUser(user: User): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/${user.id}`, user);
+    return this.http.put<User>(`${this.apiUrlSaveUser}/${user.id}`, user);
   }
   
   getUserById(id: number): Observable<User> {

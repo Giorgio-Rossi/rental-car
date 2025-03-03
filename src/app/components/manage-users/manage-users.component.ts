@@ -63,6 +63,7 @@ export class ManageUsersComponent implements OnInit {
       this.userService.deleteUser(data.id).subscribe({
         next: () => {
           console.log('Utente eliminato con successo');
+          this.users = this.users.filter(user => user.id !== data.id);
         },
         error: (err) => {
           console.error('Errore durante l\'eliminazione dell\'utente:', err);

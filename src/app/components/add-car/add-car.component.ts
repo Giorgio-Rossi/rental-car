@@ -13,17 +13,17 @@ import { CarService } from '../../service/car.service.service';
 })
 
 export class AddCarComponent implements OnInit {
-
   router = inject(Router);
   authService = inject(AuthService)
   carService = inject(CarService)
 
   car = {
-    id: 0,
+    id: 0, 
     brand: '',
     model: '',
-    license_plate: null,
-    status: 'Disponibile'
+    licensePlate: null,
+    status: 'Disponibile',
+    updatedAt: new Date().toISOString()
   };
   
   ngOnInit(): void {
@@ -59,8 +59,10 @@ export class AddCarComponent implements OnInit {
       id:0,
       brand: '',
       model: '',
-      license_plate: null,
-      status: 'Disponibile'
+      licensePlate: null,
+      status: 'Disponibile',
+      updatedAt: new Date().toISOString()
+
     };
   }
 }

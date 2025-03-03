@@ -17,7 +17,7 @@ export class CarRequestService {
   http=inject(HttpClient)
 
   private apiUrl = 'http://localhost:8080/api/car-request';  
-  private apiUrlAllCarRequest = 'http://localhost:8080/api/car-request/all-requests';  
+  private apiUrlAllCarRequest = 'http://localhost:8080/api/car-requests/all-requests';  
   private apiUrlAdminManageRequest = 'http://localhost:8080/admin/manage-request'; 
   
   getRequests(): Observable<CarRequest[]> {

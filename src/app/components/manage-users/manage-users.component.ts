@@ -60,7 +60,14 @@ export class ManageUsersComponent implements OnInit {
     }
 
     if (action === 'Elimina') {
-      console.log('Azione di elimina inviata');
+      this.userService.deleteUser(data.id).subscribe({
+        next: () => {
+          console.log('Utente eliminato con successo');
+        },
+        error: (err) => {
+          console.error('Errore durante l\'eliminazione dell\'utente:', err);
+        }
+      });
     }
   }
 }

@@ -13,8 +13,8 @@
     <tbody>
       <tr *ngFor="let request of requestsCar">
         <td>{{ request.id }}</td>
-        <td>{{ request.user_id }}</td>
-        <td>{{ request.car_id }}</td>
+        <td>{{ request['userFullName'] }}</td>
+        <td>{{ request['carDetails'] }}</td>
         <td>{{ request.status }}</td>
         <td>
           <ng-container *ngFor="let action of tableConfig.actions?.actions">

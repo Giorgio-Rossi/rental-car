@@ -2,8 +2,9 @@ export interface Car {
     id: number;
     brand: string;
     model: string;
-    license_plate: string | null;
+    licensePlate: string | null;
     status: string;
+    updatedAt: string | null;
 
     [key: string]: any;
 }

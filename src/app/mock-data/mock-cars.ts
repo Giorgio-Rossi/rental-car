@@ -5,35 +5,42 @@ export const MOCK_CARS: Car[] = [
         id: 1, 
         brand: 'Toyota',
         model: 'Corolla',
-        license_plate: 'AB123CD',
-        status: 'Disponibile'
+        licensePlate: 'AB123CD',
+        status: 'Disponibile',
+        updatedAt: null
     },
     {
         id: 2, 
         brand: 'Ford',
         model: 'Focus',
-        license_plate: 'EF456GH',
-        status: 'In manutenzione'
+        licensePlate: 'EF456GH',
+        status: 'In manutenzione',
+        updatedAt: null
+
     },
     {
         id: 3,
         brand: 'Volkswagen',
         model: 'Golf',
-        license_plate: 'IJ789KL',
-        status: 'Noleggiata'
+        licensePlate: 'IJ789KL',
+        status: 'Noleggiata',
+        updatedAt: null
+
     },
     {
         id: 4, 
         brand: 'Fiat',
         model: 'Panda',
-        license_plate: 'MN012OP',
-        status: 'Disponibile'
+        licensePlate: 'MN012OP',
+        status: 'Disponibile',
+        updatedAt: null
     },
     {
         id: 5, 
         brand: 'Honda',
         model: 'Civic',
-        license_plate: 'QR345ST',
-        status: 'In manutenzione'
+        licensePlate: 'QR345ST',
+        status: 'In manutenzione',
+        updatedAt: null
     }
 ];

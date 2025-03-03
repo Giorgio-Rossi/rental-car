@@ -7,7 +7,7 @@ export function getTableAdminConfig(): TableConfig {
   return {
     headers: [
       { key: 'id', columnName: 'Codice richiesta', type: 'Number', ordinable: true, filtrable: true },
-      { key: 'car_id', columnName: 'Macchina', type: 'Number', ordinable: true, filtrable: true },
+      { key: 'carDetails', columnName: 'Targa auto', type: 'String', ordinable: true, filtrable: true },
       { key: 'fullName', columnName: 'Cliente', type: 'String', ordinable: true, filtrable: true },
       { key: 'status', columnName: 'Stato prenotazione', type: 'Date', ordinable: false, filtrable: true }
     ],

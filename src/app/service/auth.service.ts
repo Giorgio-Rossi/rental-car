@@ -1,14 +1,21 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { MOCK_USERS } from '../mock-data/mock-users';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
 
-  constructor(private router : Router) { }
+  private apiUrl = 'http://localhost:8080/login/login';  
 
+  router = inject(Router)
+  http = inject(HttpClient)
+
+  /*
   login(username: string, password: string): boolean{
     console.log('username:', username)
     console.log('password:',password)
@@ -19,12 +26,32 @@ export class AuthService {
       return true;
     }
     return false;
-  }
+  } 
 
   logout(): void {
     localStorage.removeItem('currentUser');
     this.router.navigate(['/login'])
   }
+  */
+ 
+  login(username: string, password: string): Observable<any> {
+    const body = { username, password };
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<any>(this.apiUrl, body.toString(), { headers });
+  }
+
+  logout(username: string): Observable<any> {
+    const body = new URLSearchParams();
+    body.set('username', username);
+  
+    return this.http.post<any>(`${this.apiUrl}/logout`, body.toString());
+  }
+  
+  
 
   isLoggedIn(): boolean {
     return localStorage.getItem('currentUser') !== null;

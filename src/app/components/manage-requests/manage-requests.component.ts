@@ -1,44 +1,91 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
-import { ButtonComponent } from "../button/button.component";
+import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { ButtonConfig } from '../button/button-config.interface';
 import { CarRequestService } from '../../service/CarRequest.service';
 import { CarRequest } from '../../interface/CarRequest.model.interface';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
-import { TableComponent } from "../table/table.component";
 import { TableConfig } from '../table/table-config.interface';
+import { UserService } from '../../service/user.service';
+import { CarService } from '../../service/car.service.service';
+import { Car } from '../../interface/car.model.interface';
+import { User } from '../../interface/user.model.interface';
+import { ManageCarsService } from '../../service/manage-cars.service';
 
 @Component({
   selector: 'app-manage-requests',
   imports: [NgFor, NgIf],
   templateUrl: './manage-requests.component.html',
-  styleUrls: ['./manage-requests.component.css']
+  styleUrls: ['./manage-requests.component.css'],
+  providers: [DatePipe]
 })
 
 export class ManageRequestsComponent implements OnInit {
   requestsCar: CarRequest[] = [];  
- 
+  users: User[] = []; 
+  cars: Car[] = [];
+  
+  manageCarsService = inject(ManageCarsService)
   requestService = inject(CarRequestService);
   authService = inject(AuthService);
   router = inject(Router);
+  userService = inject(UserService); 
+  carService = inject(CarService);
+  carRequstService = inject(CarRequestService);
+  datePipe = inject(DatePipe);
+  
 
   ngOnInit(): void {
-    this.requestService.getRequests().subscribe(requests => {
-      this.requestsCar = requests;
+    this.manageCarsService.getAllCars().subscribe(cars => {
+      this.cars = cars;
+      console.log('Cars:', this.cars);
+  
+      this.userService.getUsers().subscribe(users => {
+        this.users = users;
+        console.log('Users:', this.users);
+  
+        this.carRequstService.getRequests().subscribe(requests => {
+          console.log('Requests:', requests);
+          this.requestsCar = requests.map(request => {
+
+            const user = this.users.find(u => u.id === request.userID);
+          
+            console.log('User found', user)
+            let carDetails = '';
+            if (Array.isArray(request.carID)) {
+              carDetails = request.carID.map(carID => {
+                const car = this.cars.find(car => car.id === carID);
+                return car ? car.licensePlate : 'Unknown';
+              }).join(', ');
+            } else {
+              const car = this.cars.find(car => car.id === request.carID);
+              carDetails = car ? (car.licensePlate ?? 'Unknown') : 'Unknown';
+            }
+          
+            return {
+              ...request,
+              userFullName: user?.fullName || 'Unknown',  
+              start_reservation: request.startReservation ? this.datePipe.transform(request.startReservation, "dd/MM/yyyy") : null,
+              end_reservation: request.endReservation ? this.datePipe.transform(request.endReservation, "dd/MM/yyyy") : null,
+              carDetails: carDetails || 'Unknown'
+            };
+          });
+
+          console.log(this.requestsCar); 
+        });
+      });
     });
 
-    const userRole = this.authService.getUserType(); 
+    const userRole = this.authService.getUserType();
     if (userRole !== 'ADMIN') {
       this.router.navigate(['/home']);
     }
   }
-  
   tableConfig: TableConfig = {
     headers: [
       { key: 'id', columnName: 'ID', type: 'Number', ordinable: true },
-      { key: 'user_id', columnName: 'Cliente', type: 'String' },
-      { key: 'car_id', columnName: 'Auto richiesta', type: 'String' },
+      { key: 'fullName', columnName: 'Cliente', type: 'String' },
+      { key: 'carsDetail', columnName: 'Auto richiesta', type: 'String' },
       { key: 'status', columnName: 'Stato', type: 'String', ordinable: true, filtrable: true }
     ],
     currentByDefault: { key: 'id', orderby: 'asc' },

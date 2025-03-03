@@ -48,18 +48,13 @@ export class HomeComponent implements OnInit {
     if (currentUser) {
       this.currentUserRole = currentUser.role;
       this.username = currentUser.username;
-      if(currentUser.type === 'ADMIN'){
+      if (currentUser.type === 'ADMIN') {
         this.isAdmin = true;
       }
     }
   
     this.isLogged = this.authService.checkLogin();
     console.log('Is logged:', this.isLogged);
-
-    this.tableAdminConfig = getTableAdminConfig();
-    this.tableCustomerConfig = getTableCustomerConfig(this.carRequestService);
-    this.buttonConfigsAdmin = getButtonConfigsAdmin(this.router);
-    this.buttonConfigsUser = getButtonConfigsUser(this.router);
   
     if (this.isLogged) {
       this.userType = this.authService.getUserType();
@@ -73,32 +68,44 @@ export class HomeComponent implements OnInit {
       this.userService.getUsers().subscribe(users => {
         this.users = users;
         console.log('Users:', this.users);
-        
-        this.carRequestService.getRequests().subscribe(requests => {
-          this.requests = requests.map(request => {
-        
-            const user = this.users.find(u => u.id === request.user_id);
-        
-            const carDetails = request.car_id.map(carId => {
-              const car = this.cars.find(car => car.id === carId);  
-              return car ? car.model : 'Unknown';  
-            }).join(', ');
   
-            const updatedRequest = {
+        this.carRequestService.getRequests().subscribe(requests => {
+          console.log('Requests:', requests);
+          this.requests = requests.map(request => {
+
+            const user = this.users.find(u => u.id === request.userID);
+          
+            let carDetails = '';
+            if (Array.isArray(request.carID)) {
+              carDetails = request.carID.map(carID => {
+                const car = this.cars.find(car => car.id === carID);
+                return car ? car.licensePlate : 'Unknown';
+              }).join(', ');
+            } else {
+              const car = this.cars.find(car => car.id === request.carID);
+              carDetails = car ? (car.licensePlate ?? 'Unknown') : 'Unknown';
+            }
+          
+            return {
               ...request,
               fullName: user?.fullName || 'Unknown',
-              start_reservation: request.start_reservation ? this.datePipe.transform(request.start_reservation, "dd/MM/yyyy") : null,
-              end_reservation: request.end_reservation ? this.datePipe.transform(request.end_reservation, "dd/MM/yyyy") : null,
-              carDetails: carDetails || 'Unknown'  
+              start_reservation: request.startReservation ? this.datePipe.transform(request.startReservation, "dd/MM/yyyy") : '',
+              end_reservation: request.endReservation ? this.datePipe.transform(request.endReservation, "dd/MM/yyyy") : '',
+              carDetails: carDetails || 'Unknown'
             };
-  
-            return updatedRequest;
           });
+      
+    this.tableAdminConfig = getTableAdminConfig();
+    this.tableCustomerConfig = getTableCustomerConfig(this.carRequestService);
+    this.buttonConfigsAdmin = getButtonConfigsAdmin(this.router);
+    this.buttonConfigsUser = getButtonConfigsUser(this.router);
+  
+          console.log('Updated requests:', this.requests);
         });
       });
     });
   }
-
+  
 
   handleActionClick(action: string, row: any): void {
     if (action === 'Modifica') {

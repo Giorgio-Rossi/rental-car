@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Car } from '../../interface/car.model.interface';
 import { ButtonComponent } from "../button/button.component";
@@ -17,7 +17,9 @@ export class FormViewEditCarComponent implements OnInit {
   carData!: Car;
   statusOptions: string[] = ['Disponibile', 'Non disponibile', 'In manutenzione', ]; 
 
-  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService) {}
+  route = inject(ActivatedRoute);
+  router = inject(Router);
+  authService = inject(AuthService);
 
 
   buttonConfig = [

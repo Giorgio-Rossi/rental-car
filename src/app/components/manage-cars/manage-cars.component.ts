@@ -7,6 +7,7 @@ import { ManageCarsService } from '../../service/manage-cars.service';
 import { Car } from '../../interface/car.model.interface';
 import { NavbarComponent } from "../navbar/navbar.component";
 import { AuthService } from '../../service/auth.service';
+import { CarService } from '../../service/car.service.service';
 
 @Component({
   selector: 'app-manage-cars',
@@ -19,6 +20,7 @@ export class ManageCarsComponent implements OnInit {
   router = inject(Router);
   requestService = inject(ManageCarsService);
   authService = inject(AuthService);
+  carService = inject(CarService)
   
   cars: Car[] = [];
 
@@ -27,7 +29,7 @@ export class ManageCarsComponent implements OnInit {
       { key: 'id', columnName: 'ID', type: 'Number', ordinable: true, filtrable: true},
       { key: 'brand', columnName: 'Marca ', type: 'String', ordinable: true, filtrable: true},
       { key: 'model', columnName: 'Modello', type: 'String', ordinable: true, filtrable: true},
-      { key: 'license_plate', columnName: 'Targa', type: 'String', ordinable: true, filtrable: true},
+      { key: 'licensePlate', columnName: 'Targa', type: 'String', ordinable: true, filtrable: true},
       { key: 'status', columnName: 'Stato', type: 'String', ordinable: true, filtrable: true},
 
 
@@ -59,6 +61,7 @@ export class ManageCarsComponent implements OnInit {
 
   loadCars(): void {
     this.requestService.getAllCars().subscribe(cars => {
+      console.log('Dati ricevuti:', cars)
       this.cars = cars;  
     });
   }
@@ -72,7 +75,14 @@ export class ManageCarsComponent implements OnInit {
 
     }
     if (action === 'Elimina') {
-      console.log('Azione di elimina inviata')
+      this.carService.deleteCar(data?.id).subscribe({
+        next: () => {
+          console.log('Utente eliminato con successo');
+        },
+        error: (err) => {
+          console.error('Errore durante l\'eliminazione dell\'utente:', err);
+        }
+      });
     }
   }
 }

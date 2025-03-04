@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { MOCK_USERS } from '../mock-data/mock-users';  
 import { User } from '../interface/user.model.interface';  
 import { HttpClient } from '@angular/common/http';
 

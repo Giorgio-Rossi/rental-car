@@ -2,6 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { User } from '../interface/user.model.interface';
+import { UserResponse } from '../interface/UserResponse';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -19,42 +21,54 @@ export class AuthService {
   http = inject(HttpClient);
 
 
-    login(username: string, password: string): Observable<any> {
-      const body = new HttpParams()
-        .set('username', username)
-        .set('password', password);
-
-      return this.http.post(
-        this.apiUrl,
-        body.toString(),
-        {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }),
-          withCredentials: true,
-          responseType: 'text'
-        }
-      ).pipe(
-        tap(response => {
-          console.log('Login response as text:', response);
-          try {
-            const user = JSON.parse(response); 
-            this.setUser(user); 
-          } catch (e) {
-            console.error('Errore durante il parsing della risposta:', e);
-          }
+  login(username: string, password: string): Observable<any> {
+    const body = new HttpParams()
+      .set('username', username)
+      .set('password', password);
+  
+    return this.http.post<UserResponse>(  
+      this.apiUrl,
+      body.toString(),
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/x-www-form-urlencoded'
         }),
-        catchError(error => {
-          console.error('Error details:', error); 
-          let errorMessage = 'An error occurred during login';
-          if (error.error && error.error.message) {
-            errorMessage = error.error.message;
-          }
-          return throwError(errorMessage);
-        })
-      );
-    }
+        withCredentials: true,
+        responseType: 'json'  
+      }
+    ).pipe(
+      tap((response: UserResponse) => {  
+        console.log('Login response:', response);
+  
+        if (response && response.id) {
+          const user: User = {
+            id: response.id,
+            username: response.username,
+            role: response.role,
+            fullName: response.fullName,
+            email: '',
+            password: ''
+          };
+  
+          this.setUser(user); 
+        } else {
+          console.error('Login failed: Invalid response format', response);
+        }
+      }),
+      catchError(error => {
+        console.error('Error details:', error);
+        let errorMessage = 'An error occurred during login';
+        if (error.error && error.error.message) {
+          errorMessage = error.error.message;
+        }
+        return throwError(errorMessage);
+      })
+    );
+  }
+  
+  
 
+  
     logout(username: string): Observable<any> {
       const body = new HttpParams().set('username', username);
     

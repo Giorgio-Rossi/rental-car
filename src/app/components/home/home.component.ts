@@ -50,7 +50,13 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.tableAdminConfig = getTableAdminConfig();
+    this.tableCustomerConfig = getTableCustomerConfig(this.carRequestService);
+    this.buttonConfigsAdmin = getButtonConfigsAdmin(this.router);
+    this.buttonConfigsUser = getButtonConfigsUser(this.router);
+
     const currentUser = this.authService.getCurrentUser();
+
     if (currentUser) {
       this.currentUserRole = currentUser.role;
       this.username = currentUser.username;
@@ -100,13 +106,6 @@ export class HomeComponent implements OnInit {
               carDetails: carDetails || 'Unknown'
             };
           });
-      
-    this.tableAdminConfig = getTableAdminConfig();
-    this.tableCustomerConfig = getTableCustomerConfig(this.carRequestService);
-    this.buttonConfigsAdmin = getButtonConfigsAdmin(this.router);
-    this.buttonConfigsUser = getButtonConfigsUser(this.router);
-  
-          console.log('Updated requests:', this.requests);
         });
       });
     });

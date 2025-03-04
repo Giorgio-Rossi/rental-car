@@ -20,7 +20,7 @@ export class NavbarComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  /*
+  
   logout(): void {
     if (this.username) {
       this.authService.logout(this.username).subscribe(
@@ -37,5 +37,5 @@ export class NavbarComponent {
       this.router.navigate(['/login']);
     }
   }
-    */
+    
 }

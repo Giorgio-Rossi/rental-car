@@ -34,25 +34,26 @@ export class LoginComponent {
   togglePasswordVisibility(): void {
     this.passwordVisibile = !this.passwordVisibile;
   }
-
   onSubmit(): void {
     const { username, password } = this.form;
     this.authService.login(username, password).subscribe({
-      next: data => {
+      next: (data: any) => {  
         console.log('Login successful:', data);
-        if (data.startsWith('Login successful')) {
+        
+        if (data && data.id) {
           const user = {
-            username: username,
-            role: data.includes('Role: ') ? data.split('Role: ')[1] : 'UNKNOWN', 
+            username: data.username, 
+            role: data.role || 'UNKNOWN', 
           };
-  
+    
           this.storageService.saveUser(user);
           this.isLoginFailed = false;
           this.isLoggedIn = true;
+          console.log('Navigating to /home');
           this.router.navigate(['/home']);
         } else {
           this.isLoginFailed = true;
-          this.errorMessage = data; 
+          this.errorMessage = 'Login failed';
         }
       },
       error: err => {

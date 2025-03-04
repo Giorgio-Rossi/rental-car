@@ -1,14 +1,39 @@
-<div class="login-container">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <div class="login-container">
     <h2>Login</h2>
-    <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
-    <div class="form-group">
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" [(ngModel)]="username" required>
-    </div>
-    <div class="form-group">
+        <input
+          type="text"
+          id="username"
+          name="username"
+          [(ngModel)]="form.username"
+          required
+        />
+      </div>
+      <div class="form-group password-group">
         <label for="password">Password</label>
-        <input type="text" id="password" name="password" [(ngModel)]="password" required>
-    </div>
-    <button type="submit" [disabled]="!loginForm.form.valid">Login</button>
+        <div class="input-icon-wrapper">
+          <input
+            [type]="passwordVisibile ? 'text' : 'password'"
+            id="password"
+            name="password"
+            [(ngModel)]="form.password"
+            required
+          />
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="togglePasswordVisibility()"
+            aria-label="Toggle password visibility">
+            <i class="fa" [ngClass]="{'fa-eye': !passwordVisibile, 'fa-eye-slash': passwordVisibile}"></i>
+          </button>
+        </div>
+      </div>
+      <button type="submit" [disabled]="!loginForm.form.valid">Login</button>
     </form>
-</div>
+  </div>
+  

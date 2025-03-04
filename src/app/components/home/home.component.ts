@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { UserService } from '../../service/user.service'; 
 import { NgIf, DatePipe, CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpParams } from '@angular/common/http';
 import { TableComponent } from "../table/table.component";
 import { CarRequestService } from '../../service/CarRequest.service';
 import { Router } from '@angular/router';
@@ -12,6 +12,8 @@ import { User } from '../../interface/user.model.interface';
 import { ManageCarsService } from '../../service/manage-cars.service';
 import { getButtonConfigsAdmin, getButtonConfigsUser, getTableAdminConfig, getTableCustomerConfig } from '../config/home-config';
 import { CarRequest } from '../../interface/CarRequest.model.interface';
+import { StorageService } from '../../service/storage.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -35,6 +37,8 @@ export class HomeComponent implements OnInit {
   tableCustomerConfig: any;
   buttonConfigsAdmin: any;
   buttonConfigsUser: any;
+  storageService = inject(StorageService)
+
   
   constructor(
     public authService: AuthService,
@@ -128,24 +132,27 @@ export class HomeComponent implements OnInit {
   getCarById(carId: number): Car | undefined {
     return this.cars.find(car => car.id === carId);
   }
-/*
+  
+  private unsubscribe$ = new Subject<void>();
+    
   logout(): void {
-    if (this.username) {
-      this.authService.logout(this.username).subscribe(
-        response => {
-          localStorage.removeItem('currentUser');
-          this.router.navigate(['/login']);
-        },
-        error => {
-          console.error('Errore nel logout:', error);
-        }
-      );
-    } else {
-      localStorage.removeItem('currentUser');
-      this.router.navigate(['/login']);
-    }
+    const username = this.storageService.getUser().username;
+    this.authService.logout(username).pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe({
+      next: response => {
+        console.log('Logout successful', response);
+        localStorage.removeItem('currentUser');
+        this.router.navigate(['/login']);
+      },
+      error: error => {
+        console.error('Logout failed', error);
+      }
+    });
   }
-     */
+  
+
+    
 
   refreshRequests(): void {
     this.carRequestService.getRequests().subscribe(requests => {

@@ -1,74 +1,111 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, Observable, tap, throwError } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class AuthService {
 
   private apiUrl = 'http://localhost:8080/login/login';  
+  private logoutUrl = 'http://localhost:8080/login/logout'; 
+  
+  router = inject(Router);
+  http = inject(HttpClient);
 
-  router = inject(Router)
-  http = inject(HttpClient)
 
-  /*
-  login(username: string, password: string): boolean{
-    console.log('username:', username)
-    console.log('password:',password)
-    const user = MOCK_USERS.find(u => (u.username === username || u.email === username) && u.password === password);
-    if(user) {
-      console.log()
-      localStorage.setItem('currentUser', JSON.stringify(user))
-      return true;
+    login(username: string, password: string): Observable<any> {
+      const body = new HttpParams()
+        .set('username', username)
+        .set('password', password);
+
+      return this.http.post(
+        this.apiUrl,
+        body.toString(),
+        {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }),
+          withCredentials: true,
+          responseType: 'text'
+        }
+      ).pipe(
+        tap(response => {
+          console.log('Login response as text:', response);
+          try {
+            const user = JSON.parse(response); 
+            this.setUser(user); 
+          } catch (e) {
+            console.error('Errore durante il parsing della risposta:', e);
+          }
+        }),
+        catchError(error => {
+          console.error('Error details:', error); 
+          let errorMessage = 'An error occurred during login';
+          if (error.error && error.error.message) {
+            errorMessage = error.error.message;
+          }
+          return throwError(errorMessage);
+        })
+      );
     }
-    return false;
-  } 
 
-  logout(): void {
-    localStorage.removeItem('currentUser');
-    this.router.navigate(['/login'])
-  }
-  */
- 
-  login(username: string, password: string): Observable<any> {
-    const body = { username, password };
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-
-    return this.http.post<any>(this.apiUrl, body.toString(), { headers });
-  }
-
-  logout(username: string): Observable<any> {
-    const body = new URLSearchParams();
-    body.set('username', username);
-  
-    return this.http.post<any>(`${this.apiUrl}/logout`, body.toString());
-  }
-  
-  
-
+    logout(username: string): Observable<any> {
+      const body = new HttpParams().set('username', username);
+    
+      return this.http.post(
+        this.logoutUrl,
+        body.toString(),
+        {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/x-www-form-urlencoded' 
+          }),
+          withCredentials: true,
+          responseType: 'text' 
+        }
+      ).pipe(
+        tap(response => {
+          console.log('Logout response:', response);
+        }),
+        catchError(error => {
+          console.error('Error details:', error); 
+          let errorMessage = 'An error occurred during logout';
+          if (error.error && error.error.message) {
+            errorMessage = error.error.message;
+          }
+          return throwError(errorMessage);
+        })
+      );
+    }
+    
   isLoggedIn(): boolean {
     return localStorage.getItem('currentUser') !== null;
   }
 
   getUserType(): string {
     const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    console.log('User from localStorage:', user); // Controlla cosa c'è in localStorage
     return user.role;
   }
-  
+
   getCurrentUser(): any {
     return JSON.parse(localStorage.getItem('currentUser') || '{}');
   }
-  
+
   checkLogin(): boolean {
     const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
     return user && user.username && user.password ? true : false;
+  }
+
+  setUser(user: any): void {
+    localStorage.setItem('currentUser', JSON.stringify(user));
+  }
+
+  removeUser(): void {
+    localStorage.removeItem('currentUser');
   }
 }

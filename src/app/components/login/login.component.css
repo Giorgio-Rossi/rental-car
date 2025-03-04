@@ -1,3 +1,30 @@
+.input-icon-wrapper {
+  position: relative;
+}
+
+.input-icon-wrapper input {
+  width: 100%;
+  padding-right: 40px; 
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.toggle-password i {
+  font-size: 18px;
+  color: #007bff;
+}
+
 .login-container {
   max-width: 300px;
   margin: auto;
@@ -10,7 +37,8 @@
   margin-bottom: 15px;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"],
+input[type="password"] {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -19,7 +47,7 @@ input[type="text"], input[type="password"] {
   margin-top: 5px;
 }
 
-button {
+button[type="submit"] {
   width: 100%;
   padding: 10px;
   background-color: #007bff;
@@ -30,11 +58,11 @@ button {
   transition: background-color 0.3s;
 }
 
-button:disabled {
+button[type="submit"]:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
 
-button:hover {
+button[type="submit"]:hover {
   background-color: #0056b3;
 }

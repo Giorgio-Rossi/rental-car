@@ -5,8 +5,8 @@ export interface CarRequest {
     status: string;
     startReservation: string;
     endReservation: string;
-    created_at: Date  | null;
-    updated_at: Date | null;
+    createdAt: string;
+    updatedAt: string;
 
     [key: string]: any;
 

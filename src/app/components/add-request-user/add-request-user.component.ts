@@ -4,14 +4,14 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgModel, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'; 
 import { AuthService } from '../../service/auth.service';
-import { MOCK_CARS } from '../../mock-data/mock-cars';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { Car } from '../../interface/car.model.interface';
 import { ManageCarsService } from '../../service/manage-cars.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-request-user',
-  imports: [ReactiveFormsModule, NgFor, NgIf],
+  imports: [ReactiveFormsModule, NgFor],
   templateUrl: './add-request-user.component.html',
   styleUrl: './add-request-user.component.css'
 })
@@ -23,10 +23,13 @@ export class AddRequestUserComponent implements OnInit {
   currentUserRole: string ='';
   availableCars: Car[] = []; 
 
+  private apiUrl = 'http://localhost:8080/api/car-requests/create-request';  
+
   authService = inject(AuthService);
   router = inject(Router);
   formBuilder = inject(FormBuilder);
   manageCars = inject(ManageCarsService)
+  http = inject(HttpClient);
 
 
   ngOnInit(): void {
@@ -48,22 +51,42 @@ export class AddRequestUserComponent implements OnInit {
     });
 
     
-  this.addRequestForm = this.formBuilder.group({
-    user_id: [{ value: this.loggedInUser, disabled: true }, Validators.required], 
-    car_id: ['', Validators.required], 
-    start_reservation: ['', Validators.required],
-    end_reservation: ['', Validators.required],
-    status: ['In attesa', Validators.required],
-      });
+    this.addRequestForm = this.formBuilder.group({
+      car_id: [null, Validators.required], 
+      start_reservation: [null, Validators.required], 
+      end_reservation: [null, Validators.required],  
+      user_id: [this.currentUserID],  
+    });
   }
-  
-  onSubmit() {
+
+ 
+  onSubmit(): void {
     if (this.addRequestForm.valid) {
-      const newRequest: CarRequest = this.addRequestForm.value;
-      newRequest.created_at = new Date();
-      newRequest.updated_at = new Date();
-      console.log('Nuova richiesta:', newRequest);      
-      this.router.navigate(['/new-request']); 
+      const formData = this.addRequestForm.value;
+
+    
+      const newRequest: CarRequest = {
+        userID: Number(this.currentUserID),
+        carID: Number(formData.car_id),
+        startReservation: formData.start_reservation,
+        endReservation: formData.end_reservation,
+        status: 'IN_ATTESA',
+        createdAt: new Date().toISOString(), 
+        updatedAt: new Date().toISOString(),
+        id: 0
+      };
+
+      console.log('Nuova richiesta:', newRequest);
+
+      this.http.post<CarRequest>(this.apiUrl, newRequest).subscribe({
+        next: response => {
+          console.log('Richiesta salvata:', response);
+          this.router.navigate(['/manage-users']);
+        },
+        error: error => {
+          console.error('Errore nel salvataggio della richiesta:', error);
+        }
+      });
     }
   }
 }

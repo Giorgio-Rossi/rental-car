@@ -26,8 +26,8 @@ export class CarRequestService {
   }
   
   createRequest(request: CarRequest): Observable<CarRequest> {
-    request.created_at = new Date();
-    request.updated_at = new Date();
+    request.createdAt = new Date().toISOString();
+    request.updatedAt = new Date().toISOString();
     return this.http.post<CarRequest>(`${this.apiUrl}/create-request`, request);
   }
 
@@ -57,4 +57,6 @@ export class CarRequestService {
   canEditRequest(row: any): boolean {
     return row.status !== 'Annullata';
   }
+
+  
 }

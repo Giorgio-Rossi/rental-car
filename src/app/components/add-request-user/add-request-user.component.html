@@ -1,39 +1,28 @@
 <form [formGroup]="addRequestForm" (ngSubmit)="onSubmit()">
-    <div>
-      <label for="user_id">User ID:</label>
-        <input id="user_id" [value]="currentUserID" disabled>
-    </div>
+  <div>
+    <label for="userID">User ID:</label>
+    <input id="userID" [value]="currentUserID" disabled>
+  </div>
 
-    <div>
-        <label for="car_id">Seleziona un'auto:</label>
-        <select id="car_id" formControlName="car_id">
-          <option value="" disabled selected>Seleziona un'auto</option>
-          <option *ngFor="let car of availableCars" [value]="car.id">
-            {{ car.brand }} - {{ car.model }} - {{ car.licensePlate }}
-          </option>
-        </select>
-      </div>
+  <div>
+    <label for="car_id">Seleziona un'auto:</label>
+    <select id="car_id" formControlName="car_id">
+      <option value="" disabled selected>Seleziona un'auto</option>
+      <option *ngFor="let car of availableCars" [value]="car.id">
+        {{ car.brand }} - {{ car.model }} - {{ car.licensePlate }}
+      </option>
+    </select>
+  </div>
 
-      <div *ngIf="currentUserRole === 'ADMIN'">
-        <h3>Modifica Auto</h3>
-        <div *ngFor="let car of availableCars">
-          <div>
-            <label for="car-{{ car.id }}">Auto: {{ car.brand }} - {{ car.model }}</label>
-            <input id="car-{{ car.id }}" formControlName="car.model" />
-          </div>
-        </div>
-      </div>
-      
-    <div>
-        
-      <label for="start_reservation">Data inizio prenotazione:</label>
-      <input id="start_reservation" formControlName="start_reservation" type="datetime-local">
-    </div>
+  <div>
+    <label for="start_reservation">Data inizio prenotazione:</label>
+    <input id="start_reservation" formControlName="start_reservation" type="datetime-local">
+  </div>
 
-    <div>
-      <label for="end_reservation">Data fine prenotazione:</label>
-      <input id="end_reservation" formControlName="end_reservation" type="datetime-local">
-    </div>
+  <div>
+    <label for="end_reservation">Data fine prenotazione:</label>
+    <input id="end_reservation" formControlName="end_reservation" type="datetime-local">
+  </div>
 
-    <button type="submit" [disabled]="addRequestForm.invalid">Invia</button>
+  <button type="submit" [disabled]="addRequestForm.invalid">Invia</button>
 </form>

@@ -31,16 +31,17 @@ export class FormViewEditRequestComponent implements OnInit {
     {label: 'Chiudi', action: () => this.router.navigate(['/home'])}
   ]
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const requestID = params.get('id');
-      const navigationData = history.state.requestData; 
+      this.route.paramMap.subscribe(params => {
+        const requestID = params.get('id');
+        const navigationData = history.state.requestData; 
+    
+        if (navigationData) {
+          this.requestData = navigationData;
+          this.requestData.startReservation = this.convertToDateInputFormat(this.requestData.startReservation);
+          this.requestData.endReservation = this.convertToDateInputFormat(this.requestData.endReservation);
+        }
+      });
 
-      if (navigationData) {
-        this.requestData = navigationData;
-        this.requestData.startReservation = this.convertToDateInputFormat(this.requestData.startReservation);
-        this.requestData.endReservation = this.convertToDateInputFormat(this.requestData.endReservation);
-      }
-    });
 
     this.manageCarsService?.getAvailableCars().subscribe(cars => {
         this.availableCars = cars;
@@ -54,25 +55,37 @@ export class FormViewEditRequestComponent implements OnInit {
     return date.toISOString().split('T')[0];
   }
 
-  saveRequest(): void {
-    if (this.requestData) {
-      const updatedRequest = { 
-        ...this.requestData,
-        start_reservation: new Date(this.requestData.startReservation).toISOString(),
-        end_reservation: new Date(this.requestData.endReservation).toISOString()
-      };
-      
-      this.carRequestService.updateRequest(updatedRequest).subscribe({
-        next: (response) => {
-          console.log('Dati aggiornati:', response);
-          this.router.navigate(['/home']);
-        },
-        error: (error) => {
-          console.error('Errore durante il salvataggio:', error);
+    saveRequest(): void {
+      if (this.requestData) {
+        const updatedRequest = { 
+          ...this.requestData,
+          startReservation: new Date(this.requestData.startReservation).toISOString(),
+          endReservation: new Date(this.requestData.endReservation).toISOString()
+        };
+
+        this.carRequestService.updateRequest(updatedRequest).subscribe({
+          next: (response) => {
+            console.log('Dati aggiornati:', response);
+            this.router.navigate(['/home']);
+          },
+          error: (error) => {
+            console.error('Errore durante il salvataggio:', error);
+          }
+        });  
+
+        this.carRequestService.updateRequest(updatedRequest).subscribe({
+          next: (response) => {
+            console.log('Dati aggiornati:', response);
+            this.router.navigate(['/home']);
+          },
+          error: (error) => {
+            console.error('Errore durante il salvataggio:', error);
+          }
+          });
         }
-      });
-    }
-  }
+     }
+    
+
   formatDate(value: string, key: string): string {
     if (!value) return '';
 

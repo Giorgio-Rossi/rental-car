@@ -3,7 +3,7 @@
   <form>
     <div *ngFor="let key of objectKeys(requestData)">
       
-      <div class="form-group" *ngIf="key === 'car_id'">
+      <div class="form-group" *ngIf="key === 'carId'">
         <label for="car">Seleziona Auto</label>
         <select 
           [(ngModel)]="requestData[key]" 
@@ -15,13 +15,13 @@
         </select>
       </div>
 
-      <div class="form-group" *ngIf="key !== 'id' && key !== 'car_id'">
+      <div class="form-group" *ngIf="key !== 'id' && key !== 'carId'">
         <label>{{ key }}</label>
         <input 
           type="text" 
           [(ngModel)]="requestData[key]" 
           [name]="key"
-          [disabled]="key !== 'start_reservation' && key !== 'end_reservation'"/>
+          [disabled]="key !== 'startReservation' && key !== 'endReservation'"/>
       </div>
     </div>
   </form>

@@ -4,6 +4,7 @@ import { catchError, Observable, tap, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { User } from '../interface/user.model.interface';
 import { UserResponse } from '../interface/UserResponse';
+import { jwtDecode } from 'jwt-decode';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,98 +14,47 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService {
-
-  private apiUrl = 'http://localhost:8080/login/login';  
-  private logoutUrl = 'http://localhost:8080/login/logout'; 
   
+  apiUrl = 'http://localhost:8080';
   router = inject(Router);
   http = inject(HttpClient);
 
-
-  login(username: string, password: string): Observable<any> {
-    const body = new HttpParams()
-      .set('username', username)
-      .set('password', password);
-  
-    return this.http.post<UserResponse>(  
-      this.apiUrl,
-      body.toString(),
-      {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }),
-        withCredentials: true,
-        responseType: 'json'  
-      }
-    ).pipe(
-      tap((response: UserResponse) => {  
-        console.log('Login response:', response);
-  
-        if (response && response.id) {
-          const user: User = {
-            id: response.id,
-            username: response.username,
-            role: response.role,
-            fullName: response.fullName,
-            email: '',
-            password: ''
-          };
-  
-          this.setUser(user); 
-        } else {
-          console.error('Login failed: Invalid response format', response);
-        }
-      }),
-      catchError(error => {
-        console.error('Error details:', error);
-        let errorMessage = 'An error occurred during login';
-        if (error.error && error.error.message) {
-          errorMessage = error.error.message;
-        }
-        return throwError(errorMessage);
-      })
+  login(username: string, password: string) {
+    return this.http.post<{ token: string }>(`${this.apiUrl}/auth/login`, { username, password }).pipe(
+      tap(response => this.setToken(response.token))
     );
   }
-  
-  
 
-  
-    logout(username: string): Observable<any> {
-      const body = new HttpParams().set('username', username);
-    
-      return this.http.post(
-        this.logoutUrl,
-        body.toString(),
-        {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/x-www-form-urlencoded' 
-          }),
-          withCredentials: true,
-          responseType: 'text' 
-        }
-      ).pipe(
-        tap(response => {
-          console.log('Logout response:', response);
-        }),
-        catchError(error => {
-          console.error('Error details:', error); 
-          let errorMessage = 'An error occurred during logout';
-          if (error.error && error.error.message) {
-            errorMessage = error.error.message;
-          }
-          return throwError(errorMessage);
-        })
-      );
-    }
-    
-  isLoggedIn(): boolean {
-    return localStorage.getItem('currentUser') !== null;
+  setToken(token: string) {
+    localStorage.setItem('auth_token', token);
   }
+
+  getToken(): string | null {
+    return localStorage.getItem('auth_token');
+  }
+  logout() {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('currentUser');
+  }
+  isLoggedIn(): boolean {
+    return !!this.getToken(); 
+  }
+
 
   getUserType(): string {
-    const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    return user.role;
+    const token = this.getToken();
+    if (token) {
+      try {
+        const decodedToken: any = jwtDecode(token);
+        return decodedToken.role;
+      } catch (error) {
+        console.error('Errore nel decodificare il token', error);
+        return '';
+      }
+    }
+    return '';
   }
+  
 
   getCurrentUser(): any {
     return JSON.parse(localStorage.getItem('currentUser') || '{}');
@@ -119,7 +69,9 @@ export class AuthService {
     localStorage.setItem('currentUser', JSON.stringify(user));
   }
 
-  removeUser(): void {
-    localStorage.removeItem('currentUser');
+  refreshToken() {
+    return this.http.post<{ token: string }>('/api/auth/refresh', {}).pipe(
+      tap(response => this.setToken(response.token))
+    );
   }
 }

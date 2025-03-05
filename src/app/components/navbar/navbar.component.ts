@@ -22,20 +22,8 @@ export class NavbarComponent {
 
   
   logout(): void {
-    if (this.username) {
-      this.authService.logout(this.username).subscribe(
-        response => {
-          localStorage.removeItem('currentUser');  
-          this.router.navigate(['/login']);  
-        },
-        error => {
-          console.error('Logout error:', error);
-        }
-      );
-    } else {
-      localStorage.removeItem('currentUser');
-      this.router.navigate(['/login']);
-    }
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
     
 }

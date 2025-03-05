@@ -30,6 +30,7 @@ export class LoginComponent {
   authService = inject(AuthService);
   router = inject(Router);
   storageService = inject(StorageService);
+  userType: String = '';
 
   togglePasswordVisibility(): void {
     this.passwordVisibile = !this.passwordVisibile;
@@ -39,14 +40,18 @@ export class LoginComponent {
     this.authService.login(username, password).subscribe({
       next: (data: any) => {  
         console.log('Login successful:', data);
-        
-        if (data && data.id) {
+
+        this.userType = this.authService.getUserType();
+
+        if (data && data.token) {
           const user = {
             username: data.username, 
-            role: data.role || 'UNKNOWN', 
+            role: this.userType || 'UNKNOWN', 
           };
     
-          this.storageService.saveUser(user);
+          this.storageService.saveToken(data);
+          this.storageService.saveUser(user); 
+
           this.isLoginFailed = false;
           this.isLoggedIn = true;
           console.log('Navigating to /home');

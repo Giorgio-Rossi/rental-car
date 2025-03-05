@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { User } from './interface/user.model.interface';
@@ -18,9 +18,7 @@ export class AppComponent implements OnInit {
   requests: CarRequest[] = [];
   path?: string;
 
-  constructor(
-    private router: Router,
-  ) {}
+  router = inject(Router);
 
   ngOnInit(): void {
   }

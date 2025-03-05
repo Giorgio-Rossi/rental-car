@@ -40,14 +40,12 @@ export class HomeComponent implements OnInit {
   storageService = inject(StorageService)
 
   
-  constructor(
-    public authService: AuthService,
-    private carRequestService: CarRequestService,
-    private userService: UserService,  
-    private datePipe: DatePipe,
-    private router: Router, 
-    private manageCarsService: ManageCarsService
-  ) {}
+  public authService = inject(AuthService);
+  private carRequestService = inject(CarRequestService);
+  private userService = inject(UserService);
+  private datePipe = inject(DatePipe);
+  private router = inject(Router);
+  private manageCarsService = inject(ManageCarsService);
 
   ngOnInit(): void {
     this.tableAdminConfig = getTableAdminConfig();
@@ -134,25 +132,12 @@ export class HomeComponent implements OnInit {
   
   private unsubscribe$ = new Subject<void>();
     
-  logout(): void {
-    const username = this.storageService.getUser().username;
-    this.authService.logout(username).pipe(
-      takeUntil(this.unsubscribe$)
-    ).subscribe({
-      next: response => {
-        console.log('Logout successful', response);
-        localStorage.removeItem('currentUser');
-        this.router.navigate(['/login']);
-      },
-      error: error => {
-        console.error('Logout failed', error);
-      }
-    });
-  }
   
-
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
     
-
   refreshRequests(): void {
     this.carRequestService.getRequests().subscribe(requests => {
       this.requestsCar = requests.map(request => {

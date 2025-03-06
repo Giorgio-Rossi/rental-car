@@ -16,7 +16,7 @@ export class CarRequestService {
 
   http = inject(HttpClient)
 
-  private apiUrl = 'http://localhost:8080/api/car-request';
+  private apiUrl = 'http://localhost:8080/customer';
   private apiUrlAllCarRequest = 'http://localhost:8080/api/car-requests/all-requests';
   private apiUrlAdminManageRequest = 'http://localhost:8080/admin/manage-request';
   private apiUrlRequest = 'http://localhost:8080/api/car-requests';
@@ -36,7 +36,7 @@ export class CarRequestService {
     request.createdAt = new Date().toISOString();
     request.updatedAt = new Date().toISOString();
     return this.http.post<CarRequest>(
-      `${this.apiUrl}/create-request`,
+      `${this.apiUrl}/add-request`,
       request,
       { headers: this.getHeaders() }
     );
@@ -81,5 +81,10 @@ export class CarRequestService {
 
   canEditRequest(row: any): boolean {
     return row.status !== 'Annullata';
+  }
+
+  getLastRequestId(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrlRequest}/last-request-id`,
+      { headers: this.getHeaders() });
   }
 }

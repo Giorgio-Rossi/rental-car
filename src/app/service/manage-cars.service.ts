@@ -34,8 +34,13 @@ export class ManageCarsService {
     return this.http.put<Car>(`${this.apiUrl}/${id}`, updatedCar, { headers: this.getHeaders() });
   }
 
+  getAvailableCarsByDate(startDate: string, endDate: string): Observable<Car[]> {
+    const params = { startDate, endDate };
+    return this.http.get<Car[]>(`${this.apiUrl}/available-cars`, { params, headers: this.getHeaders() });
+  }
+
   getAvailableCars(): Observable<Car[]> {
-    return this.http.get<Car[]>(`${this.apiUrl}/available-cars`, { headers: this.getHeaders() });
+    return this.http.get<Car[]>(this.apiUrlAllCars, { headers: this.getHeaders() });
   }
 
 }

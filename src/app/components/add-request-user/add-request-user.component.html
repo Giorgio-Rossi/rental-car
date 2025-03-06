@@ -5,16 +5,6 @@
   </div>
 
   <div>
-    <label for="car_id">Seleziona un'auto:</label>
-    <select id="car_id" formControlName="car_id">
-      <option value="" disabled selected>Seleziona un'auto</option>
-      <option *ngFor="let car of availableCars" [value]="car.id">
-        {{ car.brand }} - {{ car.model }} - {{ car.licensePlate }}
-      </option>
-    </select>
-  </div>
-
-  <div>
     <label for="start_reservation">Data inizio prenotazione:</label>
     <input id="start_reservation" formControlName="start_reservation" type="datetime-local">
   </div>
@@ -24,5 +14,19 @@
     <input id="end_reservation" formControlName="end_reservation" type="datetime-local">
   </div>
 
-  <button type="submit" [disabled]="addRequestForm.invalid">Invia</button>
+  <button type="button" (click)="fetchAvailableCars()" [disabled]="!addRequestForm.value.start_reservation || !addRequestForm.value.end_reservation">
+    Mostra auto disponibili
+  </button>
+
+  <div *ngIf="availableCars.length > 0">
+    <label for="car_id">Seleziona un'auto:</label>
+    <select id="car_id" formControlName="car_id" [disabled]="availableCars.length === 0">
+      <option value="" disabled selected>Seleziona un'auto</option>
+      <option *ngFor="let car of availableCars" [value]="car.id">
+        {{ car.brand }} - {{ car.model }} - {{ car.licensePlate }}
+      </option>
+    </select>
+  </div>
+
+  <button type="submit" [disabled]="addRequestForm.invalid || !addRequestForm.value.car_id">Invia</button>
 </form>

@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
-import { UserService } from '../../service/user.service'; 
+import { UserService } from '../../service/user.service';
 import { NgIf, DatePipe, CommonModule } from '@angular/common';
 import { HttpClientModule, HttpParams } from '@angular/common/http';
 import { TableComponent } from "../table/table.component";
@@ -17,14 +17,13 @@ import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-home',
-  imports: [NgIf, TableComponent, CommonModule, NavbarComponent,HttpClientModule],
+  imports: [NgIf, TableComponent, CommonModule, NavbarComponent, HttpClientModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   providers: [DatePipe]
 })
 export class HomeComponent implements OnInit {
   userType: string = '';
-  isLogged: boolean = false;
   cars: Car[] = [];
   requestsCar: CarRequest[] = [];
   requests: any[] = [];
@@ -39,7 +38,7 @@ export class HomeComponent implements OnInit {
   buttonConfigsUser: any;
   storageService = inject(StorageService)
 
-  
+
   public authService = inject(AuthService);
   private carRequestService = inject(CarRequestService);
   private userService = inject(UserService);
@@ -58,33 +57,32 @@ export class HomeComponent implements OnInit {
     if (currentUser) {
       this.currentUserRole = currentUser.role;
       this.username = currentUser.username;
-      if (currentUser.type === 'ADMIN') {
+      if (currentUser.type === 'ROLE_ADMIN') {
         this.isAdmin = true;
       }
     }
-  
-    this.isLogged = this.authService.checkLogin();
-    console.log('Is logged:', this.isLogged);
-  
-    if (this.isLogged) {
-      this.userType = this.authService.getUserType();
-      console.log('User type:', this.userType);
-    }
-  
+
+    const userId = currentUser.id;
+    console.log('User id:', userId);
+
+    this.userType = this.authService.getUserType();
+    console.log('User type:', this.userType);
+
+
     this.manageCarsService.getAllCars().subscribe(cars => {
       this.cars = cars;
       console.log('Cars:', this.cars);
-  
+
       this.userService.getUsers().subscribe(users => {
         this.users = users;
         console.log('Users:', this.users);
-  
+
         this.carRequestService.getRequests().subscribe(requests => {
           console.log('Requests:', requests);
           this.requests = requests.map(request => {
 
             const user = this.users.find(u => u.id === request.userID);
-          
+
             let carDetails = '';
             if (Array.isArray(request.carID)) {
               carDetails = request.carID.map(carID => {
@@ -95,7 +93,7 @@ export class HomeComponent implements OnInit {
               const car = this.cars.find(car => car.id === request.carID);
               carDetails = car ? (car.licensePlate ?? 'Unknown') : 'Unknown';
             }
-          
+
             return {
               ...request,
               fullName: user?.fullName || 'Unknown',
@@ -108,42 +106,42 @@ export class HomeComponent implements OnInit {
       });
     });
   }
-  
+
 
   handleActionClick(action: string, row: any): void {
     if (action === 'Modifica') {
-    
+
       this.router.navigate(['/edit-request', row.id], { state: { requestData: row } });
     } else if (action === 'Cancella') {
-        this.carRequestService.deleteRequest(row.id).subscribe({
-          next: () => {
-            this.requests = this.requests.filter(request => request.id !== row.id);
-          },
+      this.carRequestService.deleteRequest(row.id).subscribe({
+        next: () => {
+          this.requests = this.requests.filter(request => request.id !== row.id);
+        },
         error: (err) => {
           console.error('Errore durante l\'eliminazione dell\'auto:', err);
         }
-        }); 
+      });
     }
   }
 
   getCarById(carId: number): Car | undefined {
     return this.cars.find(car => car.id === carId);
   }
-  
+
   private unsubscribe$ = new Subject<void>();
-    
-  
+
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
-    
+
   refreshRequests(): void {
     this.carRequestService.getRequests().subscribe(requests => {
       this.requestsCar = requests.map(request => {
         const user = this.users.find(u => u.id === request.userID);
         let carDetails = '';
-  
+
         if (Array.isArray(request.carID)) {
           carDetails = request.carID.map(carID => {
             const car = this.cars.find(car => car.id === carID);
@@ -153,10 +151,10 @@ export class HomeComponent implements OnInit {
           const car = this.cars.find(car => car.id === request.carID);
           carDetails = car ? (car.licensePlate ?? 'Unknown') : 'Unknown';
         }
-  
+
         return {
           ...request,
-          userFullName: user?.fullName || 'Unknown',  
+          userFullName: user?.fullName || 'Unknown',
           start_reservation: request.startReservation ? this.datePipe.transform(request.startReservation, "dd/MM/yyyy") : null,
           end_reservation: request.endReservation ? this.datePipe.transform(request.endReservation, "dd/MM/yyyy") : null,
           carDetails: carDetails || 'Unknown'
@@ -164,5 +162,5 @@ export class HomeComponent implements OnInit {
       });
     });
   }
-  
+
 }

@@ -17,7 +17,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 export class FormViewEditUsersComponent implements OnInit {
   userData!: User;
-  roleOptions: string[] = ['ADMIN', 'CUSTOMER']; 
+  roleOptions: string[] = ['ROLE_ADMIN', 'ROLE_CUSTOMER']; 
 
   userService = inject(UserService);
   route = inject(ActivatedRoute);

@@ -25,7 +25,7 @@ export class ManageUsersComponent implements OnInit {
     });
 
     const userRole = this.authService.getUserType(); 
-    if (userRole !== 'ADMIN') {
+    if (userRole !== 'ROLE_ADMIN') {
       this.router.navigate(['/home']);
     }
   }

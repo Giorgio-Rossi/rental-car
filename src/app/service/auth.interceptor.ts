@@ -17,6 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
     router = inject(Router);
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    
     if (request.url.includes('/api/auth')) {
       return next.handle(request);
     }

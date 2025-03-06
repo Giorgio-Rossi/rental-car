@@ -3,11 +3,11 @@
   <button (click)="logout()">Logout</button> 
 </div>
 
-<app-navbar *ngIf="currentUserRole" [buttons]="currentUserRole === 'ADMIN' ? buttonConfigsAdmin : buttonConfigsUser">
+<app-navbar *ngIf="currentUserRole" [buttons]="currentUserRole === 'ROLE_ADMIN' ? buttonConfigsAdmin : buttonConfigsUser">
 </app-navbar>
 
 <app-table 
-  [config]="userType === 'CUSTOMER' ? tableCustomerConfig : tableAdminConfig" 
+  [config]="userType === 'ROLE_CUSTOMER' ? tableCustomerConfig : tableAdminConfig" 
   [data]="requests" 
   (actionClick)="handleActionClick($event.action, $event.row)">
 </app-table>

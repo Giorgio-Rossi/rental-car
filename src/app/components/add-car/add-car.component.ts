@@ -28,7 +28,7 @@ export class AddCarComponent implements OnInit {
   
   ngOnInit(): void {
     const userRole = this.authService.getUserType(); 
-    if (userRole !== 'ADMIN') {
+    if (userRole !== 'ROLE_ADMIN') {
       this.router.navigate(['/home']);
     }  
   }
@@ -36,7 +36,7 @@ export class AddCarComponent implements OnInit {
 
   onSubmit() {
     const userRole = this.authService.getUserType(); 
-    if (userRole === 'ADMIN') {
+    if (userRole === 'ROLE_ADMIN') {
 
       this.carService.createCar(this.car).subscribe(
         response => {

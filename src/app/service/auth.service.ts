@@ -21,7 +21,17 @@ export class AuthService {
 
   login(username: string, password: string) {
     return this.http.post<{ token: string }>(`${this.apiUrl}/auth/login`, { username, password }).pipe(
-      tap(response => this.setToken(response.token))
+      tap(response => {
+        const decodedToken: any = jwtDecode(response.token);
+        this.setToken(response.token);
+        this.setUser({
+          id: decodedToken.id,
+          username: decodedToken.sub,
+          email: decodedToken.email,
+          role: decodedToken.role 
+          }
+        )}
+      )
     );
   }
 

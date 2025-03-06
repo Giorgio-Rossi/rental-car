@@ -1,7 +1,7 @@
 <form [formGroup]="addRequestForm" (ngSubmit)="onSubmit()">
   <div>
-    <label for="userID">User ID:</label>
-    <input id="userID" [value]="currentUserID" disabled>
+    <label for="userName">User Name:</label>
+    <input id="userName" [value]="loggedInUser" disabled>
   </div>
 
   <div>

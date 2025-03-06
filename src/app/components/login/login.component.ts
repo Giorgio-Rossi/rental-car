@@ -46,7 +46,7 @@ export class LoginComponent {
         if (data && data.token) {
           const user = {
             username: data.username, 
-            role: this.userType || 'UNKNOWN', 
+            role: this.userType || 'ROLE_CUSTOMER', 
           };
     
           this.storageService.saveToken(data);

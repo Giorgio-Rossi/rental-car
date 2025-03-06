@@ -18,7 +18,7 @@ export class FormViewEditRequestComponent implements OnInit {
   requestData!: CarRequest;
   title: string = 'Dettaglio Richiesta';
   availableCars: Car[] = [];
-  
+
 
   router = inject(Router);
   route = inject(ActivatedRoute);
@@ -27,25 +27,25 @@ export class FormViewEditRequestComponent implements OnInit {
 
 
   buttonConfig = [
-    {label: 'Salva', action: () => this.saveRequest()},
-    {label: 'Chiudi', action: () => this.router.navigate(['/home'])}
+    { label: 'Salva', action: () => this.saveRequest() },
+    { label: 'Chiudi', action: () => this.router.navigate(['/home']) }
   ]
   ngOnInit(): void {
-      this.route.paramMap.subscribe(params => {
-        const requestID = params.get('id');
-        const navigationData = history.state.requestData; 
-    
-        if (navigationData) {
-          this.requestData = navigationData;
-          this.requestData.startReservation = this.convertToDateInputFormat(this.requestData.startReservation);
-          this.requestData.endReservation = this.convertToDateInputFormat(this.requestData.endReservation);
-        }
-      });
+    this.route.paramMap.subscribe(params => {
+      const requestID = params.get('id');
+      const navigationData = history.state.requestData;
+
+      if (navigationData) {
+        this.requestData = navigationData;
+        this.requestData.startReservation = this.convertToDateInputFormat(this.requestData.startReservation);
+        this.requestData.endReservation = this.convertToDateInputFormat(this.requestData.endReservation);
+      }
+    });
 
 
     this.manageCarsService?.getAvailableCars().subscribe(cars => {
-        this.availableCars = cars;
-      });
+      this.availableCars = cars;
+    });
   }
 
   private convertToDateInputFormat(date: string | Date): string {
@@ -55,42 +55,42 @@ export class FormViewEditRequestComponent implements OnInit {
     return date.toISOString().split('T')[0];
   }
 
-    saveRequest(): void {
-      if (this.requestData) {
-        const updatedRequest = { 
-          ...this.requestData,
-          startReservation: new Date(this.requestData.startReservation).toISOString(),
-          endReservation: new Date(this.requestData.endReservation).toISOString()
-        };
+  saveRequest(): void {
+    if (this.requestData) {
+      const updatedRequest = {
+        ...this.requestData,
+        startReservation: new Date(this.requestData.startReservation).toISOString(),
+        endReservation: new Date(this.requestData.endReservation).toISOString()
+      };
 
-        this.carRequestService.updateRequest(updatedRequest).subscribe({
-          next: (response) => {
-            console.log('Dati aggiornati:', response);
-            this.router.navigate(['/home']);
-          },
-          error: (error) => {
-            console.error('Errore durante il salvataggio:', error);
-          }
-        });  
-
-        this.carRequestService.updateRequest(updatedRequest).subscribe({
-          next: (response) => {
-            console.log('Dati aggiornati:', response);
-            this.router.navigate(['/home']);
-          },
-          error: (error) => {
-            console.error('Errore durante il salvataggio:', error);
-          }
-          });
+      this.carRequestService.updateRequest(updatedRequest).subscribe({
+        next: (response) => {
+          console.log('Dati aggiornati:', response);
+          this.router.navigate(['/home']);
+        },
+        error: (error) => {
+          console.error('Errore durante il salvataggio:', error);
         }
-     }
-    
+      });
+
+      this.carRequestService.updateRequest(updatedRequest).subscribe({
+        next: (response) => {
+          console.log('Dati aggiornati:', response);
+          this.router.navigate(['/home']);
+        },
+        error: (error) => {
+          console.error('Errore durante il salvataggio:', error);
+        }
+      });
+    }
+  }
+
 
   formatDate(value: string, key: string): string {
     if (!value) return '';
 
     const date = new Date(value);
-    
+
     if (key === 'created_at' || key === 'updated_at' || key === 'start_reservation' || key === 'end_reservation') {
       return date.toLocaleDateString('it-IT', {
         day: '2-digit',
@@ -98,7 +98,7 @@ export class FormViewEditRequestComponent implements OnInit {
         year: 'numeric'
       });
     }
-    
+
     return value;
   }
 
@@ -106,10 +106,10 @@ export class FormViewEditRequestComponent implements OnInit {
     return Object.keys(obj);
   }
 
-  updateStatus(event: Event, requestData: any):void{
+  updateStatus(event: Event, requestData: any): void {
     console.log('Status aggiornato: ', this.requestData)
     console.log('Status passato come param: ', event.target)
   }
 
-  
+
 }

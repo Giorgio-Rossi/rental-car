@@ -21,36 +21,35 @@ import { ManageCarsService } from '../../service/manage-cars.service';
 })
 
 export class ManageRequestsComponent implements OnInit {
-  requestsCar: CarRequest[] = [];  
-  users: User[] = []; 
+  requestsCar: CarRequest[] = [];
+  users: User[] = [];
   cars: Car[] = [];
-  
+
   manageCarsService = inject(ManageCarsService)
   requestService = inject(CarRequestService);
   authService = inject(AuthService);
   router = inject(Router);
-  userService = inject(UserService); 
+  userService = inject(UserService);
   carService = inject(CarService);
   carRequestService = inject(CarRequestService);
   datePipe = inject(DatePipe);
-  
+
 
   ngOnInit(): void {
     this.manageCarsService.getAllCars().subscribe(cars => {
       this.cars = cars;
       console.log('Cars:', this.cars);
-  
+
       this.userService.getUsers().subscribe(users => {
         this.users = users;
         console.log('Users:', this.users);
-  
+
         this.carRequestService.getRequests().subscribe(requests => {
           console.log('Requests:', requests);
           this.requestsCar = requests.map(request => {
 
-            
             const user = this.users.find(u => u.id === request.userID);
-          
+
             console.log('User found', user)
             let carDetails = '';
             if (Array.isArray(request.carID)) {
@@ -62,23 +61,23 @@ export class ManageRequestsComponent implements OnInit {
               const car = this.cars.find(car => car.id === request.carID);
               carDetails = car ? (car.licensePlate ?? 'Unknown') : 'Unknown';
             }
-          
+
             return {
               ...request,
-              userFullName: user?.fullName || 'Unknown',  
+              userFullName: user?.fullName || 'Unknown',
               start_reservation: request.startReservation ? this.datePipe.transform(request.startReservation, "dd/MM/yyyy") : null,
               end_reservation: request.endReservation ? this.datePipe.transform(request.endReservation, "dd/MM/yyyy") : null,
               carDetails: carDetails || 'Unknown'
             };
           });
 
-          console.log(this.requestsCar); 
+          console.log(this.requestsCar);
         });
       });
     });
 
     const userRole = this.authService.getUserType();
-    if (userRole !== 'ADMIN') {
+    if (userRole !== 'ROLE_ADMIN') {
       this.router.navigate(['/home']);
     }
   }
@@ -100,21 +99,21 @@ export class ManageRequestsComponent implements OnInit {
   };
 
   buttonConfigs: ButtonConfig[] = [
-    { 
-      label: 'Approva', 
-      action: (id: number) => this.updateRequest(id, 'APPROVATA'), 
-      type: 'button', 
+    {
+      label: 'Approva',
+      action: (id: number) => this.updateRequest(id, 'APPROVATA'),
+      type: 'button',
       style: {
         color: 'white',
         backgroundColor: 'green',
         border: '1px solid green'
       }
     },
-    { 
-      label: 'Rifiuta', 
-      action: (id: number) => this.updateRequest(id, 'RIFIUTATA'), 
-      type: 'button', 
-      disabled: false, 
+    {
+      label: 'Rifiuta',
+      action: (id: number) => this.updateRequest(id, 'RIFIUTATA'),
+      type: 'button',
+      disabled: false,
       style: {
         color: 'white',
         backgroundColor: 'red',
@@ -122,20 +121,20 @@ export class ManageRequestsComponent implements OnInit {
       }
     }
   ];
-  
+
   updateRequest(id: number, status: string): void {
     console.log('id request: ', id);
     const request = this.requestsCar.find(r => r.id === id);
     if (request) {
       this.requestService.updateRequestStatus(id, status).subscribe(updatedRequest => {
-        request.status = updatedRequest!.status;  
+        request.status = updatedRequest!.status;
       });
     }
   }
 
   handleActionClick(action: string, data: any) {
     if (action === 'Modifica') {
-      this.router.navigate(['/manage-request', data.id], {state: {userData: data}});
+      this.router.navigate(['/manage-request', data.id], { state: { userData: data } });
     } else if (action === 'Elimina') {
       this.carRequestService.deleteRequest(data.id).subscribe({
         next: () => {

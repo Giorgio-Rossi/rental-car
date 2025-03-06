@@ -35,7 +35,7 @@ export class ManageCarsService {
   }
 
   getAvailableCars(): Observable<Car[]> {
-    return this.http.get<Car[]>(`${this.apiUrl}/avaiable-cars`, { headers: this.getHeaders() });
+    return this.http.get<Car[]>(`${this.apiUrl}/available-cars`, { headers: this.getHeaders() });
   }
 
 }

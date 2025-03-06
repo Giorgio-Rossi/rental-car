@@ -5,7 +5,7 @@ import { MOCK_CARS } from '../mock-data/mock-cars';
 import { Car } from '../interface/car.model.interface';
 import { of } from 'rxjs';
 import { MOCK_REQUEST } from '../mock-data/mock-requests';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,6 @@ export class CarRequestService {
     return this.http.get<CarRequest[]>(this.apiUrlAllCarRequest, { headers: this.getHeaders() });
   }
 
-
   createRequest(request: CarRequest): Observable<CarRequest> {
     request.createdAt = new Date().toISOString();
     request.updatedAt = new Date().toISOString();
@@ -47,6 +46,17 @@ export class CarRequestService {
     return this.http.delete<CarRequest>(
       `${this.apiUrlRequest}/${id}`,
       { headers: this.getHeaders() }
+    );
+  }
+
+  getRequestsByUserUsername(username: String): Observable<CarRequest[]> {
+    const params = new HttpParams().set('username', username.toString());
+    return this.http.get<CarRequest[]>(
+      `${this.apiUrlRequest}/get-request-by-username`,
+      {
+        headers: this.getHeaders(),
+        params: params
+      }
     );
   }
 

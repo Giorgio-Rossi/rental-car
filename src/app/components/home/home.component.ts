@@ -77,22 +77,28 @@ export class HomeComponent implements OnInit {
         this.users = users;
         console.log('Users:', this.users);
 
-        this.carRequestService.getRequests().subscribe(requests => {
+        this.carRequestService.getRequestsByUserUsername(this.username).subscribe((requests: CarRequest[]) => {
           console.log('Requests:', requests);
-          this.requests = requests.map(request => {
+          this.requests = requests.map((request: CarRequest) => {
 
             const user = this.users.find(u => u.id === request.userID);
 
             let carDetails = '';
+
             if (Array.isArray(request.carID)) {
-              carDetails = request.carID.map(carID => {
-                const car = this.cars.find(car => car.id === carID);
-                return car ? car.licensePlate : 'Unknown';
-              }).join(', ');
-            } else {
+              carDetails = request.carID
+                .map((carID: number) => {
+                  const car = this.cars.find(car => car.id === carID);
+                  return car ? car.licensePlate : 'Unknown';
+                })
+                .join(', ');
+            } else if (request.carID !== null && request.carID !== undefined) {
               const car = this.cars.find(car => car.id === request.carID);
               carDetails = car ? (car.licensePlate ?? 'Unknown') : 'Unknown';
+            } else {
+              carDetails = 'Unknown';
             }
+            
 
             return {
               ...request,

@@ -39,4 +39,8 @@ export class UserService {
     return this.http.get<User[]>(`${this.apiUrl}/alluser`, { headers: this.getHeaders() });
   }
 
+  getUserByUsername(username: string): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/get-user-by-username?username=${username}`, { headers: this.getHeaders() });
+  }
+
 }

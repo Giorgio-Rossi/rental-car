@@ -65,7 +65,7 @@ export class FormViewEditRequestComponent implements OnInit {
 
       this.carRequestService.updateRequest(updatedRequest).subscribe({
         next: (response) => {
-          console.log('Dati aggiornati:', response);
+//          console.log('Dati aggiornati:', response);
           this.router.navigate(['/home']);
         },
         error: (error) => {
@@ -75,7 +75,7 @@ export class FormViewEditRequestComponent implements OnInit {
 
       this.carRequestService.updateRequest(updatedRequest).subscribe({
         next: (response) => {
-          console.log('Dati aggiornati:', response);
+//          console.log('Dati aggiornati:', response);
           this.router.navigate(['/home']);
         },
         error: (error) => {
@@ -107,8 +107,8 @@ export class FormViewEditRequestComponent implements OnInit {
   }
 
   updateStatus(event: Event, requestData: any): void {
-    console.log('Status aggiornato: ', this.requestData)
-    console.log('Status passato come param: ', event.target)
+//    console.log('Status aggiornato: ', this.requestData)
+//    console.log('Status passato come param: ', event.target)
   }
 
 

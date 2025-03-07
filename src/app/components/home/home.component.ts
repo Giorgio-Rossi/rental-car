@@ -63,27 +63,27 @@ export class HomeComponent implements OnInit {
     }
   
     const userId = currentUser.id;
-    console.log('User id:', userId);
+//    console.log('User id:', userId);
   
     this.userType = this.authService.getUserType();
-    console.log('User type:', this.userType);
+//    console.log('User type:', this.userType);
   
     this.manageCarsService.getAllCars().subscribe(cars => {
       this.cars = cars;
-      console.log('Cars:', this.cars);
+//      console.log('Cars:', this.cars);
   
       this.userService.getUsers().subscribe(users => {
         this.users = users;
-        console.log('Users:', this.users);
+//        console.log('Users:', this.users);
   
         if (this.isAdmin) {
           this.carRequestService.getRequests().subscribe((requests: CarRequest[]) => {
-            console.log('Admin Requests:', requests);
+//            console.log('Admin Requests:', requests);
             this.requests = this.mapRequests(requests);
           });
         } else {
           this.carRequestService.getRequestsByUserUsername(this.username).subscribe((requests: CarRequest[]) => {
-            console.log('User Requests:', requests);
+//            console.log('User Requests:', requests);
             this.requests = this.mapRequests(requests);
           });
         }

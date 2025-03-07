@@ -25,7 +25,7 @@ export class FormViewEditUsersComponent implements OnInit {
   
   ngOnInit(): void {
     const userId = this.route.snapshot.paramMap.get('id');
-    console.log('User ID: ', userId)
+//    console.log('User ID: ', userId)
 
     this.route.paramMap.subscribe(params => {
         const userID = params.get('id');
@@ -33,10 +33,10 @@ export class FormViewEditUsersComponent implements OnInit {
   
         if (navigationData) {
           this.userData = navigationData;
-          console.log('Dati utente ricevuti:', this.userData); 
+//          console.log('Dati utente ricevuti:', this.userData); 
           this.userData = { ...this.userData }; 
         } else {
-          console.log('Nessun dato utente trovato');
+//          console.log('Nessun dato utente trovato');
         }
       });
   }
@@ -57,22 +57,22 @@ export class FormViewEditUsersComponent implements OnInit {
   updateStatus(event: Event):void{
     const selectElement = event.target as HTMLSelectElement;
     this.userData.role = selectElement.value;
-    console.log('Ruolo aggiornato: ', this.userData.role)
-    console.log('Status passato come param: ', event.target)
+//    console.log('Ruolo aggiornato: ', this.userData.role)
+//    console.log('Status passato come param: ', event.target)
   }
 
   saveUser(): void {
     if (this.userData) {
       this.userService.updateUser(this.userData).subscribe({
         next: (updatedUser) => {
-          console.log('Utente aggiornato con successo:', updatedUser);
+//          console.log('Utente aggiornato con successo:', updatedUser);
           this.router.navigate(['/manage-users']);
         },
         error: (error: HttpErrorResponse) => {
           console.error('Errore durante l\'aggiornamento dell\'utente:', error.message);
         },
         complete: () => {
-          console.log('Operazione completata');
+//          console.log('Operazione completata');
         }
       });
     }

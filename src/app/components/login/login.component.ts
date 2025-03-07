@@ -39,7 +39,7 @@ export class LoginComponent {
     const { username, password } = this.form;
     this.authService.login(username, password).subscribe({
       next: (data: any) => {  
-        console.log('Login successful:', data);
+//        console.log('Login successful:', data);
 
         this.userType = this.authService.getUserType();
 
@@ -54,7 +54,7 @@ export class LoginComponent {
 
           this.isLoginFailed = false;
           this.isLoggedIn = true;
-          console.log('Navigating to /home');
+//          console.log('Navigating to /home');
           this.router.navigate(['/home']);
         } else {
           this.isLoginFailed = true;

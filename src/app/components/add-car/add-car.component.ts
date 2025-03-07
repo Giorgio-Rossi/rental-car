@@ -40,7 +40,7 @@ export class AddCarComponent implements OnInit {
 
       this.carService.createCar(this.car).subscribe(
         response => {
-          console.log('Auto aggiunta:', response);
+//          console.log('Auto aggiunta:', response);
           this.resetForm();
           this.router.navigate(['/manage-cars']); 
         },
@@ -49,7 +49,7 @@ export class AddCarComponent implements OnInit {
         }
       );
     } else {
-      console.log('Accesso non autorizzato');
+//      console.log('Accesso non autorizzato');
       this.router.navigate(['/home']);
     }
   }

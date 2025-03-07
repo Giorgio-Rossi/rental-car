@@ -1,6 +1,6 @@
 export interface CarRequest {
-    id: number;
-    userID: number;
+    id?: number;
+    userID?: number;
     carID: number;
     status: string;
     startReservation: string;

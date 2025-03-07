@@ -61,15 +61,15 @@ export class ManageCarsComponent implements OnInit {
 
   loadCars(): void {
     this.requestService.getAllCars().subscribe(cars => {
-      console.log('Dati ricevuti:', cars)
+//      console.log('Dati ricevuti:', cars)
       this.cars = cars;  
     });
   }
 
 
   handleActionClick(action: string, data?: Car): void{
-    console.log('Event received:', { action, data });
-    console.log('ID auto:', data?.id)
+//    console.log('Event received:', { action, data });
+//    console.log('ID auto:', data?.id)
     if (action === 'Modifica') {
       this.router.navigate(['/edit-cars', data?.id],  {state: {carData: data } });
 
@@ -77,7 +77,7 @@ export class ManageCarsComponent implements OnInit {
     if (action === 'Elimina') {
       this.carService.deleteCar(data?.id).subscribe({
         next: () => {
-          console.log('Auto eliminata con successo');
+//          console.log('Auto eliminata con successo');
           this.cars = this.cars.filter(car => car.id !== data?.id);
 
         },

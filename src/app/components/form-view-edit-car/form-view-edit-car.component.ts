@@ -41,7 +41,7 @@ export class FormViewEditCarComponent implements OnInit {
 
       if (navigationData) {
         this.carData = navigationData;
-        console.log('navigation data:', navigationData); 
+//        console.log('navigation data:', navigationData); 
       }
     });
   }
@@ -53,22 +53,22 @@ export class FormViewEditCarComponent implements OnInit {
   updateStatus(event: Event):void{
     const selectElement = event.target as HTMLSelectElement;
     this.carData.status = selectElement.value;
-    console.log('Status aggiornato: ', this.carData.status)
-    console.log('Status passato come param: ', event.target)
+//    console.log('Status aggiornato: ', this.carData.status)
+//    console.log('Status passato come param: ', event.target)
   }
 
    saveCar(): void {
       if (this.carData) {
         this.carService.updateCar(this.carData).subscribe({
           next: (updatedCar) => {
-            console.log('Auto aggiornato con successo:', updatedCar);
+//            console.log('Auto aggiornato con successo:', updatedCar);
             this.router.navigate(['/manage-cars']);
           },
           error: (error: HttpErrorResponse) => {
             console.error('Errore durante l\'aggiornamento dell\'auto:', error.message);
           },
           complete: () => {
-            console.log('Operazione completata');
+//            console.log('Operazione completata');
           }
         });
       }

@@ -53,28 +53,23 @@ export class AddUserComponent implements OnInit {
   }
 
   saveUser() {
-    this.getLastUserId().pipe(
-      switchMap((lastId) => {
-        this.user.id = lastId + 1;
-        this.user.created_at = new Date();
-        this.user.updated_at = new Date();
+    this.user.created_at = new Date();
+    this.user.updated_at = new Date();
   
-        return this.http.post<User>(`${this.apiUrl}/add-user`, this.user, { headers: this.getHeaders() });
-      })
-    ).subscribe({
-      next: (response) => {
-//        console.log('Utente salvato:', response);
-        this.router.navigate(['/manage-users']);
-      },
-      error: (error) => {
-        console.error('Errore nel salvataggio dell\'utente:', error);
-        console.error('Status:', error.status);
-        console.error('Message:', error.message);
-        if (error.error) {
-          console.error('Error Body:', error.error);
+    this.http.post<User>(`${this.apiUrl}/add-user`, this.user, { headers: this.getHeaders() })
+      .subscribe({
+        next: (response) => {
+          this.router.navigate(['/manage-users']);
+        },
+        error: (error) => {
+          console.error('Errore nel salvataggio dell\'utente:', error);
+          console.error('Status:', error.status);
+          console.error('Message:', error.message);
+          if (error.error) {
+            console.error('Error Body:', error.error);
+          }
         }
-      }
-    });
+      });
   }
   
 }

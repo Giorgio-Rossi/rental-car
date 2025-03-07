@@ -67,12 +67,12 @@ export class AddRequestUserComponent implements OnInit {
     if (this.addRequestForm.valid) {
       const startDate = this.addRequestForm.value.start_reservation;
       const endDate = this.addRequestForm.value.end_reservation;
-//      console.log("Chiamata per ottenere auto disponibili con startDate:", startDate, "e endDate:", endDate);
+     // console.log("Chiamata per ottenere auto disponibili con startDate:", startDate, "e endDate:", endDate);
 
       this.manageCars.getAvailableCarsByDate(startDate, endDate).subscribe({
         next: (cars: Car[]) => {
           this.availableCars = cars;
-//          console.log('Auto disponibili:', this.availableCars);
+          console.log('Auto disponibili:', this.availableCars);
         },
         error: (error) => {
           console.error('Errore nel recupero delle auto disponibili:', error);
@@ -114,7 +114,7 @@ export class AddRequestUserComponent implements OnInit {
               
               this.http.post<CarRequest>(this.apiUrl, newRequest, { headers: this.getHeaders() }).subscribe({
                 next: (response) => {
-//                  console.log('Richiesta salvata:', response);
+                  console.log('Richiesta salvata:', response);
                   this.router.navigate(['/manage-users']);
                 },
                 error: (error) => {

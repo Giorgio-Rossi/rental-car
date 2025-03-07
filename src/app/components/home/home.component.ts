@@ -51,68 +51,75 @@ export class HomeComponent implements OnInit {
     this.tableCustomerConfig = getTableCustomerConfig(this.carRequestService);
     this.buttonConfigsAdmin = getButtonConfigsAdmin(this.router);
     this.buttonConfigsUser = getButtonConfigsUser(this.router);
-
+  
     const currentUser = this.authService.getCurrentUser();
-
+  
     if (currentUser) {
       this.currentUserRole = currentUser.role;
       this.username = currentUser.username;
-      if (currentUser.type === 'ROLE_ADMIN') {
+      if (currentUser.role === 'ROLE_ADMIN') {
         this.isAdmin = true;
       }
     }
-
+  
     const userId = currentUser.id;
     console.log('User id:', userId);
-
+  
     this.userType = this.authService.getUserType();
     console.log('User type:', this.userType);
-
-
+  
     this.manageCarsService.getAllCars().subscribe(cars => {
       this.cars = cars;
       console.log('Cars:', this.cars);
-
+  
       this.userService.getUsers().subscribe(users => {
         this.users = users;
         console.log('Users:', this.users);
-
-        this.carRequestService.getRequestsByUserUsername(this.username).subscribe((requests: CarRequest[]) => {
-          console.log('Requests:', requests);
-          this.requests = requests.map((request: CarRequest) => {
-
-            const user = this.users.find(u => u.id === request.userID);
-
-            let carDetails = '';
-
-            if (Array.isArray(request.carID)) {
-              carDetails = request.carID
-                .map((carID: number) => {
-                  const car = this.cars.find(car => car.id === carID);
-                  return car ? car.licensePlate : 'Unknown';
-                })
-                .join(', ');
-            } else if (request.carID !== null && request.carID !== undefined) {
-              const car = this.cars.find(car => car.id === request.carID);
-              carDetails = car ? (car.licensePlate ?? 'Unknown') : 'Unknown';
-            } else {
-              carDetails = 'Unknown';
-            }
-            
-
-            return {
-              ...request,
-              fullName: user?.fullName || 'Unknown',
-              start_reservation: request.startReservation ? this.datePipe.transform(request.startReservation, "dd/MM/yyyy") : '',
-              end_reservation: request.endReservation ? this.datePipe.transform(request.endReservation, "dd/MM/yyyy") : '',
-              carDetails: carDetails || 'Unknown'
-            };
+  
+        if (this.isAdmin) {
+          this.carRequestService.getRequests().subscribe((requests: CarRequest[]) => {
+            console.log('Admin Requests:', requests);
+            this.requests = this.mapRequests(requests);
           });
-        });
+        } else {
+          this.carRequestService.getRequestsByUserUsername(this.username).subscribe((requests: CarRequest[]) => {
+            console.log('User Requests:', requests);
+            this.requests = this.mapRequests(requests);
+          });
+        }
       });
     });
   }
-
+  
+  private mapRequests(requests: CarRequest[]): any[] {
+    return requests.map((request: CarRequest) => {
+      const user = this.users.find(u => u.id === request.userID);
+      let carDetails = '';
+  
+      if (Array.isArray(request.carID)) {
+        carDetails = request.carID
+          .map((carID: number) => {
+            const car = this.cars.find(car => car.id === carID);
+            return car ? car.licensePlate : 'Unknown';
+          })
+          .join(', ');
+      } else if (request.carID !== null && request.carID !== undefined) {
+        const car = this.cars.find(car => car.id === request.carID);
+        carDetails = car ? (car.licensePlate ?? 'Unknown') : 'Unknown';
+      } else {
+        carDetails = 'Unknown';
+      }
+  
+      return {
+        ...request,
+        fullName: user?.fullName || 'Unknown',
+        start_reservation: request.startReservation ? this.datePipe.transform(request.startReservation, "dd/MM/yyyy") : '',
+        end_reservation: request.endReservation ? this.datePipe.transform(request.endReservation, "dd/MM/yyyy") : '',
+        carDetails: carDetails || 'Unknown'
+      };
+    });
+  }
+  
 
   handleActionClick(action: string, row: any): void {
     if (action === 'Modifica') {

@@ -109,7 +109,7 @@ export class AddRequestUserComponent implements OnInit {
                 carID: Number(formData.car_id),
                 startReservation: startReservation,
                 endReservation: endReservation,
-                status: 'APPROVATA',
+                status: 'IN_ATTESA',
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString(),
                 id: lastId !== null ? lastId + 1 : 1

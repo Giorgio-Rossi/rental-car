@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { MOCK_CARS } from '../mock-data/mock-cars';
 import { Observable, of } from 'rxjs';
 import { Car } from '../interface/car.model.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';

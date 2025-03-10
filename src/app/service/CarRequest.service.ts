@@ -1,10 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { CarRequest } from '../interface/CarRequest.model.interface';
 import { Observable } from 'rxjs/internal/Observable';
-import { MOCK_CARS } from '../mock-data/mock-cars';
-import { Car } from '../interface/car.model.interface';
-import { of } from 'rxjs';
-import { MOCK_REQUEST } from '../mock-data/mock-requests';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({

@@ -42,15 +42,31 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('auth_token');
   }
-  
+
   logout() {
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('currentUser');
+    const token = this.getToken();
+    if (token) {
+      this.http.delete(`${this.apiUrl}/auth/logout`, {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })
+      }).subscribe({
+        next: () => {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('currentUser');
+          this.router.navigate(['/login']);
+        },
+        error: (error) => {
+          console.error('Errore durante il logout:', error);
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('currentUser');
+          this.router.navigate(['/login']);
+        }
+      });
+    }
   }
+
   isLoggedIn(): boolean {
     return !!this.getToken(); 
   }
-
 
   getUserType(): string {
     const token = this.getToken();

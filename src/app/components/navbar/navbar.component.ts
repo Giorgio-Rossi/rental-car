@@ -19,7 +19,6 @@ export class NavbarComponent {
   @Input() username: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
-
   
   logout(): void {
     this.authService.logout();

@@ -21,65 +21,58 @@ export class ManageCarsComponent implements OnInit {
   requestService = inject(ManageCarsService);
   authService = inject(AuthService);
   carService = inject(CarService)
-  
+
   cars: Car[] = [];
 
   tableManageCars: TableConfig = {
     headers: [
-      { key: 'id', columnName: 'ID', type: 'Number', ordinable: true, filtrable: true},
-      { key: 'brand', columnName: 'Marca ', type: 'String', ordinable: true, filtrable: true},
-      { key: 'model', columnName: 'Modello', type: 'String', ordinable: true, filtrable: true},
-      { key: 'licensePlate', columnName: 'Targa', type: 'String', ordinable: true, filtrable: true},
-      { key: 'status', columnName: 'Stato', type: 'String', ordinable: true, filtrable: true},
-
-
+      { key: 'id', columnName: 'ID', type: 'Number', ordinable: true, filtrable: true },
+      { key: 'brand', columnName: 'Marca ', type: 'String', ordinable: true, filtrable: true },
+      { key: 'model', columnName: 'Modello', type: 'String', ordinable: true, filtrable: true },
+      { key: 'licensePlate', columnName: 'Targa', type: 'String', ordinable: true, filtrable: true },
+      { key: 'status', columnName: 'Stato', type: 'String', ordinable: true, filtrable: true },
     ],
-    currentByDefault: {key: 'id', orderby: 'asc'},
-    pagination: {itemsPerPage: 10, currentPage:1},
-    actions:  {
+    currentByDefault: { key: 'id', orderby: 'asc' },
+    pagination: { itemsPerPage: 10, currentPage: 1 },
+    actions: {
       actions: [
         {
-          name:'Modifica',
-          visible: (row: any) => true, 
+          name: 'Modifica',
+          visible: (row: any) => true,
         },
         {
           name: 'Elimina',
-          visible: (row: any) => true, 
+          visible: (row: any) => true,
         }
-       ]}
+      ]
+    }
   };
 
 
   ngOnInit(): void {
-    const userRole = this.authService.getUserType(); 
+    const userRole = this.authService.getUserType();
     if (userRole !== 'ROLE_ADMIN') {
       this.router.navigate(['/home']);
     }
 
-    this.loadCars();  
+    this.loadCars();
   }
 
   loadCars(): void {
     this.requestService.getAllCars().subscribe(cars => {
-//      console.log('Dati ricevuti:', cars)
-      this.cars = cars;  
+      this.cars = cars;
     });
   }
 
 
-  handleActionClick(action: string, data?: Car): void{
-//    console.log('Event received:', { action, data });
-//    console.log('ID auto:', data?.id)
+  handleActionClick(action: string, data?: Car): void {
     if (action === 'Modifica') {
-      this.router.navigate(['/edit-cars', data?.id],  {state: {carData: data } });
-
+      this.router.navigate(['/edit-cars', data?.id], { state: { carData: data } });
     }
     if (action === 'Elimina') {
       this.carService.deleteCar(data?.id).subscribe({
         next: () => {
-//          console.log('Auto eliminata con successo');
           this.cars = this.cars.filter(car => car.id !== data?.id);
-
         },
         error: (err) => {
           console.error('Errore durante l\'eliminazione dell\'auto:', err);

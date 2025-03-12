@@ -1,9 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, Observable, tap, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { User } from '../interface/user.model.interface';
-import { UserResponse } from '../interface/UserResponse';
+import { tap } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 
 const httpOptions = {

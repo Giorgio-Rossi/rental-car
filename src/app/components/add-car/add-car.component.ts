@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule } from  '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
-import { CarService } from '../../service/car.service.service'; 
+import { CarService } from '../../service/car.service.service';
 
 @Component({
   selector: 'app-add-car',
@@ -18,45 +18,45 @@ export class AddCarComponent implements OnInit {
   carService = inject(CarService)
 
   car = {
-    id: 0, 
+    id: 0,
     brand: '',
     model: '',
     licensePlate: null,
     status: 'Disponibile',
     updatedAt: new Date().toISOString()
   };
-  
+
   ngOnInit(): void {
-    const userRole = this.authService.getUserType(); 
+    const userRole = this.authService.getUserType();
     if (userRole !== 'ROLE_ADMIN') {
       this.router.navigate(['/home']);
-    }  
+    }
   }
 
 
   onSubmit() {
-    const userRole = this.authService.getUserType(); 
+    const userRole = this.authService.getUserType();
     if (userRole === 'ROLE_ADMIN') {
 
       this.carService.createCar(this.car).subscribe(
         response => {
-//          console.log('Auto aggiunta:', response);
+
           this.resetForm();
-          this.router.navigate(['/manage-cars']); 
+          this.router.navigate(['/manage-cars']);
         },
         error => {
           console.error('Errore nel salvataggio dell\'auto:', error);
         }
       );
     } else {
-//      console.log('Accesso non autorizzato');
+
       this.router.navigate(['/home']);
     }
   }
 
   resetForm() {
     this.car = {
-      id:0,
+      id: 0,
       brand: '',
       model: '',
       licensePlate: null,

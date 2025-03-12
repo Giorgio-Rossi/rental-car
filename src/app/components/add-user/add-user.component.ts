@@ -55,7 +55,7 @@ export class AddUserComponent implements OnInit {
   saveUser() {
     this.user.created_at = new Date();
     this.user.updated_at = new Date();
-  
+
     this.http.post<User>(`${this.apiUrl}/add-user`, this.user, { headers: this.getHeaders() })
       .subscribe({
         next: (response) => {
@@ -71,5 +71,5 @@ export class AddUserComponent implements OnInit {
         }
       });
   }
-  
+
 }

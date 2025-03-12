@@ -15,13 +15,13 @@ import { NgClass } from '@angular/common';
 export class LoginComponent {
   username: string = '';
   password: string = '';
-  
+
   passwordVisibile: boolean = false;
   isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
-  
+
   form: any = {
     username: null,
     password: null
@@ -38,23 +38,23 @@ export class LoginComponent {
   onSubmit(): void {
     const { username, password } = this.form;
     this.authService.login(username, password).subscribe({
-      next: (data: any) => {  
-//        console.log('Login successful:', data);
+      next: (data: any) => {
+
 
         this.userType = this.authService.getUserType();
 
         if (data && data.token) {
           const user = {
-            username: data.username, 
-            role: this.userType || 'ROLE_CUSTOMER', 
+            username: data.username,
+            role: this.userType || 'ROLE_CUSTOMER',
           };
-    
+
           this.storageService.saveToken(data);
-          this.storageService.saveUser(user); 
+          this.storageService.saveUser(user);
 
           this.isLoginFailed = false;
           this.isLoggedIn = true;
-//          console.log('Navigating to /home');
+
           this.router.navigate(['/home']);
         } else {
           this.isLoginFailed = true;
@@ -68,8 +68,6 @@ export class LoginComponent {
       }
     });
   }
-  
-
 
   reloadPage(): void {
     window.location.reload();

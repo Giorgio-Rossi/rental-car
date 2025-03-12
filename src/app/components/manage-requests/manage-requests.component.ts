@@ -38,19 +38,11 @@ export class ManageRequestsComponent implements OnInit {
   ngOnInit(): void {
     this.manageCarsService.getAllCars().subscribe(cars => {
       this.cars = cars;
-//      console.log('Cars:', this.cars);
-
       this.userService.getUsers().subscribe(users => {
         this.users = users;
-//        console.log('Users:', this.users);
-
         this.carRequestService.getRequests().subscribe(requests => {
-//          console.log('Requests:', requests);
           this.requestsCar = requests.map(request => {
-
             const user = this.users.find(u => u.id === request.userID);
-
-//            console.log('User found', user)
             let carDetails = '';
             if (Array.isArray(request.carID)) {
               carDetails = request.carID.map(carID => {
@@ -70,8 +62,6 @@ export class ManageRequestsComponent implements OnInit {
               carDetails: carDetails || 'Unknown'
             };
           });
-
-//          console.log(this.requestsCar);
         });
       });
     });
@@ -123,7 +113,6 @@ export class ManageRequestsComponent implements OnInit {
   ];
 
   updateRequest(id: number, status: string): void {
-//    console.log('id request: ', id);
     const request = this.requestsCar.find(r => r.id === id);
     if (request) {
       this.requestService.updateRequestStatus(id, status).subscribe(updatedRequest => {

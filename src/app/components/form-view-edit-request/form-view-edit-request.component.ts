@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CarRequest } from '../../interface/CarRequest.model.interface';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { ButtonComponent } from "../button/button.component";
 import { FormsModule } from '@angular/forms';
 import { Car } from '../../interface/car.model.interface';
@@ -65,7 +65,7 @@ export class FormViewEditRequestComponent implements OnInit {
 
       this.carRequestService.updateRequest(updatedRequest).subscribe({
         next: (response) => {
-//          console.log('Dati aggiornati:', response);
+
           this.router.navigate(['/home']);
         },
         error: (error) => {
@@ -75,7 +75,7 @@ export class FormViewEditRequestComponent implements OnInit {
 
       this.carRequestService.updateRequest(updatedRequest).subscribe({
         next: (response) => {
-//          console.log('Dati aggiornati:', response);
+
           this.router.navigate(['/home']);
         },
         error: (error) => {
@@ -107,8 +107,8 @@ export class FormViewEditRequestComponent implements OnInit {
   }
 
   updateStatus(event: Event, requestData: any): void {
-//    console.log('Status aggiornato: ', this.requestData)
-//    console.log('Status passato come param: ', event.target)
+
+
   }
 
 

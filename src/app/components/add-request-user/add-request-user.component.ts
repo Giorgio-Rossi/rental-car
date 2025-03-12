@@ -67,12 +67,12 @@ export class AddRequestUserComponent implements OnInit {
     if (this.addRequestForm.valid) {
       const startDate = this.addRequestForm.value.start_reservation;
       const endDate = this.addRequestForm.value.end_reservation;
-     // console.log("Chiamata per ottenere auto disponibili con startDate:", startDate, "e endDate:", endDate);
+
 
       this.manageCars.getAvailableCarsByDate(startDate, endDate).subscribe({
         next: (cars: Car[]) => {
           this.availableCars = cars;
-          console.log('Auto disponibili:', this.availableCars);
+
         },
         error: (error) => {
           console.error('Errore nel recupero delle auto disponibili:', error);
@@ -102,31 +102,31 @@ export class AddRequestUserComponent implements OnInit {
           const startReservation = new Date(formData.start_reservation).toISOString();
           const endReservation = new Date(formData.end_reservation).toISOString();
 
-              const newRequest: CarRequest = {
-                userID: user.id !== null ? user.id : 0, 
-                carID: Number(formData.car_id),
-                startReservation: startReservation,
-                endReservation: endReservation,
-                status: 'IN_ATTESA',
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-              };
-              
-              this.http.post<CarRequest>(this.apiUrl, newRequest, { headers: this.getHeaders() }).subscribe({
-                next: (response) => {
-                  console.log('Richiesta salvata:', response);
-                  this.router.navigate(['/manage-users']);
-                },
-                error: (error) => {
-                  console.error('Errore nel salvataggio:', error);
-                }
-              });
+          const newRequest: CarRequest = {
+            userID: user.id !== null ? user.id : 0,
+            carID: Number(formData.car_id),
+            startReservation: startReservation,
+            endReservation: endReservation,
+            status: 'IN_ATTESA',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          };
+
+          this.http.post<CarRequest>(this.apiUrl, newRequest, { headers: this.getHeaders() }).subscribe({
+            next: (response) => {
+
+              this.router.navigate(['/manage-users']);
             },
-            error: (error: any) => {
-              console.error('Errore nel recupero dell\'ultimo ID:', error);
+            error: (error) => {
+              console.error('Errore nel salvataggio:', error);
             }
           });
+        },
+        error: (error: any) => {
+          console.error('Errore nel recupero dell\'ultimo ID:', error);
         }
+      });
     }
-} 
+  }
+}
 

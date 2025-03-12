@@ -51,9 +51,9 @@ export class HomeComponent implements OnInit {
     this.tableCustomerConfig = getTableCustomerConfig(this.carRequestService);
     this.buttonConfigsAdmin = getButtonConfigsAdmin(this.router);
     this.buttonConfigsUser = getButtonConfigsUser(this.router);
-  
+
     const currentUser = this.authService.getCurrentUser();
-  
+
     if (currentUser) {
       this.currentUserRole = currentUser.role;
       this.username = currentUser.username;
@@ -61,41 +61,41 @@ export class HomeComponent implements OnInit {
         this.isAdmin = true;
       }
     }
-  
+
     const userId = currentUser.id;
-//    console.log('User id:', userId);
-  
+
+
     this.userType = this.authService.getUserType();
-//    console.log('User type:', this.userType);
-  
+
+
     this.manageCarsService.getAllCars().subscribe(cars => {
       this.cars = cars;
-//      console.log('Cars:', this.cars);
-  
+
+
       this.userService.getUsers().subscribe(users => {
         this.users = users;
-//        console.log('Users:', this.users);
-  
+
+
         if (this.isAdmin) {
           this.carRequestService.getRequests().subscribe((requests: CarRequest[]) => {
-//            console.log('Admin Requests:', requests);
+
             this.requests = this.mapRequests(requests);
           });
         } else {
           this.carRequestService.getRequestsByUserUsername(this.username).subscribe((requests: CarRequest[]) => {
-//            console.log('User Requests:', requests);
+
             this.requests = this.mapRequests(requests);
           });
         }
       });
     });
   }
-  
+
   private mapRequests(requests: CarRequest[]): any[] {
     return requests.map((request: CarRequest) => {
       const user = this.users.find(u => u.id === request.userID);
       let carDetails = '';
-  
+
       if (Array.isArray(request.carID)) {
         carDetails = request.carID
           .map((carID: number) => {
@@ -109,7 +109,7 @@ export class HomeComponent implements OnInit {
       } else {
         carDetails = 'Unknown';
       }
-  
+
       return {
         ...request,
         fullName: user?.fullName || 'Unknown',
@@ -119,7 +119,7 @@ export class HomeComponent implements OnInit {
       };
     });
   }
-  
+
 
   handleActionClick(action: string, row: any): void {
     if (action === 'Modifica') {

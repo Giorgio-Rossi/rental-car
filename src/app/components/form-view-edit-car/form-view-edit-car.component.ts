@@ -17,7 +17,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class FormViewEditCarComponent implements OnInit {
   title: string = 'Dettagli auto';
   carData!: Car;
-  statusOptions: string[] = ['Disponibile', 'Non disponibile', 'In manutenzione', ]; 
+  statusOptions: string[] = ['Disponibile', 'Non disponibile', 'In manutenzione',];
 
   route = inject(ActivatedRoute);
   router = inject(Router);
@@ -25,23 +25,23 @@ export class FormViewEditCarComponent implements OnInit {
   carService = inject(CarService);
 
   buttonConfig = [
-    {label: 'Salva', action: () => this.saveCar()},
-    {label: 'Chiudi', action: () => this.router.navigate(['/manage-cars'])}
+    { label: 'Salva', action: () => this.saveCar() },
+    { label: 'Chiudi', action: () => this.router.navigate(['/manage-cars']) }
   ]
 
   ngOnInit(): void {
-    const userRole = this.authService.getUserType(); 
+    const userRole = this.authService.getUserType();
     if (userRole !== 'ROLE_ADMIN') {
       this.router.navigate(['/home']);
     }
-    
+
     this.route.paramMap.subscribe(params => {
       const carID = params.get('id');
-      const navigationData = history.state.carData; 
+      const navigationData = history.state.carData;
 
       if (navigationData) {
         this.carData = navigationData;
-//        console.log('navigation data:', navigationData); 
+
       }
     });
   }
@@ -50,27 +50,27 @@ export class FormViewEditCarComponent implements OnInit {
     return Object.keys(obj);
   }
 
-  updateStatus(event: Event):void{
+  updateStatus(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     this.carData.status = selectElement.value;
-//    console.log('Status aggiornato: ', this.carData.status)
-//    console.log('Status passato come param: ', event.target)
+
+
   }
 
-   saveCar(): void {
-      if (this.carData) {
-        this.carService.updateCar(this.carData).subscribe({
-          next: (updatedCar) => {
-//            console.log('Auto aggiornato con successo:', updatedCar);
-            this.router.navigate(['/manage-cars']);
-          },
-          error: (error: HttpErrorResponse) => {
-            console.error('Errore durante l\'aggiornamento dell\'auto:', error.message);
-          },
-          complete: () => {
-//            console.log('Operazione completata');
-          }
-        });
-      }
+  saveCar(): void {
+    if (this.carData) {
+      this.carService.updateCar(this.carData).subscribe({
+        next: (updatedCar) => {
+
+          this.router.navigate(['/manage-cars']);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error('Errore durante l\'aggiornamento dell\'auto:', error.message);
+        },
+        complete: () => {
+
+        }
+      });
     }
+  }
 }
